@@ -35,6 +35,13 @@ dependencies {
     runtimeOnly 'com.mysql:mysql-connector-j'
     // [4] websocket
     implementation 'org.springframework.boot:spring-boot-starter-websocket'
+    // Jsoup (HTML 파싱)
+    implementation 'org.jsoup:jsoup:1.18.1'
+
+    implementation 'org.seleniumhq.selenium:selenium-java:4.23.0'
+    implementation 'io.github.bonigarcia:webdrivermanager:5.9.2'
+
+
 }
 
 tasks.named('test') {
