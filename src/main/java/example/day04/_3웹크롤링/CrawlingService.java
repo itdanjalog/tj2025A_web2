@@ -143,9 +143,7 @@ public class CrawlingService {
 
             while (scrollCount < maxScrolls) {
                 // 1. 현재까지 로드된 리뷰 가져오기
-                List<WebElement> reviewEls = driver.findElements(
-                        By.cssSelector(".reveiwCard_txt__RrTgu")
-                );
+                List<WebElement> reviewEls = driver.findElements(    By.cssSelector(".reveiwCard_txt__RrTgu")   ); //
 
                 for (WebElement el : reviewEls) {
                     String text = el.getText().trim();
@@ -159,8 +157,7 @@ public class CrawlingService {
                 Thread.sleep(1500); // 로딩 대기 (필요시 조정)
 
                 // 3. 새로 로드되었는지 확인
-                int newHeight = ((Number) js.executeScript(
-                        "return document.body.scrollHeight")).intValue();
+                int newHeight = ((Number) js.executeScript( "return document.body.scrollHeight")).intValue();
                 if (newHeight == lastHeight) {
                     break; // 더 이상 새 데이터 없음 → 종료
                 }
