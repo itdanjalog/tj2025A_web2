@@ -35,11 +35,16 @@ dependencies {
     runtimeOnly 'com.mysql:mysql-connector-j'
     // [4] websocket
     implementation 'org.springframework.boot:spring-boot-starter-websocket'
-    // Jsoup (HTML 파싱)
-    implementation 'org.jsoup:jsoup:1.18.1'
 
-    implementation 'org.seleniumhq.selenium:selenium-java:4.23.0'
-    implementation 'io.github.bonigarcia:webdrivermanager:5.9.2'
+
+
+    // Jsoup  // https://mvnrepository.com/artifact/org.jsoup/jsoup/1.21.2
+    implementation 'org.jsoup:jsoup:1.21.2'
+
+    // https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java/4.35.0
+    implementation 'org.seleniumhq.selenium:selenium-java:4.35.0'
+    // https://mvnrepository.com/artifact/io.github.bonigarcia/webdrivermanager/6.3.1
+    implementation 'io.github.bonigarcia:webdrivermanager:6.3.1'
 
 
 }

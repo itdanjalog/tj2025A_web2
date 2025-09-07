@@ -1,0 +1,107 @@
+📌 웹 크롤링(Web Crawling) 수업 정리
+1. 정의 : 인터넷 웹 페이지에서 원하는 데이터를 자동으로 수집하는 기술.
+    웹 페이지에서 원하는 데이터를 자동으로 수집하는 기술
+    정적 페이지: HTML 소스에 데이터가 직접 포함 → Jsoup 사용
+    동적 페이지: JavaScript 로딩 후 데이터 표시 → Selenium(WebDriver) 사용
+
+
+2. 목적
+    데이터 자동 수집 : 기사 제목, 상품 정보, 날씨, 매장 위치 등 원하는 정보를 자동으로 가져오기.
+    데이터 분석 활용 : 수집한 데이터를 저장 → 통계 분석, 머신러닝 학습, BI 대시보드 등에 활용.
+    업무 효율화 : 사람이 직접 복사/붙여넣기 할 필요 없이 자동화.
+
+6. robots.txt
+    robots.txt : 웹사이트 루트 경로에 있는 크롤링 접근 규칙 파일
+    크롤러(봇)에게 허용/비허용 영역을 알려줌
+    법적 강제성은 없지만, 일반적으로 매너 지침으로 준수하는 것이 원칙
+
+    예시:
+    User-agent: *          # 모든 크롤러에 대해
+    Disallow: /private/    # /private 폴더 접근 금지
+    Allow: /public/        # /public 폴더 접근 허용
+
+    Sitemap: https://example.com/sitemap.xml
+
+    주요 지시어
+    User-agent : 규칙이 적용될 크롤러 이름 (* = 전체)
+    Disallow : 접근 금지 경로
+    Allow : 접근 허용 경로
+    Sitemap : 사이트맵 파일 위치
+
+    확인 방법:
+    대부분의 사이트 → https://사이트주소/robots.txt
+
+
+3. 사용 라이브러리
+    Jsoup
+        HTML 파싱용 라이브러리.
+        DOM 선택자(.select, .text, .attr)를 이용해 원하는 요소 추출.
+        정적 페이지(HTML 소스에 데이터가 바로 있는 경우)에 적합.
+
+
+    // Jsoup  // https://mvnrepository.com/artifact/org.jsoup/jsoup/1.21.2
+    implementation 'org.jsoup:jsoup:1.21.2'
+
+
+        4. Jsoup 사용법 (정적 페이지)
+        1) HTML 문서 불러오기
+        Document doc = Jsoup.connect("https://example.com").get();
+
+        2) 요소 선택 (CSS 선택자 문법)
+        Elements els = doc.select(".className > a");  // class 선택
+        Element el = doc.selectFirst("#idName");      // id 선택
+
+        3) 요소 데이터 추출
+        String text = el.text();              // 태그 내부 텍스트
+        String attr = el.attr("href");        // 특정 속성 값
+
+
+
+
+
+    Selenium (WebDriver + ChromeDriver)
+        실제 브라우저를 열어 DOM과 상호작용 가능.
+        버튼 클릭, 스크롤, 입력 등 사용자 동작을 자동화.
+        자바스크립트로 데이터가 동적으로 렌더링되는 페이지에 적합.
+
+
+
+
+    // https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java/4.35.0
+    implementation 'org.seleniumhq.selenium:selenium-java:4.35.0'
+    // https://mvnrepository.com/artifact/io.github.bonigarcia/webdrivermanager/6.3.1
+    implementation 'io.github.bonigarcia:webdrivermanager:6.3.1'
+
+
+        5. Selenium 사용법 (동적 페이지)
+        1) 드라이버 설정
+        WebDriverManager.chromedriver().setup();  // 드라이버 자동 설치
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--headless=new", "--disable-gpu"); // 창 숨기기
+        WebDriver driver = new ChromeDriver(options);
+
+        2) 페이지 이동
+        driver.get("https://example.com");
+
+        3) 요소 선택
+        WebElement el = driver.findElement(By.cssSelector(".className")); // 단일 요소
+        List<WebElement> els = driver.findElements(By.tagName("a"));      // 여러 요소
+
+        4) 요소 값 추출
+        String text = el.getText();          // 요소 텍스트
+        String attr = el.getAttribute("src"); // 속성 값
+
+        5) 명시적 대기 (동적 렌더링 대응)
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        WebElement el = wait.until(
+            ExpectedConditions.presenceOfElementLocated(By.cssSelector(".target"))
+        );
+
+        6) 사용자 동작 흉내
+        el.click();   // 클릭
+        el.sendKeys("검색어"); // 텍스트 입력
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("window.scrollTo(0, document.body.scrollHeight);"); // 스크롤
+
+        7) 드라이버 종료
+        driver.quit();
