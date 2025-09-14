@@ -41,6 +41,8 @@ dependencies {
     implementation 'org.seleniumhq.selenium:selenium-java:4.35.0'
     // [7] 셀레니움 브라우저 매니저 (크롬)
     implementation 'io.github.bonigarcia:webdrivermanager:6.3.1'
+    // [4] 마이바티스 라이브러리
+    implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.4'
 }
 
 tasks.named('test') {

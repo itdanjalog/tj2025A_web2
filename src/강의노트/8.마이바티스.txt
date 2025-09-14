@@ -1,0 +1,145 @@
+📘 DAO vs MyBatis 수업 정리
+    1. [DAO : JDBC] Java Database Connection
+    정의: 자바에서 DB와 직접 연결하고 SQL 실행을 담당하는 표준 라이브러리
+    특징
+        SQL을 직접 작성하고 실행
+        연결·해제·자원관리(코드가 다소 길고 복잡)
+    주요 인터페이스
+        Connection : 데이터베이스 연결 관리
+        PreparedStatement : SQL 실행 및 매개변수 바인딩
+        ResultSet : SQL 실행 결과(조회 데이터) 관리
+
+    2. [MyBatis] 마이바티스
+    ·정의: JDBC보다 편리한 기능 제공, 객체와 DB 간 매핑을 자동화하는 프레임워크
+    ·특징
+        1) SQL 매핑 : XML 파일 또는 어노테이션에 SQL 작성 가능
+        2) 결과 매핑 : SQL 결과를 자동으로 자바 객체로 변환
+        3) 유연성 : 복잡한 쿼리, 동적 쿼리도 지원
+        4) 스프링 통합 : Spring Boot Starter로 손쉽게 통합 가능
+
+3. 프로젝트 설정
+(1) 의존성 추가
+implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.4'
+runtimeOnly 'com.mysql:mysql-connector-j'
+
+(2) application.properties
+JDBC 연동
+spring.datasource.url=jdbc:mysql://IP:PORT/DB명
+spring.datasource.username=계정명
+spring.datasource.password=비밀번호
+
+
+[2] 어노테이션 활용
+    @Insert, @Select, @Update, @Delete
+    매개변수 바인딩: #{변수명}
+    리턴 타입
+        int : 실행 후 처리된 행 수
+        boolean : 성공/실패
+        Map : 단일 행을 Map으로
+        DTO : 단일 행을 DTO로
+        List<Map> / List<DTO> : 다중 행 반환
+
+    @Options: PK 자동 생성값 반환 (useGeneratedKeys=true, keyProperty="pk필드명")
+
+// ===================================================================================
+
+
+    1. 프로젝트 MyBatis 설치
+        (1) 마이바티스
+        implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.4'
+        (2) MYSQL JDBC
+        runtimeOnly 'com.mysql:mysql-connector-j'
+
+    2. application.properties ( 스프링 프레임워크가 실행될때 읽어드리는 설정파일 )
+       위치: src -> main -> resources 폴더 하위에 존재 해야한다.
+       1. [ JDBC 연동 ]
+        spring.datasource.url = jdbc:mysql://IP주소:PORT번호/DB이름
+        spring.datasource.username=DB계정명
+        spring.datasource.password=DB계정비밀번호
+       2. [ XML 파일 경로 설정 ] 마이바티스는 XML 파일 이용하여 자바 객체와 매핑하느 기술
+        * 주로 resources 폴더 하위에서 작업한다.
+        * .xml 파일이 존재하는 경로를 설정하는 코드
+        mybatis.mapper-locations = classpath:(resource)하위폴더경로설정
+
+    3. 자바 와 매핑
+        [1] XML 활용
+            1. xml 파일 만들기
+                -> 설정한 마이바티스 xml파일 경로에 .xml 파일 만든다.
+            2. xml 파일 상단에 mybatis 연동 코드 작성
+            <?xml version="1.0" encoding="UTF-8" ?>
+            <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+                    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+            3. 해당 xml 과 연동할 인터페이스명 설정
+                <mapper namespace ="매핑할인터페이스명">
+                    <SQL 마크업>
+
+                    </SQL 마크업>
+                </mapper>
+                - 매핑할 인터페이스명이 위치한 경로까지 포함한다.
+                - (src -> main -> java)생략하고 폴더명.폴더명.폴더명.인터페이스명
+
+            4. <mapper> </mapper> 사이에 SQL 마크업 이용한 SQL 작성한다.
+                1. DML 마크업 지원한다.
+                <insert> </insert>
+                <select> </select>
+                <update> </update>
+                <delete> </delete>
+
+                2. 쿼리의 매개변수 지원한다.
+                    <SQL마크업명 id="매핑할추상메소드명" parameterType="매개변수타입명" resultType="반환타입명">
+                        #{ 매개변수명 }
+                    </SQL마크업명>
+
+                    - id : 'namespace' 매핑중인 인터페이스명 안에서 매핑할 추상메소드명
+                    - parameterType : sql문에서 사용할 매개변수타입명, 추상메소드의 매개변수타입명 ( 생략 가능 = 추상메소드 의 매개변수타입 자동 )
+                    - resultType : sql 결과문에서 매핑할 반환타입명 , 추상메소드의 반환타입타입명 ( 생략 가능 = 추상메소드 의 반환타입 자동 )
+
+        [2] 어노테이션 활용
+            1. @Insert( " sql문 ")
+            2. @Select( " sql문 ")
+            3. @Update( " sql문 ")
+            4. @Delete( " sql문 ")
+
+            * @XXX( "sql문 #{} " )
+            1. #{ 매개변수명 } : sql에 대입할 값이 들어있는 변수명
+            2. 자동 리턴 값
+                int : sql이 실행후 처리된 레코드수 반환
+                boolean : sql이 정상적으로 실행했다면 true / 아니면 false 반환
+                Map< Object , Object > : sql 이 조회한 레코드 1개를 map객체로 반환
+                XXXDTO : SQL이 조회한 레코드 1개를 dto객체로 반환
+                List< Map< Object , Object > : sql 조회한 여러개 레코드를 List객체로 반환
+                List< XXXDTO > : SQL 조회한 여러개 레코드를 DTO객체로 반환
+
+            * @Options( useGeneratedKeys = true , keyProperty = "pk필드명" )
+                -> sql 실행후 생성된 pk값을 반환하는 어노테이션
+                -> keyProperty = "대입할pk필드명"    : 매개변수에 지정한 필드명에 생성된 pk값을 저장한다.
+
+    4. 스프링 에서 실행될때 DML 과 DDL 파일들을 읽어드리는 기능 제공
+        1. resource 폴더 아래에
+            - schema.sql 파일 : DDL[ create drop alter 등 ] SQL 문 작성
+                -> 테이블 생성 sql 코드 들어가면 된다.
+                -> 주의할점 : 서버가 실행될때마다 실행되므로 테이블삭제코드를 가장 위에 작성한다.
+
+            - data.sql 파일   : DML[ insert select update delete ] SQL 문 작성
+                -> 테이블에 샘플로 저장할 레코드들의 insert sql 코드 들어가면 된다.
+                -> 주의할점 : 만일 관계(pk-fk)관계가 있을경우 pk먼저 insert 해야한다.
+
+        2. application.properties
+            - spring.sql.init.mode = always 또는 never 또는 embedded
+                1. always : schema.sql , data.sql 읽어서 실행한다. [ 개발중 ]
+                2. never : schema.sql , data.sql 읽어서 실행하지 않는다. [ 운영중 ]
+                3. embedded(기본값) : [내장데이터베이스 H2=테스트목적] 실행 되고 외부 DB(MYSQL등) 실행 안된다.
+
+    5. 동적 쿼리
+        1. 정의 : SQL 실행 시점에서 mybatis 에서 제공하는 문법이 SQL에 구성하는 방법
+        2. 사용법 : XML 에서 사용할때 동적쿼리 바로 사용, @어노테이션 에서 사용할때 SQL 앞뒤로 <script> </script>
+        3. 종류
+            1. IF
+                <if test="조건식">
+                    조건이참일때SQL문
+                </if>
+            2. FOREACH
+                <foreach collection="(리스트/배열)매개변수명" item="반복변수명" separator="반복사이문자">
+                    반복할 SQL문 , #{ 반복변수명.필드명 }
+                </foreach>
