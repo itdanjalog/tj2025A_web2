@@ -1,0 +1,38 @@
+/* 전체 박스를 가로로 나열 */
+.taskbox {
+  display: flex;
+  justify-content: center; /* 가운데 정렬 */
+  gap: 20px;              /* 카드 사이 간격 */
+  margin-top: 40px;
+}
+
+/* 개별 카드 */
+.taskbox ul {
+  list-style: none;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  width: 180px;
+  text-align: center;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  font-family: 'Arial', sans-serif;
+}
+
+/* 제품명 */
+.taskbox ul li:first-child {
+  font-size: 18px;
+  font-weight: bold;
+  color: #0d1b2a; /* 남색 톤 */
+  margin-bottom: 10px;
+}
+
+/* 가격 */
+.taskbox ul li:nth-child(2) {
+  font-size: 15px;
+  margin-bottom: 10px;
+}
+
+/* 재고 상태 */
+.taskbox ul li:last-child {
+  font-weight: bold;
+}
