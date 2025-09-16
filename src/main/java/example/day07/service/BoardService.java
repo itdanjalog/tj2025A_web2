@@ -27,6 +27,17 @@ public class BoardService {
         BoardDto result = boardMapper.boardFind( bno );
         return result;
     }
+    // [4] 개별삭제
+    public boolean boardDelete( int bno ){
+        boolean result = boardMapper.boardDelete( bno );
+        return result;
+    }
+    // [5] 개별수정
+    public boolean boardUpdate( BoardDto boardDto  ){
+        boolean result = boardMapper.boardUpdate( boardDto );
+        return result;
+    }
+
 
 }
 

@@ -36,6 +36,22 @@ public class BoardController {
         return ResponseEntity.ok().body( result );
     }
 
+    // [4] 개별삭제
+    @DeleteMapping("") // localhost:8080/board?bno=3
+    public ResponseEntity<Boolean> boardDelete( @RequestParam int bno ){
+        boolean result = boardService.boardDelete( bno );
+        return ResponseEntity.status(200).body( result );
+    }
+
+    @PutMapping("") // localhost:8080/board
+    public ResponseEntity< Boolean > boardUpdate( @RequestBody BoardDto boardDto ){
+        boolean result = boardService.boardUpdate( boardDto );
+        return ResponseEntity.ok().body( result );
+    }
+
+
+
+
 } // class end
 
 
