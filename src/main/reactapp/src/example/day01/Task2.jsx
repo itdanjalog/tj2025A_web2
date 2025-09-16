@@ -4,7 +4,6 @@ const products = [
 { title: "27인치 모니터", price: 280000, inStock: true }
 ]; 
 
-import './Task2.css';
 // [1] 해당 .jsx 파일내 대표(defalut) 컴포넌트 만들기
 export default function Task2( props ){
 return (<> 
