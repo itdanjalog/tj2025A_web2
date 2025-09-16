@@ -9,19 +9,22 @@ export default function Task2( props ){
 return (<> 
     <div>
         { /* 하위 컴포넌트 호출 과 동시에 props속성 자료 전달 */}
-        <InfoCard 아무거나속성명 = { products[0] } />
-        <InfoCard 아무거나속성명 = { products[1] } />
-        <InfoCard 아무거나속성명 = { products[2] } />
+        <InfoCard 
+            title = { products[0].title } 
+            price = { products[0].price } 
+            inStock = { products[0].inStock }
+        />
     </div>
 </>)
 } // func end 
+
 // [2] 하위 컴포넌트 : 제품1개당 정보 구성하는 컴포넌트
-function InfoCard( props ){
+function InfoCard( { title , price , inStock } ){
     return (<>
         <ul>
-            <li> { props.아무거나속성명.title } </li>
-            <li> { props.아무거나속성명.price.toLocaleString() } </li>
-            <li> { props.아무거나속성명.inStock == true ? '재고있음' : '재고없음' }</li>
+            <li> { title } </li>
+            <li> { price.toLocaleString() } </li>
+            <li> { inStock == true ? '재고있음' : '재고없음' }</li>
         </ul>
     </>)
 }
