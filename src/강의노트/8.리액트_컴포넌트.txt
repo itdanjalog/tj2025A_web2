@@ -1,0 +1,30 @@
+[ 컴포넌트 ]
+    1. 정의 : 리액트에서 독립적이고 재사용 가능한 함수
+    2. 특징 : HTML+JS+CSS를 하나의 컴포넌트 구성
+
+[ 컴포넌트 만들기]
+    (1) function
+    (2) 컴포넌트명 : 아무거나 하되 default 컴포넌트 파일명 일치
+    (3) ( props ) : property속성 으로 <컴포넌트 속성=값 속성=값 />
+    (4) { } : 중괄호안에서 JS 와 HTML 작성한다.
+    (5) return : HTML과 JS가 혼합된 JSX 문법을 사용할 수 있다. JSP(HTML+JAVA) JSX(HTML+JS)
+    (6) jsx파일내 export default 함수를 1개만 정의한다.
+
+    // 예
+    export default function Component( props ){
+        // ---------> JS 코드 START
+
+        // <--------- JS 코드 END : return 전까지
+
+        // ---------> JSX 코드 START : return 부터는 JSX 문법
+        return (<>  </>)
+        // <-------- JSX 코드 END 
+    } // func end 
+
+[ 컴포넌트 불러오기 ]
+    (1) 다른 js(jsx) 파일 일때
+        import 컴포넌트명 from 'jsx파일경로'
+        <컴포넌트명 />
+
+    (2) 같은 js(jsx) 파일 일때
+        <컴포넌트명 />

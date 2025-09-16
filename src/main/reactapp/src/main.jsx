@@ -16,10 +16,11 @@ const create = createRoot( root );
 // day01 
 import Component1 from './example/day01/Component1.jsx'
 import Component2 from './example/day01/Component2.jsx'
-
+import Component3 from './example/day01/Component3.jsx'
 // *** render 1번만 가능하다.! ***
 // create.render( <Component1> </Component1> )
 // create.render( <Component1 /> )
-create.render( <Component2/> )
+// create.render( <Component2/> )
+create.render( <Component3 /> )
 
 

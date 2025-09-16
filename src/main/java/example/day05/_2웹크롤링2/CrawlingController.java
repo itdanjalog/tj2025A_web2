@@ -14,8 +14,7 @@ import java.util.Map;
 @RequiredArgsConstructor // final 멤버변수의 생성자를 자동
 public class CrawlingController {
 
-    private final
-    CrawlingService crawlingService;
+    private final CrawlingService crawlingService;
 
     // 1.
     @GetMapping("/crawling1")
