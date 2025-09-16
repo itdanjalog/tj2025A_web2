@@ -13,9 +13,16 @@ const data = [
 ];
 
 export default function Task1( props ){
-  return (<> </>)
-}
+  return (<> 
+        <Profile user = { data[0] } />
+        <Profile user = { data[1] } />
+  </>)
+} // func end 
 
-function Profile( props ) {
-  return (<> </> );
-}
+function Profile( props ) { // 함수 목적 : 재사용성 , 중복제거 , 매개변수에 따른 서로 다른 결과물
+  return (<>
+    <h3> { props.user.name } </h3>
+    <img src={ props.user.imageUrl } />
+  </> );
+} // func end 
+
