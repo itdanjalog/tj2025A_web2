@@ -36,6 +36,9 @@ import Component5 from './example/day02/Component5.jsx';
 // create.render( <Component5 /> )
 import Component6 from './example/day02/Component6.jsx';
 //create.render( <Component6 /> )
-
 import Component7 from './example/day02/Component7.jsx';
-create.render( <Component7 /> )
+// create.render( <Component7 /> )
+
+// day 02 task 
+import Task3 from './example/day02/Task3.jsx';
+create.render( <Task3 /> )
