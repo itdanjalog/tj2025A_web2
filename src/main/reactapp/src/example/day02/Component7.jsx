@@ -1,4 +1,5 @@
 import { useState } from "react"
+
 export default function Component7( props ){
     // [1] useState 변수 선언 : 구문 분해 이용한 useState 반환값을 변수화
     // 1. import { useState } from "react"
@@ -13,20 +14,33 @@ export default function Component7( props ){
         setCount( newValue ); // 훅(갈고리 : 특정한 기능을 실행하면 다른 기능들도 실행)
     }
 
+    // [2]
     const [ array , setArray ] = useState( [ '수박' ] );
     const arrayAdd = ( ) =>{ 
         // 주의할점은 useState는 수박을 관리 하느게 아니라 수박을 포함하는  [ ] 관리
         array.push( '사과' ); // ['수박'] --> [ '수박', '사과' ] 
         // 데이터를 복사하여 데이터는 동일하지만 새로운 객체(주소) 만든다 --> 객체/배열 복사
         // setArray( array ); // 불가능 
-        setArray( [...array ] )
+        setArray( [...array ] ) // 기존 배열 주소값은 사라지고 새로운 배열 주소값이 생성된다.
     }
 
+    // [3]
+    const [ data , setData ] = useState('');
+    const dataAdd = ( event )=>{
+        // onChange가 실행 되었을때 event(이벤트 결과 정보) 가 함수의 매개변수로 전달된다. 
+        console.log( event );
+        console.log( event.target ); // onChange가 발동한 마크업 가져오기 
+        console.log( event.target.value ); // onChage가 발동한 마크업의 입력받은 값 가져오기
+        setData( event.target.value ); // --------- 입력받은 값을 useState 로 변경한다. setXXX( )
+    }
     return (<> 
         <h3> useState 예제1 : { count } </h3>
         <button onClick={ countAdd } > count증가 </button>
         <h3> useState 예제2 : { array } </h3>
         <button onClick={ arrayAdd } > 과일추가 </button>
+        <h3> useState 예제3 : </h3>
+        <input value={ data } onChange={ dataAdd } />
+        <input value={ data } onChange={ (e)=>{ setData( e.target.value ) } } />
     </>)
 } // func end 
 
