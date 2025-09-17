@@ -38,7 +38,7 @@ export default function Component7( props ){
         <button onClick={ countAdd } > count증가 </button>
         <h3> useState 예제2 : { array } </h3>
         <button onClick={ arrayAdd } > 과일추가 </button>
-        <h3> useState 예제3 : </h3>
+        <h3> useState 예제3 : {data } </h3>
         <input value={ data } onChange={ dataAdd } />
         <input value={ data } onChange={ (e)=>{ setData( e.target.value ) } } />
     </>)
