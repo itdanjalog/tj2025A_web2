@@ -16,7 +16,7 @@ export default function Component7( props ){
 
     // [2]
     const [ array , setArray ] = useState( [ '수박' ] );
-    const arrayAdd = ( ) =>{ 
+    const arrayAdd = ( 클릭이벤트결과정보 ) =>{ 
         // 주의할점은 useState는 수박을 관리 하느게 아니라 수박을 포함하는  [ ] 관리
         array.push( '사과' ); // ['수박'] --> [ '수박', '사과' ] 
         // 데이터를 복사하여 데이터는 동일하지만 새로운 객체(주소) 만든다 --> 객체/배열 복사
