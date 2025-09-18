@@ -49,6 +49,7 @@ import Task4 from './example/day02/Task4.jsx';
 import Component8 from './example/day03/Component8.jsx'
 //create.render( <Component8 /> );
 import Component9 from './example/day03/Component9.jsx'
-create.render( <Component9 /> );
+// create.render( <Component9 /> );
 
-
+import Component10 from './example/day03/Component10.jsx';
+create.render( <Component10 /> );

@@ -11,6 +11,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/board")
 @RequiredArgsConstructor
+// @CrossOrigin( value = "허용할주소") // CORS( 서로 다른 서버간의 요청/응답 허용 ) 정책을 설정
+@CrossOrigin( value = "http://localhost:5173" ) // 리액트서버 와 CORS 통신을 허용
 public class BoardController {
     private final BoardService boardService;
 
@@ -19,7 +21,6 @@ public class BoardController {
     public ResponseEntity<Boolean> boardWrite(@RequestBody BoardDto boardDto ){
         boolean result = boardService.boardWrite( boardDto );
         return ResponseEntity.status( 200 ).body( result );
-        // ResponseEntity.status( HTTP응답코드 ).body( 응답자료 );
     }
 
     // [2] 전체조회
@@ -43,23 +44,11 @@ public class BoardController {
         return ResponseEntity.status(200).body( result );
     }
 
+    // [5] 개별수정
     @PutMapping("") // localhost:8080/board
     public ResponseEntity< Boolean > boardUpdate( @RequestBody BoardDto boardDto ){
         boolean result = boardService.boardUpdate( boardDto );
         return ResponseEntity.ok().body( result );
     }
 
-
-
-
 } // class end
-
-
-
-
-
-
-
-
-
-
