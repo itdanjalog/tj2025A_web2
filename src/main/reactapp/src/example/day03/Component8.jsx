@@ -12,6 +12,7 @@ export default function Component8( props ){
     // [3] 시점 : 1.컴포넌트 탄생 mount (최초실행) 
     //            2.컴포넌트 인생/업데이트 update(재실행/재렌더링) 
     //            3.컴포넌트 죽음 unmount ( 컴포넌트가 화면에서 없애질때 )
+    
     // 3-1 : 1. 최초실행 2. 재실행
     useEffect( ()=> { console.log('(3-1)컴포넌트(함수) 탄생, 업데이트 ' ); } ) 
 
