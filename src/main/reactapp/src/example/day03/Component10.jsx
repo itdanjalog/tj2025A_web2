@@ -50,9 +50,10 @@ export default function Component10( props ){
 } // func end 
 
 
-// // 6-1 : 삭제할 bno를 매개변수로 받아서 반복문 이용하여 삭제할 bno를 제외한 새로운 리스트 생성
+//  삭제할 bno를 매개변수로 받아서 반복문 이용하여 삭제할 bno를 제외한 새로운 리스트 생성
+// // ----- 방법1
 // const newBoards = boards.filter( (board) => { return board.bno != deleteBno } )
-// //----------------------------------------------
+// // ----- 방법2 
 // const newBoards = []                       // 새로운 배열 선언 
 // for( let i = 0 ; i<boards.length; i++ ){    // 기존 배열내 0번부터 마지막인덱스까지 순회
 //     if( boards[i].bno != deleteBno ){       // 만약에 i번째 bno가 삭제할bno 와 같지않으면
