@@ -28,10 +28,16 @@ export default function Component9( props ){
         const response1 = await axios.put( "https://jsonplaceholder.typicode.com/posts/1" , obj );
         console.log( response1.data );
     }
+    // [3-4] AXIOS DELETE TEST 
+    const onAxios4 = async()=>{
+        const response1 = await axios.delete( "https://jsonplaceholder.typicode.com/posts/1" );
+        console.log( response1.data );
+    }
     return(<> 
         <h3> axios 예제 </h3>
         <button onClick={ onAxios1 }> axios GET </button>
         <button onClick={ onAxios2 }> axios POST </button>
         <button onClick={ onAxios3 }> axios PUT </button>
+        <button onClick={ onAxios4 }> axios DELETE </button>
     </>)
 } 
