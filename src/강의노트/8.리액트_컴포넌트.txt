@@ -5,6 +5,11 @@
 [ 컴포넌트 만들기]
     (1) function
     (2) 컴포넌트명 : 아무거나 하되 default 컴포넌트 파일명 일치
+        3️⃣ 컴포넌트 네이밍 규칙 (Component Naming Rule)
+        컴포넌트 이름은 반드시 대문자로 시작해야 함
+        왜냐면?
+        React는 소문자로 시작하면 HTML 태그로 인식
+        대문자로 시작하면 사용자 정의 컴포넌트로 인식
     (3) ( props ) : property속성 으로 <컴포넌트 속성=값 속성=값 />
     (4) { } : 중괄호안에서 JS 와 HTML 작성한다.
     (5) return : HTML과 JS가 혼합된 JSX 문법을 사용할 수 있다. JSP(HTML+JAVA) JSX(HTML+JS)
@@ -50,5 +55,51 @@
 
         3. JSX 주석 , HTML주석은 불가능하다. 즉 {}중괄호 안에서 JS주석 사용한다.
             { /* 주석처리 */ }
-        
+
+
+✅ 차이점 요약
+구분	onclick	onClick
+쓰임
+순수 HTML 속성
+React JSX 이벤트 핸들러
+
+표기법
+소문자 (onclick)
+카멜케이스 (onClick)
+
+실행 위치
+HTML 태그에 직접 작성
+JSX에서 함수 참조 전달
+
+사용 방식
+문자열로 JS 코드 작성
+함수(참조)를 전달
+
+이벤트 연결 방식
+인라인 이벤트 바인딩	React 이벤트 시스템(합성 이벤트)
+
+🎯 요약 한 줄
+HTML → onclick="코드" (문자열 실행)
+<button onclick="alert('Hello!')">클릭</button>
+
+React → onClick={함수} (함수 전달, 대문자 C 필수)
+<button onClick={handleClick}>클릭</button>
+
+[ props ]
+    1. 컴포넌트 매개변수 props
+        1. 부모 컴포넌트로 부터 자식 컴포넌트에게 데이터 전달 방법
+        2. 자식은 전달받은 props를 읽기모드로 사용 가능하다. (수정금지)
+        3. 사용법
+            function 부모컴포넌트( props ){
+                return (<> <자식컴포넌트 속성명={값} 속성명={값} /> </>)
+            }
+            function 자식컴포넌트( props ){  }
+            또는
+            function 자식컴포넌트( { 속성명, 속성명 } ){  }
+1️⃣ Props란?
+정의: props는 부모 컴포넌트 → 자식 컴포넌트로 데이터를 전달하는 매개변수
+역할: 컴포넌트를 재사용할 때, 상황마다 다른 데이터를 내려주어 동적으로 UI 구성
+특징:
+읽기 전용(Read-only) → 자식은 props를 직접 수정할 수 없음 ❌
+단방향 데이터 흐름(Top-down) → 항상 부모 → 자식으로만 전달됨
 
