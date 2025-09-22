@@ -58,5 +58,9 @@ import Component10 from './example/day03/Component10.jsx';
 import Component11 from './example/day04/Component11.jsx'
 //create.render( <Component11 /> );
 
-import Component12 from './example/day04/Component12.jsx'
-create.render( <Component12 /> );
+// import Component12 from './example/day04/Component12.jsx'
+// create.render( <Component12 /> );
+
+import Task6 from './example/day04/Task6.jsx'
+create.render( <Task6 /> );
+
