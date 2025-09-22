@@ -86,8 +86,9 @@ import Component16 from './example/day05/Component16.jsx'
 
 
 import App from './example/day05/실습7/App.jsx'
-import store from './example/day05/실습7/store/store.jsx';
+import store, { persistor } from './example/day05/실습7/store/store.jsx';
 import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
 create.render(
 
   // ✅ Redux의 상태 전역 공유를 위해 <Provider>로 전체 앱 감싸기
@@ -96,11 +97,11 @@ create.render(
     {/* ✅ redux-persist를 위해 PersistGate로 감싸기
         - loading={null} : 초기 로딩 중 보여줄 화면 (지금은 비워둠)
         - persistor: redux-persist로 만든 객체로, 저장소를 불러오는 역할 */}
-    {/* <PersistGate loading={null} persistor={persistor}> */}
+    <PersistGate loading={null} persistor={persistor}>
 
       {/* ✅ 실제 보여줄 컴포넌트 */}
       <App />
 
-    {/* </PersistGate> */}
+    </PersistGate>
   </Provider>
 );
