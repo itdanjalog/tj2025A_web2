@@ -51,5 +51,56 @@ import Component8 from './example/day03/Component8.jsx'
 import Component9 from './example/day03/Component9.jsx'
 // create.render( <Component9 /> );
 
-import Component10 from './example/day03/Component10.jsx';
-create.render( <Component10 /> );
+// // ✅ Component15 컴포넌트 불러오기
+// import Component15 from './example/day05/Component15.jsx';
+
+// // ✅ Redux 상태관리의 핵심 도구인 Provider 컴포넌트 불러오기
+// import { Provider } from 'react-redux';
+
+// // ✅ Redux 스토어와 퍼시스터(persistor) 불러오기
+// //import store, { persistor } from './example/day05/store.js';
+
+// // ✅ redux-persist를 위한 PersistGate 컴포넌트 불러오기
+// import { PersistGate } from 'redux-persist/integration/react';
+
+// ✅ 앱을 화면에 렌더링 (예: React 17에서는 ReactDOM.render, React 18 이상에서는 createRoot 사용)
+// create.render(
+
+//   // ✅ Redux의 상태 전역 공유를 위해 <Provider>로 전체 앱 감싸기
+//   <Provider store={store}>
+
+//     {/* ✅ redux-persist를 위해 PersistGate로 감싸기
+//         - loading={null} : 초기 로딩 중 보여줄 화면 (지금은 비워둠)
+//         - persistor: redux-persist로 만든 객체로, 저장소를 불러오는 역할 */}
+//     <PersistGate loading={null} persistor={persistor}>
+
+//       {/* ✅ 실제 보여줄 컴포넌트 */}
+//       <Component15 />
+
+//     </PersistGate>
+//   </Provider>
+// );
+
+import Component16 from './example/day05/Component16.jsx'
+//create.render( <Component16 /> );
+
+
+import App from './example/day05/실습7/App.jsx'
+import store from './example/day05/실습7/store/store.jsx';
+import { Provider } from 'react-redux';
+create.render(
+
+  // ✅ Redux의 상태 전역 공유를 위해 <Provider>로 전체 앱 감싸기
+  <Provider store={store}>
+
+    {/* ✅ redux-persist를 위해 PersistGate로 감싸기
+        - loading={null} : 초기 로딩 중 보여줄 화면 (지금은 비워둠)
+        - persistor: redux-persist로 만든 객체로, 저장소를 불러오는 역할 */}
+    {/* <PersistGate loading={null} persistor={persistor}> */}
+
+      {/* ✅ 실제 보여줄 컴포넌트 */}
+      <App />
+
+    {/* </PersistGate> */}
+  </Provider>
+);
