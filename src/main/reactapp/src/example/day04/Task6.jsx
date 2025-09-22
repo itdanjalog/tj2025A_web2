@@ -24,7 +24,7 @@ function Signup( props ){
     const 회원가입 = async ( ) =>{ console.log( idRef.current.value );
         // idRef.current (vs) document.querySelector( )
         // idRef.current.value (vs)  document.querySelector( ).value
-        const id = idRef.current.value;  // idRef : 참조객체 , idRef.current : 참조객체가 참조중인 값
+        const id = idRef.current.value;  // idRef : 참조객체 , idRef.current : 참조객체가 참조중인 값 , 즉=<input />
         const pwd = pwdRef.current.value;
         // * axios 를 이용한 서버(스프링) 통신 했다 가정하고. *
         alert('[회원가입 성공]');
@@ -41,10 +41,27 @@ function Signup( props ){
 
 // [5] 로그인 컴포넌트
 function Login( props ){
-    return (<> <h3> 로그인 페이지 </h3> </>)
+    // [5-1] 입력받은 정보들을 갖는 form 참조하는 useRef
+    const formRef = useRef( null );
+    // [5-3] 라우터 페이지 전환 
+    const navigate = useNavigate();
+    // [5-2] 특정한 이벤트/함수에서 참조중인 useRef current 확인하기
+    const 로그인 = async()=>{   console.log( formRef.current ); 
+        const id = formRef.current.elements['id'].value;
+        const pwd = formRef.current.elements['pwd'].value;
+        // ** axios 했다 가정하고 **
+        alert('[로그인 성공]'); 
+        navigate('/');
+    }
+    return (<> 
+        <h3> 로그인 페이지 </h3> 
+        <form ref={ formRef }>
+            <input name="id" /> <br/>
+            <input name="pwd" /> <br/>
+            <button onClick={ 로그인 } type='button'> 로그인 </button>
+        </form>
+    </>)
 } 
-
-
 
 
 // [2] 라우터로 사용할 최초 컴포넌트
