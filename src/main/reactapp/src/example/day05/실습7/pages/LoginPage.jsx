@@ -9,7 +9,9 @@ export default function LoginPage( props ){
     //1. 로그인 처리 함수 정의 : axios 생략
     const onLogin = async ()=>{
         alert('[로그인성공]');  // 안내 
-        dispatch( login() );   // [1-2] login 액션 요청 하여 상태 변경한다.(전역변수 상태변경)
+        // dispatch( login( ) );   // [1-2] login 액션 요청 하여 상태 변경한다.(전역변수 상태변경)
+        const obj = { id : 3 , name : "유재석" } // [1-2] login 액션에 보낼 데이터 
+        dispatch( login( obj ) ); // [1-3] 매개변수를 포함한 login 액션 요청
         navigate( "/" );       // [2-2] 라우터에 등록된 "/" 메인페이지 URL로 이동( 페이지 전환 )
     }
     return(<>
