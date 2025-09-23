@@ -62,5 +62,17 @@ import Component11 from './example/day04/Component11.jsx'
 // create.render( <Component12 /> );
 
 import Task6 from './example/day04/Task6.jsx'
-create.render( <Task6 /> );
+// create.render( <Task6 /> );
 
+// day05
+import Component13 from './example/day05/Component13.jsx'
+// [1] 내가 만든 스토어(여러개 상태(전역변수) 를 갖는 저장소) 불러오기
+import store from './example/day05/store.jsx'
+// [2] store 를 사용할 곳에 store 공급 해주기 , <Provider store={ 내가만든스토어 } >
+import { Provider } from 'react-redux';
+// * 주의할점 : dispath 보다 먼저 'Provider'실행 되어야 한다. // 관례적으로 main.jsx에서 공급한다. 
+create.render(
+    <Provider store={ store }>
+        <Component13 /> 
+    </Provider>
+);
