@@ -43,6 +43,8 @@ dependencies {
     implementation 'io.github.bonigarcia:webdrivermanager:6.3.1'
     // [8] 마이바티스
     implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.5'
+    // [9] AOP 관점지향 프로그래밍
+    implementation 'org.springframework.boot:spring-boot-starter-aop'
 }
 
 tasks.named('test') {
