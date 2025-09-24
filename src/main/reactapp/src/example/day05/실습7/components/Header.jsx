@@ -15,6 +15,9 @@ export default function Header( props ){
         dispatch( logout() ); // 상태가 변경되면 **리렌더링** 된다.
         navigate('/login')
     }
+
+    // 서버에게 로그인 상태 요청 useEffect( ()=>{} , [] ) 
+
     return(<>
         <h3> 헤더 </h3>
         <ul>
