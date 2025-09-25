@@ -77,16 +77,20 @@ import Task6 from './example/day04/Task6.jsx'
 //     </Provider>
 // );
 
-import App from './example/day05/실습7/App.jsx'
-import { Provider } from 'react-redux';
-import store, { persistor } from './example/day05/실습7/store/store.jsx';
-import { PersistGate } from 'redux-persist/integration/react';
-create.render( 
-    // [1] 내가 만든 store 를 root 컴포넌트에 공급하여 모든 컴포넌트가 사용할수 있도록 *전역변수*
-    // [2] 내가 만든 persist 공급, loading : { 초기 로딩값 } persist = { 내가만든persiststore }
-    <Provider store={ store } >
-        <PersistGate loading = { null } persistor={ persistor } >
-            <App /> 
-        </PersistGate>
-    </Provider>
-);
+// import App from './example/day05/실습7/App.jsx'
+// import { Provider } from 'react-redux';
+// import store, { persistor } from './example/day05/실습7/store/store.jsx';
+// import { PersistGate } from 'redux-persist/integration/react';
+// create.render( 
+//     // [1] 내가 만든 store 를 root 컴포넌트에 공급하여 모든 컴포넌트가 사용할수 있도록 *전역변수*
+//     // [2] 내가 만든 persist 공급, loading : { 초기 로딩값 } persist = { 내가만든persiststore }
+//     <Provider store={ store } >
+//         <PersistGate loading = { null } persistor={ persistor } >
+//             <App /> 
+//         </PersistGate>
+//     </Provider>
+// );
+
+// // day06
+import App from './example/day06/App.jsx'
+create.render( <App /> );

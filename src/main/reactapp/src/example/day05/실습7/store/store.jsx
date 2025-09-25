@@ -5,7 +5,6 @@
 /*
     퍼시스턴스 : 로컬/세션 스토리지 에 상태 유지하는 방법
     1. 설치 : npm i redux-persist
-    2. 스로티지 설정
 */
 import { configureStore } from "@reduxjs/toolkit";
 import userSlice from './userSlice.jsx'
