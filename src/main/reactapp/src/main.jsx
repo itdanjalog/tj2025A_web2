@@ -93,4 +93,10 @@ import Task6 from './example/day04/Task6.jsx'
 
 // // day06
 import App from './example/day06/App.jsx'
-create.render( <App /> );
+import { Provider } from 'react-redux';
+import store from './example/day06/store/store.js';
+create.render( 
+    <Provider store={ store }>
+        <App /> 
+    </Provider>
+);

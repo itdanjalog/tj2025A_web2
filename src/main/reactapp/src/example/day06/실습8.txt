@@ -31,7 +31,7 @@ const menu = [
     { id: 3, name: "카푸치노", price: 4500 },
 ];
 -------------------
-const cart = [
+const cartList = [
     { id : 1 , name: "아메리카노", price: 3000 , count : 3 } ,
     { id: 3 , name: "카푸치노", price: 4500 , count : 1 },
 ] 
