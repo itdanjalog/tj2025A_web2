@@ -1,8 +1,18 @@
-[DEBUG] debug log - 디버깅용 상세 정보
-[INFO] info log - 서비스 흐름, 주요 상태
-[WARN] warn log - 잠재적 문제 (예: 잔액 부족)
-[ERROR] error log - 예외/실패 상황
-[INFO] 계좌이체 요청: {fromname=신동엽, toname=서장훈, money=100000}
-[ERROR] 이체 실패: {fromname=신동엽, toname=서장훈, money=100000}
-[INFO] 계좌이체 요청: {fromname=신동엽, toname=서장훈, money=100000}
-[INFO] 이체 성공: 신동엽 → 서장훈 (100000원)
+[2025-09-26 00:01:52] WARN  o.s.w.s.m.s.DefaultHandlerExceptionResolver - Resolved [org.springframework.web.HttpRequestMethodNotSupportedException: Request method 'GET' is not supported]
+[2025-09-26 00:02:02] DEBUG example.day10.BookController - 도서 반납 요청: {bookId=1, member=홍길동}
+[2025-09-26 00:02:02] DEBUG e.day10.BookMapper.incStockIfExists - ==>  Preparing: UPDATE books SET stock = stock + 1 WHERE id = ?
+[2025-09-26 00:02:02] DEBUG e.day10.BookMapper.incStockIfExists - ==> Parameters: 1(Integer)
+[2025-09-26 00:02:02] DEBUG e.day10.BookMapper.incStockIfExists - <==    Updates: 1
+[2025-09-26 00:02:02] DEBUG e.day10.BookMapper.returnRental - ==>  Preparing: UPDATE rentals SET return_date = NOW() WHERE book_id = ? AND member = ? AND return_date IS NULL
+[2025-09-26 00:02:02] DEBUG e.day10.BookMapper.returnRental - ==> Parameters: 1(Integer), 홍길동(String)
+[2025-09-26 00:02:02] DEBUG e.day10.BookMapper.returnRental - <==    Updates: 0
+[2025-09-26 00:02:02] DEBUG example.day10.BookController - 도서 반납 실패 - 요청: {bookId=1, member=홍길동}, 에러: 반납 실패: 미반납 대출기록이 없거나 이미 반납되었습니다.
+[2025-09-26 00:03:37] DEBUG example.day10.BookController - 도서 반납 요청: {bookId=1, member=홍길동}
+[2025-09-26 00:03:37] DEBUG e.day10.BookMapper.incStockIfExists - ==>  Preparing: UPDATE books SET stock = stock + 1 WHERE id = ?
+[2025-09-26 00:03:37] DEBUG e.day10.BookMapper.incStockIfExists - ==> Parameters: 1(Integer)
+[2025-09-26 00:03:37] DEBUG e.day10.BookMapper.incStockIfExists - <==    Updates: 1
+[2025-09-26 00:03:37] DEBUG e.day10.BookMapper.returnRental - ==>  Preparing: UPDATE rentals SET return_date = NOW() WHERE book_id = ? AND member = ? AND return_date IS NULL
+[2025-09-26 00:03:37] DEBUG e.day10.BookMapper.returnRental - ==> Parameters: 1(Integer), 홍길동(String)
+[2025-09-26 00:03:37] DEBUG e.day10.BookMapper.returnRental - <==    Updates: 0
+[2025-09-26 00:03:37] DEBUG example.day10.BookController - 도서 반납 실패 - 요청: {bookId=1, member=홍길동}, 에러: 반납 실패: 미반납 대출기록이 없거나 이미 반납되었습니다.
+[2025-09-26 00:03:42] WARN  o.s.w.s.m.s.DefaultHandlerExceptionResolver - Resolved [org.springframework.web.HttpRequestMethodNotSupportedException: Request method 'GET' is not supported]

@@ -92,14 +92,18 @@ import Task6 from './example/day04/Task6.jsx'
 // );
 
 // // day06
-import App from './example/day06/App.jsx'
-import { Provider } from 'react-redux';
-import store, { persistor } from './example/day06/store/store.js';
-import { PersistGate } from 'redux-persist/integration/react';
-create.render( 
-    <Provider store={ store }>
-        <PersistGate loading = { null } persistor={ persistor }>
-            <App /> 
-        </PersistGate>
-    </Provider>
-);
+// import App from './example/day06/App.jsx'
+// import { Provider } from 'react-redux';
+// import store, { persistor } from './example/day06/store/store.js';
+// import { PersistGate } from 'redux-persist/integration/react';
+// create.render( 
+//     <Provider store={ store }>
+//         <PersistGate loading = { null } persistor={ persistor }>
+//             <App /> 
+//         </PersistGate>
+//     </Provider>
+// );
+
+
+import Example2 from './example/day07/Example2.jsx'
+create.render( <Example2 /> )
