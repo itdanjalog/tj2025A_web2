@@ -28,10 +28,10 @@ public class TransService {
 
     // 2.
     @Transactional // 만약에 지정한 함수내 예외( RuntimeException 실행예외 ) 가 발생하면 함수내 SQL 모두 취소한다.
-    boolean transfer( Map<String,Object> fransInfo ){
-        int money = Integer.parseInt( String.valueOf( fransInfo.get( "money") ) );
+    boolean transfer( Map<String,Object> transInfo ){
+        int money = Integer.parseInt( String.valueOf( transInfo.get( "money") ) );
         // 1. 신동엽의 10만원 차감
-        String fromname = String.valueOf( fransInfo.get("fromname") );
+        String fromname = String.valueOf( transInfo.get("fromname") );
         transMapper.withdraw( fromname , money );
 
         // 만약에 강제로 예외 발생해서 rollback , *주석처리 했을때 안했을때 비교하기 *
@@ -40,7 +40,7 @@ public class TransService {
         }
 
         // 2. 서장훈의 10만원 증가
-        String toname = String.valueOf( fransInfo.get( "toname") );
+        String toname = String.valueOf( transInfo.get( "toname") );
         transMapper.deposit( toname , money );
         return true;
     } // func end
