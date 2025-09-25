@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class TransService {
-    private TransMapper transMapper;
+    private final TransMapper transMapper;
     // 1. '유재석' 과 '강호동' insert 하는게 목적(commit)
     // '만약에' 한명이라도 insert가 실패하면 취소(rollback)
     public boolean trans1(){
