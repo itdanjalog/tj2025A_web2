@@ -35,7 +35,7 @@ public class TransService {
         transMapper.withdraw( fromname , money );
         // 만약에 강제로 예외 발생해서 rollback
         if( true ){ // 신동엽이 돈이 10만원 없거나 내부적으로 로직/조건 문제가 있을떄
-            throw new RuntimeException("강제예외"); // throw new 예외클래스명 // 강제 예외 발생
+            throw new RuntimeException("강제예외"); // throw new 예외클래스명("메시지") // 강제 예외 발생
         }
         // 2. 서장훈의 10만원 증가
         String toname = String.valueOf( fransInfo.get( "toname") );
