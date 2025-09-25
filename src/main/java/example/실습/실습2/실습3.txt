@@ -1,0 +1,58 @@
+day86 SPRING WEB2 ] 실습3 : 도서 대출 및 반납 트랜잭션 만들기
+[ 조건1 ] 최소 클래스 파일을 사용하여 구현 :
+        AppStart
+        BookController : 최소 메소드 2개
+        BookService : 최소 메소드 2개 , ** @Transactional 적용 **
+        BookMapper : 최소 메소드 4개
+
+[ 조건2 ] 기능 요구사항
+    · 도서 대출
+        1) 클라이언트가 POST '/books/rent' 요청을 보내면,
+        2) books 테이블에서 해당 책 재고(stock)를 1 감소시키고 (*만일 재고가 0이면 예외발생*)
+        3) rentals 테이블에 대출 기록(book_id, member, rent_date)을 추가한다.(*만일 기록 실패이면 예외발생*)
+        4) 예외가 발생하면 전체 SQL 실행은 롤백된다.
+    · 도서 반납
+        1) 클라이언트가 POST '/books/return' 요청을 보내면,
+        2) books 테이블에서 해당 책 재고(stock)를 1 증가시키고 (* 해당 책정보가 없으면 예외발생*)
+        3) rentals 테이블의 해당 대출 기록(return_date)을 NOW()로 업데이트한다. (*만일 대출기록이 없거나 이미 반납했다면 예외발생*)
+        4) 예외가 발생하면 전체 SQL 실행은 롤백된다.
+    · 요청 JSON 형식 : { "bookId": 1, "member": "홍길동" }
+
+[ 조건3 ] 트랜잭션 적용 :
+    · BookService의 rentBook() / returnBook() 메소드에 @Transactional 어노테이션을 적용
+    · 하나의 기능 내에서 SQL 실행 중 하나라도 실패하면 전체가 취소되어야 한다.
+
+[ 조건4 ] 샘플 SQL
+    -- 1. 책 테이블
+    CREATE TABLE books (
+        id INT NOT NULL,
+        title VARCHAR(255) NOT NULL,
+        stock INT NOT NULL DEFAULT 0,
+        PRIMARY KEY (id)
+    );
+
+    -- 2. 대출 기록 테이블
+    CREATE TABLE rentals (
+        id INT NOT NULL,
+        book_id INT NOT NULL,
+        member VARCHAR(100) NOT NULL,
+        rent_date DATETIME DEFAULT NOW(),
+        return_date DATETIME NULL,
+        PRIMARY KEY (id),
+        FOREIGN KEY (book_id) REFERENCES books(id)
+    );
+
+    -- 3. 샘플 데이터 (책 목록)
+    INSERT INTO books (id, title, stock) VALUES (1, '자바의 정석', 3);
+    INSERT INTO books (id, title, stock) VALUES (2, '스프링 인 액션', 2);
+    INSERT INTO books (id, title, stock) VALUES (3, '토비의 스프링', 1);
+    INSERT INTO books (id, title, stock) VALUES (4, '리액트 교과서', 5);
+
+    -- 4. 샘플 데이터 (대출 기록)
+    INSERT INTO rentals (id, book_id, member) VALUES (1, 1, '홍길동');
+
+    -- 5. 확인용 조회 쿼리
+    SELECT * FROM books;
+    SELECT * FROM rentals;
+
+[ 제출방법 ] 코드가 작성된 파일이 위치한 GitHub 상세 주소를 제출하시오.
