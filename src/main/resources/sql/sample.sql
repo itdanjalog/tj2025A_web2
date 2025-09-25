@@ -100,7 +100,7 @@ INSERT INTO trans (name, money) VALUES
 -- --------------------------------------- 실습3  ----------------------------------------
 -- 1. 책 테이블
 CREATE TABLE books (
-    id INT NOT NULL,
+    id INT NOT NULL ,
     title VARCHAR(255) NOT NULL,
     stock INT NOT NULL DEFAULT 0,
     PRIMARY KEY (id)
@@ -108,7 +108,7 @@ CREATE TABLE books (
 
 -- 2. 대출 기록 테이블
 CREATE TABLE rentals (
-    id INT NOT NULL,
+    id INT NOT NULL AUTO_INCREMENT,
     book_id INT NOT NULL,
     member VARCHAR(100) NOT NULL,
     rent_date DATETIME DEFAULT NOW(),

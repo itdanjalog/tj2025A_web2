@@ -25,19 +25,19 @@ day86 SPRING WEB2 ] 실습3 : 도서 대출 및 반납 트랜잭션 만들기
 [ 조건4 ] 샘플 SQL
     -- 1. 책 테이블
     CREATE TABLE books (
-        id INT NOT NULL,
-        title VARCHAR(255) NOT NULL,
-        stock INT NOT NULL DEFAULT 0,
+        id INT NOT NULL AUTO_INCREMENT ,    -- 도서번호
+        title VARCHAR(255) NOT NULL,        -- 도서 명
+        stock INT NOT NULL DEFAULT 0,       -- 도서 재고
         PRIMARY KEY (id)
     );
 
     -- 2. 대출 기록 테이블
     CREATE TABLE rentals (
-        id INT NOT NULL,
-        book_id INT NOT NULL,
-        member VARCHAR(100) NOT NULL,
-        rent_date DATETIME DEFAULT NOW(),
-        return_date DATETIME NULL,
+        id INT NOT NULL AUTO_INCREMENT ,            -- 대출기록 번호
+        book_id INT NOT NULL,                       -- **참조**하는 도서번호
+        member VARCHAR(100) NOT NULL,               -- 대출 한 사람
+        rent_date DATETIME DEFAULT NOW(),           -- 대출 일
+        return_date DATETIME NULL, -- 반납 일
         PRIMARY KEY (id),
         FOREIGN KEY (book_id) REFERENCES books(id)
     );
