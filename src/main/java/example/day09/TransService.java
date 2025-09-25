@@ -32,17 +32,26 @@ public class TransService {
         int money = Integer.parseInt( String.valueOf( transInfo.get( "money") ) );
         // 1. 신동엽의 10만원 차감
         String fromname = String.valueOf( transInfo.get("fromname") );
-        transMapper.withdraw( fromname , money );
+        boolean result1 = transMapper.withdraw( fromname , money );
 
-        // 만약에 강제로 예외 발생해서 rollback , *주석처리 했을때 안했을때 비교하기 *
-        if( true ){ // 신동엽이 돈이 10만원 없거나 내부적으로 로직/조건 문제가 있을떄
-            throw new RuntimeException("강제예외"); // throw new 예외클래스명("메시지") // 강제 예외 발생
-        }
+        if( result1 == false )
+            throw new RuntimeException("fromname 에서 [차감실패]");
 
         // 2. 서장훈의 10만원 증가
         String toname = String.valueOf( transInfo.get( "toname") );
-        transMapper.deposit( toname , money );
+        boolean result2 = transMapper.deposit( toname , money );
+
+        if( result2 == false )
+            throw new RuntimeException("toname 에서 [증가실패]");
+
         return true;
     } // func end
 
 } // class end
+
+
+
+// 만약에 강제로 예외 발생해서 rollback , *주석처리 했을때 안했을때 비교하기 *
+//        if( true ){ // 신동엽이 돈이 10만원 없거나 내부적으로 로직/조건 문제가 있을떄
+//                throw new RuntimeException("강제예외"); // throw new 예외클래스명("메시지") // 강제 예외 발생
+//        }
