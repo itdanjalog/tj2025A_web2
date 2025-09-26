@@ -6,6 +6,8 @@ import Select from '@mui/joy/Select';
 import Option from '@mui/joy/Option';
 import Switch from '@mui/joy/Switch';
 import { useState } from 'react';
+import Avatar from '@mui/joy/Avatar';
+import SideBar from './SideBar';
 
 export default function Component14(props){
 
@@ -47,5 +49,27 @@ export default function Component14(props){
             onChange={(event) => setChecked(event.target.checked)}
         />
 
+        <h1> 5. 아바타 : https://mui.com/joy-ui/react-avatar/ </h1>
+        <p> Box 는 div 와 같은 유형 , css 적용하는 방법 : 1. CSS파일 2.CSS객체 </p>
+        <Box sx={{ display: 'flex', gap: 2 }} > 
+            <Avatar />
+            <Avatar>JG</Avatar>
+            <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+        </Box>
+        
+        <h1> 6. 리스트 : https://mui.com/joy-ui/react-list/#collapsible-list, https://mui.com/joy-ui/react-list/#navigation-menu </h1>
+        <p> npm install @mui/icons-material </p>
+        <SideBar />
+
+
     </>)
+
+    /*
+        리액트에서 CSS 적용하는 방법
+            1안) CSS파일 생성한다. --> CSS 파일을 적용할 컴포넌트 에서 import 'css파일경로'
+            2안) CSS객체 --> JSX에서 객체유형으로 CSS 작성한다. <컴포넌트명 style={{ CSS카멜표기법 }}
+                주의할점 : -하이픈 대신에 카멜표기법 사용한다.
+                { font-size : 10px } ----> { fontSize : "10"}
+    */
+
 }
