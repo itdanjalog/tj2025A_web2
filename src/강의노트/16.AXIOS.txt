@@ -76,9 +76,3 @@
     @CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
     ```
     - 응답 헤더에 `Access-Control-Allow-Credentials: true` 필수
-
-
-
-    7. ● qs 모듈 사용 (쿼리 문자열 변환)
-    - 정의: 객체를 URL 쿼리 문자열 형식으로 변환하는 라이브러리
-    npm i qs
