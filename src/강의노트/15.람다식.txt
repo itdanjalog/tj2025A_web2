@@ -1,0 +1,87 @@
+[ 람다식 ]
+    1. 정의 : 익명 함수를 간결하게 표현하는 방법
+        익명 함수를 간결하게 표현하는 방법
+        자바 8 이상 문법으로, JS 화살표 함수(=>)와 비슷한 개념
+        메소드 선언 없이 구현부만 간단히 작성 가능
+
+    2. 목적
+        1. 가독성 , 간결하게  표현
+        2. 코드 양 축소
+        3. 스트림API , javaGUI
+
+    3. 주요 함수형 인터페이스
+        인터페이스
+        1) Function< 매개변수타입 , 리턴값타입 >
+            .apply(인자값)
+            입력값 T를 받아 결과 R 반환
+            x -> x*2
+        2) Consumer< 매개변수타입 >
+            .accept( 인자값 )
+            입력값 소비 (반환 없음)
+            str -> System.out.println(str)
+        3) Supplier< 리턴값타입 >
+            .get()
+            입력값 없이 결과 반환
+            () -> Math.random()
+        4) Predicate< 매개변수타입 >
+            .test( 인자값 )
+            조건 판별 후 boolean 반환
+            x -> x%2==0
+
+    4. 활용
+        1) 람다표현식 주로 추상메소드 와 같이 사용된다.
+            interface Calculator { int plus(int x, int y); }
+            Calculator calc = (x, y) -> x + y;
+            System.out.println(calc.plus(3,5)); // 출력: 8
+
+        2) 컬렉션프레임워크(인터페이스) 같이 사용된다.
+            list.forEach(item -> System.out.println(item));
+
+
+
+[ 스트림API ]
+    1. 정의 : 데이터의 연속된 흐름 처리하는 방식 지원 , 주로 컬렉션 프레임워크와 같이 사용한다.
+    2. 목적
+        1. 가독성 ,   간결하게  표현
+        2. 코드 양 축소
+        등등
+    3. 스트림 흐름
+        ----------------- stream -------------------------------------------------   최종연산
+            데이터 -> 중간연산(filter/map/sorted 등) -> 최종연산(forEach/collect 등)
+        --------------------------------------------------------------------------
+    4. 주요 연산 처리 방법
+        1. 중간연산 : 데이터의 변경 또는 필터를 담당 하는 메소드들
+            filter(Predicate)           조건식에 맞는 요소만 남김
+            map(Function)	            각 요소를 변환하여 새로운 값 생성
+            sorted()		            요소들을 정렬 (기본 오름차순)
+            sorted(Comparator)	        지정한 기준(Comparator)으로 정렬
+            distinct()		            중복된 요소 제거
+            limit(n)	                앞에서 n개 요소만 추출
+            skip(n)                     앞의 n개 요소를 건너뛰고 나머지만 추출
+
+        2. 최종연산 : 데이터의 결과를 반환 담당하는 메소드들
+            forEach(Consumer)	            스트림의 각 요소를 순회하면서 처리 (주로 출력, 저장)
+            collect(Collector)	            스트림의 요소들을 모아서 컬렉션(List, Set 등)으로 반환
+            count()                 	    스트림의 요소 개수를 반환
+            reduce(초기값, 연산)	            누적 연산 수행 → 합계, 곱, 최대/최소 등 집계 결과 반환
+
+[ 메소드 레퍼런스 API ]
+    1. 정의 : 이미 정의된 함수/생성자를 호출하는 기능 , 람다식 보다 더 간결하게 표현하는 방법
+        -> 주의할점은 : 정의되지 않은 메소드에 대해서는 사용 불가능.
+        예]
+            numbers.stream()
+                    .sorted( Comparator.reverseOrder() )
+                    .forEach(x -> System.out.println( x ) );
+                VS
+            numbers.stream()
+                    .sorted( Comparator.reverseOrder() )
+                    .forEach( System.out::println );
+    2.목적
+        1. 가독성 , 간결한 코드 향상
+        2. 리팩토링 과 유지보수 용이
+    3. 사용법
+        (1.static메소드를 호출하는방법 ) 클래스명::static메소드명
+        (2.일반메소드를 호출하는방법 ) 객체명::메소드명
+        (3.생성자를 호출하는방법) 클래스명::new
+
+    4. 사용처 : 주로 stream(스트림) 에서의 람다 표현식의 이미 정의된 함수를 호출할때 사용

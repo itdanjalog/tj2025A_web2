@@ -1,0 +1,69 @@
+[ 로깅 ]
+● 정의
+    프로그램 실행 중 발생하는 정보를 기록하는 행위.
+    시스템 상태, 디버깅 정보, 예외 원인, 흐름 추적 등에 활용.
+
+● 목적
+    System.out.println() 대신 로깅을 사용하는 이유:
+    로그 레벨별 관리가 가능 (DEBUG, INFO, WARN, ERROR)
+    콘솔뿐 아니라 파일 출력 등 다양한 저장 방식 지원
+    운영 환경에서 로그 분석/모니터링이 효율적
+
+    System.out.println("DEBUG: 값 확인");
+    // vs
+    log.debug("값 확인");
+
+● 스프링 부트에서의 로깅 기본기
+    Spring Boot는 기본적으로 Logback 로깅 프레임워크 내장
+    application.properties 또는 application.yml로 간단 설정 가능
+
+    # 기본 로그 레벨 (전체 공통)
+    logging.level.root=INFO
+
+    # 특정 패키지만 디버깅 레벨 지정
+    logging.level.example.day10=DEBUG
+    logging.level.example.day11.logging=DEBUG
+
+    # 로그 파일 저장 위치 지정
+    logging.file.name=logs/app.log
+
+● 로그 객체 생성 (Lombok)
+    @Log4j2 애너테이션으로 로그 객체 자동 생성
+
+    @Log4j2
+    public class ExampleLog {
+        public void test() {
+            log.info("정보 출력");
+            log.debug("디버깅 정보");
+        }
+    }
+
+● 로그 파일 관리 설정 (회전 정책)
+
+    # 로그 파일 경로 및 이름
+    logging.file.name=logs/app.log
+
+    # 10MB 이상이면 새로운 로그 파일로 분리
+    logging.logback.rollingpolicy.max-file-size=10MB
+
+    # 이전 로그 파일 최대 7개 보관
+    logging.logback.rollingpolicy.max-history=7
+
+    예: app.log, app.log.1, ..., app.log.7
+    8번째 생성 시 가장 오래된 로그는 삭제됨
+
+● 로그 출력 형식 커스터마이징 (선택사항)
+
+    # 로그 출력 형식 예시 (파일 기준)
+    logging.pattern.file=[%d{yyyy-MM-dd HH:mm:ss}] %msg%n
+
+● 프레임워크 내부 로그 줄이기 (INFO → WARN)
+
+    spring.main.log-startup-info=false
+    logging.level.org.springframework.boot.web=warn
+    logging.level.org.springframework.boot.web.embedded.tomcat=warn
+    logging.level.org.apache.catalina=warn
+    logging.level.org.apache.coyote=warn
+    logging.level.org.springframework.web=warn
+
+    내 코드만 상세 로그(Debug), 프레임워크는 최소 로그(Warn)

@@ -24,23 +24,33 @@
 
         3. Reducer(리듀서) : 상태를 변경하는 함수
 
-        4. action(액션) : 상태를 변경하기 위한 store에 보내는 함수
+        4. action(액션) : 상태를 변경하기 위한 store에 보내는 객체(값) , dispatch 로 전달된다.
 
     5. 실행 순서 
-        1) 일반(login페이지)컴포넌트 에서 action 먼저 실행된다. 
-            dispatch( login() )
-        2) action이 store 에 전달된다. dispatch 
-        3) store 에 등록된 리듀서를 찾아서 state 업데이트 한다.
+        1) 컴포넌트에서 dispatch(action객체) 호출
+        2) 스토어가 해당 액션을 리듀서에 전달
+        3) 리듀서가 새로운 state 반환
+        4) 변경된 state로 리렌더링 발생
 
-    6. 상위 컴포넌트 에서 <Provider store={ 내가만든스토어 } > 통해 하위 컴포넌트에게 공급한다.
+
+    6. 상위 컴포넌트에서 <Provider store={ 내가만든스토어 }> 통해 하위 컴포넌트에게 공급한다.
         1) 액션 호출 : dispatch( 상태변경함수( 인자값 ) );
-            - slice 내 리듀서 함수 정의에서 action 으로 인자값들을 전달받을 수 있다.
-            - 함수명 : ( state , action ) => { action.payload }
-            - login : ( state , action ) => { state.userInfo = action.payload; }
+            - dispatch는 action 객체를 store에 전달하는 함수
+            - slice 내부 reducer 함수에서 action.payload 로 인자값 접근 가능
+            - 예시: login : ( state , action ) => { state.userInfo = action.payload }
 
         2) 현재 상태 반환 : useSelector( (state) => state.등록된상태명 )
+            - store의 특정 slice/state를 가져오는 hook
+            - 예시: const user = useSelector(state => state.user.userInfo)
 
-    ======== 리덕스는 * 전역 상태 * 이며 * 영구 저장이 안된다 ===========
-    방법1. 클라이언트 사이드 렌더링 : + 퍼시스턴스 
-    방법2. 서버 사이드 렌더링 : + 서버(SPRING)
-    방법3. next.js( react 단점 보완 = 서버사이드렌더링 , 검색엔진SEO )
+
+[ 퍼시스트 ]
+    1. 정의 : 리덕스의 상태는 기본적으로 메모리 기반이라 새로고침 시 초기화됩니다.
+    2. 목표 : 이를 보완하기 위해 redux-persist 라이브러리를 사용하면, localStorage / sessionStorage 등에 자동 저장 & 복원이 가능합니다.
+    3. 설치 : npm install redux-persist
+    4. 핵심 용어
+        1) persistConfig:   Redux Persist의 설정 객체입니다.  어떤 slice를 저장할지, 어디(local/session)에 저장할지 설정하는 객체
+        2) PersistGate : Redux Persist에서 제공하는 리액트 컴포넌트입니다. 저장소에서 상태를 불러올 때까지 UI 렌더링을 지연시켜주는 컴포넌트
+    5. 특징
+        1) localStorage: 새로고침해도 로그인 상태 유지됨
+        2) sessionStorage: 브라우저 종료하면 초기화됨

@@ -1,8 +1,0 @@
-[DEBUG] debug log - 디버깅용 상세 정보
-[INFO] info log - 서비스 흐름, 주요 상태
-[WARN] warn log - 잠재적 문제 (예: 잔액 부족)
-[ERROR] error log - 예외/실패 상황
-[INFO] 계좌이체 요청: {fromname=신동엽, toname=서장훈, money=100000}
-[ERROR] 이체 실패: {fromname=신동엽, toname=서장훈, money=100000}
-[INFO] 계좌이체 요청: {fromname=신동엽, toname=서장훈, money=100000}
-[INFO] 이체 성공: 신동엽 → 서장훈 (100000원)
