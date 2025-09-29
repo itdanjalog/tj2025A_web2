@@ -1,0 +1,18 @@
+-----------
+인텔리제이
+1. 설정
+2. 버전관리->github 로그아웃/로그인
+3. 새창에서 수업자료 git 리포지토리 복제
+------------
+VS CDOE
+1. 윈도우 버튼 -> 검색
+2. '자격증명관리자' 검색
+3. WINDOWDS 자격증명 클릭
+4. git:https://github.com [ 제거 ] 또는 [편집]
+-------------
+공통 : 터미널
+git config --global user.name
+git config --global user.email
+-------------
+리액트는 복제후 최초 실행이면 npm install
+"node_modules" 폴더는 깃 저장소 없으므로
