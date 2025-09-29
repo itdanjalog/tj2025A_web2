@@ -5,13 +5,13 @@
         권장) 롬복 에서 제공하는 @Log4j2 활용한 컨트롤러와 서비스 에서 주로 사용된다.
         @Log4j2 class Controller{}
     4. 주요 객체/함수
-        log.debug( )    : 개발 및 테스트 단계 사용. <개발>
-        log.info( )     : 상태 확인 사용. <개발/운영>
-        log.warn( )     : 경고 확인 사용. <운영>
-        log.error( )    : 예외 확인 사용. <운영>
+        log.debug( )    : 개발 및 테스트 단계 사용. <개발 권장>
+        log.info( )     : 상태 확인 사용. <개발/운영 권장>
+        log.warn( )     : 경고 확인 사용. <운영 권장>
+        log.error( )    : 예외 확인 사용. <운영 권장>
     5. application.properties 파일 에서 로깅 설정
         debug < info < warn < error
         1) 스프링 에서는 info 가 기본값 이다.
             logging.level.root = 레벨
-        2) 특정 패키지 에서만 설정 , 패키지명은 [java] 폴더 이하 경로이다.
+        2) 특정 패키지 에서만 설정 , 패키지명은 [java] 폴더 이하 경로이다. < 한글 패키지 미지원 >
             logging.level.패키지명.패키지명 = 레벨
