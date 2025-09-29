@@ -53,7 +53,7 @@ public class Example1 {
         Consumer< String > consumer = ( str ) -> System.out.println( str );
         consumer.accept( "[6] consumer : 안녕하세요" );
 
-        // [4-4] Predicate< T > , T:입력 받아서 결과를 true/false 반환
+        // [4-4] Predicate< T > , T:입력 받아서 결과를 true/false 반환 , test( T ) 메소드 사용
         Predicate< Integer > predicate = x -> x % 2 == 0; // 짝수 이면 true , false
         System.out.println("[7] predicate : " + predicate.test( 3 ) );
 
