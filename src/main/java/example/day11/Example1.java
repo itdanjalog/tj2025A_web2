@@ -1,6 +1,12 @@
 package example.day11;
 
-// [2] 인터페이스 : 주로 추상메소드(구현부없는) 를 정의한다.
+import java.io.PrintStream;
+import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.function.Predicate;
+import java.util.function.Supplier;
+
+// [2] 인터페이스 : 주로 상수 와 추상메소드(구현부없는) 를 정의한다.
 interface Calculator{
     // 추상메소드
     int plus( int x , int y );
@@ -33,6 +39,34 @@ public class Example1 {
         int value2 = calc2.plus( 3 , 5 );
         System.out.println("[3] 람다식 메소드 호출 : " + value2 );
 
+        // [4] 람다 표현식을 사용하는 *함수형* 인터페이스들
+        // * 제네릭< > : 인스턴스(객체) 생성시 인스턴스(객체)내 멤버들의 타입 정의, 기본타입 불가능
+        // [4-1] Function< T , R > , T:입력 받아서 R:결과 를 반환 , apply(T) 메소드 사용
+        Function< Integer , Integer > function = x -> x * 2 ;
+        System.out.println("[4] Function : " + function.apply( 3 ) ); // 6
+
+        // [4-2] Supplier< T > , 입력 없이 T:결과 를 반환 , get() 메소드 사용
+        Supplier< Double > supplier = ( ) -> Math.random();
+        System.out.println("[5] supplier : " + supplier.get() );
+
+        // [4-3] Consumer< T > , T:입력 받아서 결과가 없음 , .accept( T ) 메소드 사용
+        Consumer< String > consumer = ( str ) -> System.out.println( str );
+        consumer.accept( "[6] consumer : 안녕하세요" );
+
+        // [4-4] Predicate< T > , T:입력 받아서 결과를 true/false 반환
+        Predicate< Integer > predicate = x -> x % 2 == 0; // 짝수 이면 true , false
+        System.out.println("[7] predicate : " + predicate.test( 3 ) );
+
+
+
+
 
     } // main end
 } // class end
+
+
+
+
+
+
+
