@@ -1,8 +1,61 @@
-[DEBUG] debug log - 디버깅용 상세 정보
-[INFO] info log - 서비스 흐름, 주요 상태
-[WARN] warn log - 잠재적 문제 (예: 잔액 부족)
-[ERROR] error log - 예외/실패 상황
-[INFO] 계좌이체 요청: {fromname=신동엽, toname=서장훈, money=100000}
-[ERROR] 이체 실패: {fromname=신동엽, toname=서장훈, money=100000}
-[INFO] 계좌이체 요청: {fromname=신동엽, toname=서장훈, money=100000}
-[INFO] 이체 성공: 신동엽 → 서장훈 (100000원)
+2025-09-29T10:53:24.932+09:00  INFO 4416 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-09-29T10:53:24.937+09:00  INFO 4416 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2025-09-29T10:53:25.064+09:00 DEBUG 4416 --- [http-nio-8080-exec-1] example.day10.BookController             : [대여신청] {bookid=1, member=홍길동}
+2025-09-29T10:53:25.077+09:00  INFO 4416 --- [http-nio-8080-exec-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-09-29T10:53:25.183+09:00  INFO 4416 --- [http-nio-8080-exec-1] i.opentelemetry.api.GlobalOpenTelemetry  : AutoConfiguredOpenTelemetrySdk found on classpath but automatic configuration is disabled. To enable, run your JVM with -Dotel.java.global-autoconfigure.enabled=true
+2025-09-29T10:53:25.491+09:00  INFO 4416 --- [http-nio-8080-exec-1] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@7c28f301
+2025-09-29T10:53:25.494+09:00  INFO 4416 --- [http-nio-8080-exec-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-09-29T10:53:25.536+09:00 DEBUG 4416 --- [http-nio-8080-exec-1] example.day10.BookMapper.decStock        : ==>  Preparing: update books set stock = stock-1 where id=? and stock > 0
+2025-09-29T10:53:25.576+09:00 DEBUG 4416 --- [http-nio-8080-exec-1] example.day10.BookMapper.decStock        : ==> Parameters: 1(Integer)
+2025-09-29T10:53:25.583+09:00 DEBUG 4416 --- [http-nio-8080-exec-1] example.day10.BookMapper.decStock        : <==    Updates: 0
+2025-09-29T10:53:25.593+09:00 DEBUG 4416 --- [http-nio-8080-exec-1] example.day10.BookController             : [대여실패] {bookid=1, member=홍길동}[재고부족]
+2025-09-29T10:54:52.929+09:00 DEBUG 8452 --- [http-nio-8080-exec-1] example.day10.BookController             : [대여신청] {bookid=1, member=홍길동}
+2025-09-29T10:54:52.941+09:00  INFO 8452 --- [http-nio-8080-exec-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-09-29T10:54:53.063+09:00  INFO 8452 --- [http-nio-8080-exec-1] i.opentelemetry.api.GlobalOpenTelemetry  : AutoConfiguredOpenTelemetrySdk found on classpath but automatic configuration is disabled. To enable, run your JVM with -Dotel.java.global-autoconfigure.enabled=true
+2025-09-29T10:54:53.393+09:00  INFO 8452 --- [http-nio-8080-exec-1] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@3fd52f4c
+2025-09-29T10:54:53.397+09:00  INFO 8452 --- [http-nio-8080-exec-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-09-29T10:54:53.471+09:00 DEBUG 8452 --- [http-nio-8080-exec-1] example.day10.BookMapper.decStock        : ==>  Preparing: update books set stock = stock-1 where id=? and stock > 0
+2025-09-29T10:54:53.554+09:00 DEBUG 8452 --- [http-nio-8080-exec-1] example.day10.BookMapper.decStock        : ==> Parameters: 1(Integer)
+2025-09-29T10:54:53.566+09:00 DEBUG 8452 --- [http-nio-8080-exec-1] example.day10.BookMapper.decStock        : <==    Updates: 0
+2025-09-29T10:54:53.603+09:00 DEBUG 8452 --- [http-nio-8080-exec-1] example.day10.BookController             : [대여실패] {bookid=1, member=홍길동}[재고부족]
+[대여신청] {bookid=1, member=홍길동}HikariPool-1 - Starting...AutoConfiguredOpenTelemetrySdk found on classpath but automatic configuration is disabled. To enable, run your JVM with -Dotel.java.global-autoconfigure.enabled=trueHikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@77616c33HikariPool-1 - Start completed.==>  Preparing: update books set stock = stock-1 where id=? and stock > 0==> Parameters: 1(Integer)<==    Updates: 0[대여실패] {bookid=1, member=홍길동}[재고부족][대여신청] {bookid=1, member=홍길동}==>  Preparing: update books set stock = stock-1 where id=? and stock > 0==> Parameters: 1(Integer)<==    Updates: 0[대여실패] {bookid=1, member=홍길동}[재고부족][대여신청] {bookid=1, member=홍길동} 
+HikariPool-1 - Starting... 
+AutoConfiguredOpenTelemetrySdk found on classpath but automatic configuration is disabled. To enable, run your JVM with -Dotel.java.global-autoconfigure.enabled=true 
+HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@77616c33 
+HikariPool-1 - Start completed. 
+==>  Preparing: update books set stock = stock-1 where id=? and stock > 0 
+==> Parameters: 1(Integer) 
+<==    Updates: 0 
+[대여실패] {bookid=1, member=홍길동}[재고부족] 
+[2025-09-29 11:03:04 [대여신청] {bookid=1, member=홍길동} 
+[2025-09-29 11:03:04 HikariPool-1 - Starting... 
+[2025-09-29 11:03:04 AutoConfiguredOpenTelemetrySdk found on classpath but automatic configuration is disabled. To enable, run your JVM with -Dotel.java.global-autoconfigure.enabled=true 
+[2025-09-29 11:03:05 HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@767e81d9 
+[2025-09-29 11:03:05 HikariPool-1 - Start completed. 
+[2025-09-29 11:03:05 ==>  Preparing: update books set stock = stock-1 where id=? and stock > 0 
+[2025-09-29 11:03:05 ==> Parameters: 1(Integer) 
+[2025-09-29 11:03:05 <==    Updates: 0 
+[2025-09-29 11:03:05 [대여실패] {bookid=1, member=홍길동}[재고부족] 
+2025-09-29 11:03:32 [대여신청] {bookid=1, member=홍길동} 
+2025-09-29 11:03:32 HikariPool-1 - Starting... 
+2025-09-29 11:03:32 AutoConfiguredOpenTelemetrySdk found on classpath but automatic configuration is disabled. To enable, run your JVM with -Dotel.java.global-autoconfigure.enabled=true 
+2025-09-29 11:03:33 HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@54983634 
+2025-09-29 11:03:33 HikariPool-1 - Start completed. 
+2025-09-29 11:03:33 ==>  Preparing: update books set stock = stock-1 where id=? and stock > 0 
+2025-09-29 11:03:33 ==> Parameters: 1(Integer) 
+2025-09-29 11:03:33 <==    Updates: 0 
+2025-09-29 11:03:33 [대여실패] {bookid=1, member=홍길동}[재고부족] 
+2025-09-29 11:03:38 [대여신청] {bookid=1, member=홍길동} 
+2025-09-29 11:03:38 ==>  Preparing: update books set stock = stock-1 where id=? and stock > 0 
+2025-09-29 11:03:38 ==> Parameters: 1(Integer) 
+2025-09-29 11:03:38 <==    Updates: 0 
+2025-09-29 11:03:38 [대여실패] {bookid=1, member=홍길동}[재고부족] 
+2025-09-29 11:05:24 [대여신청] {bookid=1, member=홍길동} 
+2025-09-29 11:05:24 HikariPool-1 - Starting... 
+2025-09-29 11:05:24 AutoConfiguredOpenTelemetrySdk found on classpath but automatic configuration is disabled. To enable, run your JVM with -Dotel.java.global-autoconfigure.enabled=true 
+2025-09-29 11:05:24 HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@3cb46668 
+2025-09-29 11:05:24 HikariPool-1 - Start completed. 
+2025-09-29 11:05:24 ==>  Preparing: update books set stock = stock-1 where id=? and stock > 0 
+2025-09-29 11:05:24 ==> Parameters: 1(Integer) 
+2025-09-29 11:05:24 <==    Updates: 0 
+2025-09-29 11:05:24 [대여실패] {bookid=1, member=홍길동}[재고부족] 
