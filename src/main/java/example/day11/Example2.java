@@ -30,7 +30,7 @@ public class Example2 {
         // [4] stream() + filter() + 최종출력
         numbers.stream()                    // 스트림 시작
                 .filter( x -> x % 2 == 0 )  // 중간연산 : 짝수만
-                .forEach( x -> System.out.println("[4] filter+foreach : " + x )); // 최종출력
+                .forEach( x -> System.out.println("[4] filter+foreach : " + x ) ); // 최종출력
         // [5] stream() + sorted() + 최종출력 , 정렬
         numbers.stream()
                 //.sorted() // 기본값: 오름차순
@@ -43,8 +43,21 @@ public class Example2 {
         numbers.stream()
                 .limit( 5 )
                 .forEach( x -> System.out.println( x ));
+        // [8-1] stream() + reduce( 초기값 , ( 누적값, 현재값 ) -> 연산 )
+        int sum = numbers.stream().reduce( 0 , (누적값, 현재값 ) -> 누적값 + 현재값 );
+        System.out.println("[8] sum : " + sum );
 
+        // [8-2]
+        int product = numbers.stream().reduce( 1 , (a, b) -> a * b );
+        System.out.println("[8-2] product : " + product );
 
+        // [8-3]
+        int min = numbers.stream()
+                .reduce( Integer.MAX_VALUE , (앞전값, 현재값) -> 앞전값 < 현재값 ? 앞전값 : 현재값 );
+        System.out.println("[8-3] min : " + min );
+        int max = numbers.stream()
+                .reduce( 0 , ( a, b ) -> a > b ? a : b );
+        System.out.println("[8-4] max : " + max );
 
     } // main end
 } // class end
