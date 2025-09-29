@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="example.day12.query.QueryMapper2">
+<mapper namespace="example.day13.QueryMapper2">
 
     <!-- [1] 등록 -->
     <insert id="save" parameterType="map" useGeneratedKeys="true" keyProperty="sno">
@@ -17,7 +17,7 @@
     </select>
 
     <!-- [2] 전체조회 -->
-    <select id="findAll2" resultType="example.day12.query.StudentDto">
+    <select id="findAll2" resultType="example.day13.StudentDto">
         SELECT * FROM student
     </select>
 

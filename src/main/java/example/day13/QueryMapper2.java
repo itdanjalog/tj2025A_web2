@@ -1,9 +1,6 @@
-package example.day12.query;
+package example.day13;
 
-import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Options;
-import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 import java.util.Map;

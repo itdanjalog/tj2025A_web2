@@ -1,4 +1,4 @@
-package example.day12.query;
+package example.day13;
 
 
 import lombok.RequiredArgsConstructor;
@@ -9,19 +9,19 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/query2")
+@RequestMapping("/query")
 @RequiredArgsConstructor
-public class QueryController2 {
+public class QueryController {
 
-    private final QueryMapper2 queryMapper2;
+    private final QueryMapper queryMapper;
 
     // [1] 등록
-    @PostMapping("") // post , http://localhost:8080/query2  , { "name" : "유재석" , "kor" : "80" , "math" : "100" }
+    @PostMapping("") // post , http://localhost:8080/query  , { "name" : "유재석" , "kor" : "80" , "math" : "100" }
     public int save(@RequestBody HashMap< String , Object> map ){
         System.out.println("StudentController.save");
         System.out.println("map = " + map);
 
-        int result = queryMapper2.save( map );
+        int result = queryMapper.save( map );
         System.out.println("map = " + map);
 
         String sno = String.valueOf( map.get("sno") ) ;
@@ -29,18 +29,19 @@ public class QueryController2 {
         return snoSave;
     }
     // [2] 전체조회
-    @GetMapping("") // get , http://localhost:8080/query2
+    @GetMapping("") // get , http://localhost:8080/query
     public List< Map<String , Object > > findAll(){
         System.out.println("StudentController.findAll");
-        return queryMapper2.findAll();
+        return queryMapper.findAll();
     }
 
     // [2] 전체조회
-    @GetMapping("/dto") // get , http://localhost:8080/query2/dto
+    @GetMapping("/dto") // get , http://localhost:8080/query/dto
     public List<StudentDto> findAll2(){
         System.out.println("StudentController.findAll");
-        return queryMapper2.findAll2();
+        return queryMapper.findAll2();
     }
+
 
 //    // [3] 수정
 //    @PutMapping("") // put , http://localhost:8080/day05/students ,  {  "sno" : "1" ,  "kor" : "10" , "math" : "20" }
@@ -58,23 +59,23 @@ public class QueryController2 {
 //    }
 
     // [5] 특정 점수 이상 학생 조회
-    @GetMapping("/find") // get , http://localhost:8080/query2/find?minKor=80&minMath=80
+    @GetMapping("/find") // get , http://localhost:8080/query/find?minKor=80&minMath=80
     public List< Map<String,Object> > findStudentScores(
             @RequestParam int minKor ,
             @RequestParam int minMath ){
         System.out.println("StudentController.findStudentScores");
         System.out.println("minKor = " + minKor + ", minMath = " + minMath);
-        return queryMapper2.findStudentScores( minKor , minMath);
+        return queryMapper.findStudentScores( minKor , minMath);
     }
 
     // [6] 여러명의 학생 등록하기
     @PostMapping("/save")
-    // post , http://localhost:8080/query2/save
+    // post , http://localhost:8080/query/save
     // body : [ { "name" : "유재석" , "kor" : "100", "math" : "90" } ,{ "name" : "유재석2" , "kor" : "50", "math" : "40" } ]
     public int saveAll( @RequestBody List< Map< String,Object>> list ){
         System.out.println("StudentController.saveAll");
         System.out.println("list = " + list);
-        int result = queryMapper2.saveAll( list );
+        int result = queryMapper.saveAll( list );
         System.out.println("list = " + list);
         return result;
     }
@@ -88,14 +89,14 @@ public class QueryController2 {
 
 
     // [7] 정렬 + 제한 조회
-    @GetMapping("/findAll") // GET , http://localhost:8080/query2/findAll?orderBy=kor&limit=2
+    @GetMapping("/findAll") // GET , http://localhost:8080/query/findAll?orderBy=kor&limit=2
     public List<Map<String,Object>> findAllOrderByLimit(
             @RequestParam(required = false) String orderBy,
             @RequestParam(required = false, defaultValue = "10") int limit
     ) {
         System.out.println("StudentController.findAllOrderByLimit");
         System.out.println("orderBy = " + orderBy + ", limit = " + limit);
-        return queryMapper2.findAllOrderByLimit(orderBy, limit);
+        return queryMapper.findAllOrderByLimit(orderBy, limit);
     }
 
 }

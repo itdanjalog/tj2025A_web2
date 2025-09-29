@@ -1,4 +1,4 @@
-package example.day12.axios;
+package example.day12;
 
 import jakarta.servlet.http.HttpSession;
 import org.springframework.http.HttpStatus;
@@ -79,7 +79,7 @@ public class ApiController {
     }
 
     // 7. 로그아웃
-    @PostMapping("/logout")
+    @GetMapping("/logout")
     public ResponseEntity<Map<String, Object>> logout(HttpSession session) {
         session.invalidate(); // 세션 삭제
         Map<String, Object> result = new HashMap<>();

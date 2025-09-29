@@ -1,4 +1,4 @@
-package example.day12.axios;
+package example.day12;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
