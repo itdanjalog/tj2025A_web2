@@ -12,9 +12,23 @@ public class CorsConfig implements WebMvcConfigurer {
     public void addCorsMappings(CorsRegistry registry) {
 //        registry.addMapping("/허용할 컨트롤러 URL")           :  /** 모든컨트롤러
 //                .allowedOrigins("허용할 출처/도메인")         :   *  모든출처
-//                .allowedMethods("허용할 HTTP메소드");         :  *   모든메소드
-        registry.addMapping("/axios")
+//                .allowedMethods("허용할 HTTP메소드")         :  *   모든메소드
+//                .allowCredentials(true)                     : HTTP 인증( 세션 유지 ) 허용
+//                .allowedHeaders("*");                       : HTTP 헤더 정보 허용
+        registry.addMapping("/axios/**")
                 .allowedOrigins( "http://localhost:5173" , "http://localhost:5174" )
-                .allowedMethods("GET","POST","PUT","DELETE");
+                .allowedMethods("GET","POST","PUT","DELETE")
+                .allowCredentials(true)
+                .allowedHeaders("*");
     }
 }
+
+
+
+
+
+
+
+
+
+

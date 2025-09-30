@@ -10,23 +10,26 @@ export default function Component15(props){
             console.log( "[1] : " , data );
         }catch(e){ console.log( e ) }
     }
-    // [2] 로그인
+    // [2] 로그인 , axios.post( url , body , option )
     const axios2 = async()=>{
         try{
             const obj = { id : "qwe" , password : "1234"}
-            const response = await axios.post( "http://localhost:8080/axios/login" , obj )
+            const option = { withCredentials: true }
+            const response = await axios.post( "http://localhost:8080/axios/login" , obj , option);
             const data = response.data;
             console.log( "[2] : " , data );
         }catch(e){console.log(e)}
     }
-    // [3] 내정보
+    // [3] 내정보 , axios.get( url , option )
     const axios3 = async()=>{
         try{
-            const response = await axios.get( "http://localhost:8080/axios/info" );
+            const option = { withCredentials: true }
+            const response = await axios.get( "http://localhost:8080/axios/info" , option  );
             const data = response.data;
             console.log( "[3] : " , data );
         }catch(e){console.log(e)}
     }
+
     return(<>
         <h5> AXIOS 테스트 </h5>
         <button onClick={ axios1 }> axios1 </button>
