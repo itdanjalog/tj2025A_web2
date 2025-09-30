@@ -2,6 +2,7 @@ package example.day12;
 
 import jakarta.servlet.http.HttpSession;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Map;
 
@@ -30,6 +31,21 @@ public class AxiosController {
         Object object = session.getAttribute("loginId");
         if( object == null ) return false; // 비로그인중
         return true; // 로그인중
+    }
+    // [4]
+    @PostMapping("/form")
+    public boolean axios4( @RequestParam Map<String,String> map ){
+        System.out.println("AxiosController.axios4");
+        System.out.println("map = " + map);
+        return true;
+    }
+
+    // [5]
+    @PostMapping("/formdata")
+    public boolean axios5( @RequestParam MultipartFile file ){
+        System.out.println("AxiosController.axios5"); // soutm
+        System.out.println("file = " + file); // soutp
+        return true;
     }
 }
 
