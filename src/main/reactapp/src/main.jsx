@@ -105,5 +105,9 @@ import Task6 from './example/day04/Task6.jsx'
 // );
 
 // day07
-import Component14 from './example/day07/Component14.jsx'
-create.render( <Component14 /> );
+//import Component14 from './example/day07/Component14.jsx'
+//create.render( <Component14 /> );
+
+// day08
+import Component15 from './example/day08/Component15.jsx'
+create.render( <Component15 /> );
