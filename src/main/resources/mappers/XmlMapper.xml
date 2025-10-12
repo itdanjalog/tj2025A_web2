@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="example.day13.XmlMapper">
+
+    <!-- [1] 등록 -->
+    <insert id="save" parameterType="example.day13.StudentDto" useGeneratedKeys="true" keyProperty="sno">
+        INSERT INTO student(name, kor, math)
+        VALUES (#{name}, #{kor}, #{math})
+    </insert>
+
+    <!-- [2] 전체조회 -->
+    <select id="findAll" resultType="example.day13.StudentDto">
+        SELECT * FROM student
+    </select>
+
+    <!-- [5] 특정 점수 이상 조회 -->
+    <select id="findStudentScores" resultType="example.day13.StudentDto">
+        SELECT * FROM student
+        WHERE 1=1
+        <if test="minKor != null">
+            AND kor >= #{minKor}
+        </if>
+        <if test="minMath != null">
+            AND math >= #{minMath}
+        </if>
+    </select>
+
+    <!-- [6] 여러명 등록 -->
+    <insert id="saveAll" parameterType="list"  useGeneratedKeys="true" keyProperty="sno">
+        INSERT INTO student(name, kor, math)
+        VALUES
+        <foreach collection="list" item="student" separator=",">
+            (#{student.name}, #{student.kor}, #{student.math})
+        </foreach>
+    </insert>
+
+    <!-- [7] 정렬 + 제한 조회 -->
+    <select id="findAllOrderByLimit" resultType="example.day13.StudentDto">
+        SELECT * FROM student
+        <if test="orderBy != null">
+            ORDER BY ${orderBy} DESC
+        </if>
+        <if test="limit != null">
+            LIMIT #{limit}
+        </if>
+    </select>
+
+</mapper>
