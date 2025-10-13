@@ -1,5 +1,78 @@
-DDL : ALTER
-제약조건 수정
+
+[ 데이터 정의어(DDL) : ALTER TABLE & 제약조건 문법 정리 ]
+
+[1] ALTER TABLE : 테이블의 구조를 변경할 때 사용하는 명령어
+1. 컬럼 추가
+    alter table 테이블명 add column 컬럼명 데이터타입 [제약조건];
+    - 테이블에 새로운 컬럼(속성)을 추가한다.
+    - 여러 컬럼을 동시에 추가할 수 있다.
+    예) alter table employee add column age int;
+
+```
+2. 컬럼 수정 (데이터 타입 변경)
+    alter table 테이블명 modify column 컬럼명 새로운데이터타입;
+    - 컬럼의 데이터 타입 또는 제약조건을 변경한다.
+    예) alter table employee modify column salary bigint;
+
+3. 컬럼 이름 변경
+    alter table 테이블명 change column 기존컬럼명 새컬럼명 데이터타입;
+    - 컬럼 이름을 바꾸면서 데이터타입도 함께 지정해야 한다.
+    예) alter table employee change column name nickname varchar(100);
+
+4. 컬럼 삭제
+    alter table 테이블명 drop column 컬럼명;
+    - 테이블에서 불필요한 컬럼을 제거한다.
+    예) alter table employee drop column phone;
+
+5. 기본키(primary key) 추가
+    alter table 테이블명 add constraint 제약명 primary key(컬럼명);
+    - 특정 컬럼을 기본키로 지정한다.
+    - 기본키는 중복과 null을 허용하지 않는다.
+    예) alter table employee add constraint pk_employee primary key(id);
+
+    5-2. 외래키(foreign key) 추가
+    alter table 테이블명 add constraint 제약명 foreign key(컬럼명) references 참조테이블명(참조컬럼명);
+    - 다른 테이블의 기본키(PK)를 참조하는 제약조건.
+    - 두 테이블 간의 관계를 설정할 때 사용된다.
+    - 외래키는 참조 무결성을 유지한다. (부모 테이블의 데이터가 삭제되면 오류 발생)
+    - 외래키 컬럼의 타입은 참조하는 PK 컬럼의 타입과 동일해야 한다.
+    예) alter table orders add constraint fk_order_emp foreign key(emp_id) references employee(id);
+
+
+6. 고유(unique) 제약조건 추가
+    alter table 테이블명 add constraint 제약명 unique(컬럼명);
+    - 해당 컬럼에 중복 값을 허용하지 않는다.
+    예) alter table employee add constraint uq_dept unique(dept);
+
+7. 조건(check) 제약조건 추가
+    alter table 테이블명 add constraint 제약명 check(조건식);
+    - 특정 컬럼의 값이 조건식에 맞을 때만 데이터 삽입 가능.
+    예) alter table employee add constraint chk_age check(age >= 19);
+
+8. 제약조건 삭제
+    alter table 테이블명 drop constraint 제약명;
+    - 기존에 설정된 제약조건을 제거한다.
+    예) alter table employee drop constraint chk_salary;
+
+9. 제약조건 확인
+    select * from information_schema.table_constraints
+    where table_schema = '데이터베이스명' and table_name = '테이블명';
+    - 현재 테이블에 걸린 모든 제약조건 목록을 조회한다.
+```
+
+[3] INFORMATION_SCHEMA
+- MySQL 내부의 시스템 테이블
+- 데이터베이스, 테이블, 컬럼, 제약조건 등 메타데이터 관리용
+- 주요 테이블: TABLES, COLUMNS, TABLE_CONSTRAINTS 등
+
+---
+
+[4] ALTER TABLE 사용 시 주의사항
+1. DDL 명령어는 자동 커밋(auto commit)된다.
+2. 제약조건 이름은 중복 불가.
+3. check 제약조건은 MySQL 8.0 이상부터 완전 지원.
+4. ALTER 명령은 구조 자체를 바꾸므로 실서버에서는 신중하게 실행해야 한다.
+
 
 SubQuery
 
