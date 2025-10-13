@@ -31,6 +31,33 @@ public interface XmlMapper {
     // # 5. 개별 학생 수정
     int update( StudentDto studentDto );
 
+    //========== 동적쿼리 , 일반SQL코드를 프로그래밍 SQL로 변경 : <if> <forEach> 등등 ==========
+    // # 6. 특정한 국어점수 보다 이상인 학생 조회
+    // 방법1 : @어노테이션( """<script> XML형식의SQL </script> """)
+    @Select("""
+            <script>
+                select * from student where 1=1
+                <if test="kor != null">
+                    and kor >= #{ kor }
+                </if>
+            </script>
+            """)
+    // """ """ : java15 이상부터 """ 템플릿 지원 , +연산자처럼 문자열 연결
+    // where 1=1 : 무조건 true 만들기 위한 강제 참true
+        // 생략시 , select * from student where and kor >= 90 으로 문제 발생한다.
+        // 대체 : <where> 마크업 제공한다.
+    // <if test="조건식"> 참일경우 SQL </if>
+    StudentDto query1( int kor );
+
+    // 방법2 : XML
+    StudentDto query2( int kor );
+
+    // [7] 이름(포함된) 또는 수학점수(이상) 로 검색
+    StudentDto query3( String name , int math );
+
+    // [8] 여러개 학생 등록
+    int saveAll( List<StudentDto> dtos );
+
 } // i end
 
 

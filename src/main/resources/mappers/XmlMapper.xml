@@ -39,6 +39,45 @@
         UPDATE student SET kor = #{ kor } , math = #{ math } WHERE sno = #{ sno }
     </update>
 
+    <!-- [6] IF 동적쿼리 1 -->
+    <select id="query2"
+            parameterType="int"
+            resultType="example.day13.StudentDto" >
+        select * from student where 1=1
+            <if test="kor != null">
+                and kor >= #{ kor }
+            </if>
+    </select>
+
+    <!-- [7] IF 동적쿼리2 : parameterType 2개 이상일때 dto묶는다 또는 생략 -->
+    <select id="query3"
+            resultType="example.day13.StudentDto">
+        select * from student
+            <where>
+                <!-- 만약에 name값이 비어있지 않으면 조회 -->
+                <if test="name != null">
+                    and name like concat( '%' , #{name}  ,'%' )
+                </if>
+                <!-- 만약에 math값이 0이 아니면 조회 -->
+                <if test="math != 0 ">
+                    and math >= #{math}
+                </if>
+            </where>
+    </select>
+    <!-- 필드명 like %값% : 필드내 값이 포한된 레코드 조회 -->
+    <!-- concat( 문자열,문자열 ) : 문자열 연결함수 -->
+
+    <!-- [8] foreach 동적쿼리 -->
+    <insert id="saveAll"
+        parameterType="list"
+        useGeneratedKeys="true"  keyProperty="sno">
+        insert into student(name,kor,math) values
+            <foreach collection="list" item="s" separator=",">
+                ( #{ s.name }, #{ s.kor }, #{ s.math } );
+            </foreach>
+    </insert>
+    <!-- foreach collection="list" item="반복변수명(아무거나)" separator="반복SQL구분문자" -->
+
 </mapper>   <!-- mapper 끝 -->
 
 
