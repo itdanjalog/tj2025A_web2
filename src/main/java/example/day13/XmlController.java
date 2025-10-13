@@ -18,8 +18,10 @@ public class XmlController {
     @PostMapping("") // http://localhost:8080/xml
     public ResponseEntity< ? > save(@RequestBody StudentDto dto ){
         // < ? > : 제네릭타입에 ? 넣으면 모든 타입을 지칭 한다. 와일드카드
-        xmlMapper.save( dto );
-        return ResponseEntity.ok( true ); // 제네릭 ? 이므로 모든 자료가 대입된다.
+        System.out.println("dto = " + dto); // soutp , save 실행전 , sno 없다
+        xmlMapper.save( dto );     // ========== SQL 실행 =========
+        System.out.println("dto = " + dto); // soutp , save 실행후 , sno 있다.
+        return ResponseEntity.ok( dto ); // 제네릭 ? 이므로 모든 자료가 대입된다.
     }
 
     // # 2. 전체조회
