@@ -7,7 +7,6 @@ import java.util.List;
 
 @Mapper
 public interface XmlMapper {
-
     // # 1. 등록
     // Mybatis 에서 SQL 매핑하는 방법
     // 방법1 : 추상메소드 위에 @Insert("SQL") 작성, 간단한 SQL CRUD 권장
@@ -17,6 +16,14 @@ public interface XmlMapper {
     // # 2. 전체조회
     List<StudentDto> findAll();
 
+    // # 3. 개별 학생 조회
+    StudentDto find( int sno );
+
+    // # 4. 개별 학생 삭제
+    int delete ( int sno );
+
+    // # 5. 개별 학생 수정
+    int update( StudentDto studentDto );
 
 } // i end
 

@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/xml")
@@ -27,6 +28,27 @@ public class XmlController {
         List< StudentDto > result = xmlMapper.findAll();
         return ResponseEntity.ok( result );
     }
+
+    // 3. 개별 학생 조회
+    @GetMapping("/find") // http://localhost:8080/xml/find?sno=1
+    public ResponseEntity<?> find( @RequestParam int sno ){
+        StudentDto result = xmlMapper.find( sno );
+        return ResponseEntity.ok( result );
+    }
+    // 4. 개별 학생 삭제
+    @DeleteMapping("")  // http://localhost:8080/xml?sno=1
+    public ResponseEntity< ? > delete(  @RequestParam int sno ){
+        int result = xmlMapper.delete( sno );
+        return ResponseEntity.ok( result );
+    }
+    // 5. 개별 학생 (kor/math) 수정
+    @PutMapping("") // http://localhost:8080/xml
+    // body : { "sno" : "2 " , "kor" : "100" , "math" : "100" }
+    public ResponseEntity<?> update( @RequestBody StudentDto studentDto ){
+        int result = xmlMapper.update( studentDto );
+        return ResponseEntity.ok( result ); // ok == 200
+    }
+
 
 } // class end
 

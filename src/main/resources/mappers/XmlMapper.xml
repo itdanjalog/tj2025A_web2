@@ -7,7 +7,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- XML 파일내 mybatis 라이브러리 설정 -->
 
-<!-- xml과 매핑할 인터페이스 설정 , [src] 이하 경로 지정  -->
+<!-- xml과 매핑할 인터페이스 설정 , [src->java] 이하 경로 지정  -->
 <!-- <mapper namespace="매핑할 인터페이스 파일경로"> -->
 <mapper namespace="example.day13.XmlMapper">    <!-- mapper 시작 -->
 
@@ -23,6 +23,21 @@
     <select id="findAll" resultType="example.day13.StudentDto">
         SELECT * FROM student;
     </select>
+
+    <!-- [3] 개별조회 -->
+    <select id="find" parameterType="int" resultType="example.day13.StudentDto">
+        SELECT * FROM student WHERE sno = #{ sno };
+    </select>
+
+    <!-- [4] 개별삭제 : 반환타입 설정하지않고 int 일경우에는 자동으로 삭제/수정/삽입 된 레코드수 반환 -->
+    <delete id="delete" parameterType="int" >
+        DELETE FROM student WHERE sno = #{ sno };
+    </delete>
+
+    <!-- [5] 개별수정 : -->
+    <update id="update" parameterType="example.day13.StudentDto">
+        UPDATE student SET kor = #{ kor } , math = #{ math } WHERE sno = #{ sno }
+    </update>
 
 </mapper>   <!-- mapper 끝 -->
 
