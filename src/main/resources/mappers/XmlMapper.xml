@@ -73,7 +73,7 @@
         useGeneratedKeys="true"  keyProperty="sno">
         insert into student(name,kor,math) values
             <foreach collection="list" item="s" separator=",">
-                ( #{ s.name }, #{ s.kor }, #{ s.math } );
+                ( #{ s.name }, #{ s.kor }, #{ s.math } )
             </foreach>
     </insert>
     <!-- foreach collection="list" item="반복변수명(아무거나)" separator="반복SQL구분문자" -->

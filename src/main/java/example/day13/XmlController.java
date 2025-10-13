@@ -51,6 +51,42 @@ public class XmlController {
         return ResponseEntity.ok( result ); // ok == 200
     }
 
+    // ------------------------------------------------------------
+    // # 6. [query1] 국어 점수 기준으로 조회
+    // 예) GET http://localhost:8080/xml/query1?kor=80
+    @GetMapping("/query1")
+    public ResponseEntity<?> query1(@RequestParam int kor) {
+        List<StudentDto> result = xmlMapper.query1(kor);
+        return ResponseEntity.ok(result);
+    }
+
+    // # 7. [query2] XML로 정의된 동일한 조회
+    // 예) GET http://localhost:8080/xml/query2?kor=90
+    @GetMapping("/query2")
+    public ResponseEntity<?> query2(@RequestParam int kor) {
+        List<StudentDto> result = xmlMapper.query2(kor);
+        return ResponseEntity.ok(result);
+    }
+
+    // # 8. [query3] 이름(포함된) 또는 수학점수 이상 검색
+    // 예) GET http://localhost:8080/xml/query3?name=유&math=80
+    @GetMapping("/query3")
+    public ResponseEntity<?> query3(@RequestParam(required = false) String name,
+                                    @RequestParam(defaultValue = "0") int math) {
+        List<StudentDto> result = xmlMapper.query3(name, math);
+        return ResponseEntity.ok(result);
+    }
+
+    // # 9. [saveAll] 여러 명 등록
+    // 예) POST http://localhost:8080/xml/saveAll
+    // body: [ {"name":"유재석","kor":90,"math":80}, {"name":"강호동","kor":85,"math":75} ]
+    @PostMapping("/saveAll")
+    public ResponseEntity<?> saveAll(@RequestBody List<StudentDto> dtos) {
+        int result = xmlMapper.saveAll(dtos);
+        return ResponseEntity.ok(result);
+    }
+
+
 
 } // class end
 

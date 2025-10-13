@@ -47,13 +47,13 @@ public interface XmlMapper {
         // 생략시 , select * from student where and kor >= 90 으로 문제 발생한다.
         // 대체 : <where> 마크업 제공한다.
     // <if test="조건식"> 참일경우 SQL </if>
-    StudentDto query1( int kor );
+    List<StudentDto> query1( int kor );
 
     // 방법2 : XML
-    StudentDto query2( int kor );
+    List<StudentDto> query2( int kor );
 
     // [7] 이름(포함된) 또는 수학점수(이상) 로 검색
-    StudentDto query3( String name , int math );
+    List<StudentDto> query3( String name , int math );
 
     // [8] 여러개 학생 등록
     int saveAll( List<StudentDto> dtos );
