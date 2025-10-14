@@ -22,18 +22,91 @@
 [ MyBatis 사용법 ]
     1. 인터페이스 생성한다.
     2. 인터페이스 위에 @Mapper 주입한다.
-    3. SQL DML 어노테이션 사용한다.
+    ------------------------------------
+    방법1) SQL DML 어노테이션 사용한다.
         INSERT : @Insert("SQL작성")
         SELECT : @Select("SQL작성")
         DELETE : @Delete("SQL작성")
         UPDATE : @Update("SQL작성")
-    4. SQL 문법내 매개변수는 #{ 매개변수 } 표현
-    5. 추상메소드 선언
-        매개변수 : SQL 문법내 매개변수 #{ }
-        반환타입 : SQL 결과 매핑
-            int : insert/update/delete 처리된 레코드 수 반환
-            Map/Dto/List : select 조회 결과 레코드 자료들을 반환
-        *주의할점 : 매핑할 레코드의 컬럼명과 자바의 속성명은 일치해야한다.
+        1) SQL 문법내 매개변수는 #{ 매개변수 } 표현
+        2) 추상메소드 선언
+            매개변수 : SQL 문법내 매개변수 #{ }
+            반환타입 : SQL 결과 매핑
+                int : insert/update/delete 처리된 레코드 수 반환
+                Map/Dto/List : select 조회 결과 레코드 자료들을 자바 타입으로 (자동)반환
+            *주의할점 : 매핑할 레코드의 컬럼명과 자바의 속성명은 일치해야한다.
+        3) 생성된 PK값 매핑
+            @Options( useGeneratedKeys = true , keyProperty = "PK속성명" )
+
+    방법2) SQL DML XML(마크업언어) 파일로 사용한다.
+        1) application.properties 설정 , * : 와일드카드(모든파일명 지칭)
+            mybatis.mapper-locations=classpath:/폴더명/파일명.xml
+        2) 설정한 폴더내 .xml 파일 생성한다.
+        3) XML 파일 상단 기본 구조
+            <?xml version="1.0" encoding="UTF-8" ?>
+            <!DOCTYPE mapper
+                    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+                    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        4) 개발자 만든 매퍼 인터페이스 연동 , 폴더명은 [src->main->java] 폴더 이하 경로
+            <mapper namespace="폴더명.인터페이스명">
+            </mapper>
+        5) <mapper> 마크업 사이에 SQL 마크업 사용한다
+            <insert> SQL </insert>
+            <select> SQL </select>
+            <update> SQL </update>
+            <delete> SQL </delete>
+        6) SQL 마크업의 매개변수타입, 반환타입 설정 , PK값반환
+            <SQL마크업명
+                id="매핑할추상메소드명"
+                parameterType="매개변수타입" resultType="반환타입"
+                useGeneratedKeys = true keyProperty = "PK속성명" >
+                #{ 매개변수 }
+            </SQL마크업명>
+            - id : <mapper> 마크업에서 매핑중인 인터페이스내 추상메소드명(동일하게/복붙)
+            - parameterType : 전달받은 데이터 타입
+            - resultType : 반환될 데이터 타입
+            - #{ } : SQL 내부에서 자바 변수값 대입
+
+[ myBatis 동적쿼리 ]
+    1. 정의 : SQL 실행 시점에서 mybatis 에서 제공하는 문법이 SQL에 구성하는 방법
+    2. 사용법 : XML 에서 사용할때 동적쿼리 바로 사용 또는 @어노테이션 에서 사용할때는 """<script> </script>"""
+    3. 종류 : <if> <where> <foreach> 등등
+        1. <if test = "조건식">
+                조건식이 참일때 SQL
+            </if>
+        2. <foreach collection="매개변수명(list)" item="반복변수명" separator="반복사이문자">
+                반복할 SQL문 , #{ 반복변수명.속성명 }
+            </foreach>
+        3. where 1=1 또는 <where> : 다음 조건의 결과을 이어서 붙이기 위해 사용된다. 주로 조건에 따른 and/or
+
+[ 스프링 SQL 자동 실행 파일 ]
+    1. resource 폴더 아래 2개 SQL 파일 작성
+        1) schema.sql : DDL SQL , 주로 drop/create
+            - 테이블 생성/삭제 코드 작성
+            - 데이터베이스 생성/삭제 안된다.
+            - 서버 실행 시 자동 실행되므로 DROP TABLE 먼저 작성한다.
+            - *관계참고* 일때는 FK 테이블 먼저 DROP 한다.
+        2) data.sql : DML SQL , 주로 insert
+            - 샘플 데이터 코드 작성
+    2. application.properties 설정
+        1) spring.sql.init.mode = always (항상실행:개발단계) 또는 never( 실행않됨:운영단계 )
+        2) spring.sql.init.schema-locations=classpath:/폴더명/schema.sql
+        3) spring.sql.init.data-locations=classpath:/폴더명/data.sql
+        * classpath : [resource] 폴더이하 경로
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
