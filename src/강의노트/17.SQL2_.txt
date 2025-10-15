@@ -18,3 +18,38 @@
 [ SUBQUERY ]
     - SELECT 안의 SELECT
     - 사용법 : SELECT (SELECT) FROM (SELECT) WHERE (SELECT)
+
+
+[ TRANSACTION : 트랜잭션 ]
+    정의: 여러 SQL 작업을 하나의 단위(묶음)로 처리하여 모두 성공 시 COMMIT, 하나라도 실패 시 ROLLBACK 하는 기능.
+    명령어 정리:
+        START TRANSACTION;           -- 트랜잭션 시작
+        COMMIT;                      -- 성공 시 확정
+        ROLLBACK;                    -- 실패 시 취소
+        SAVEPOINT point1;             -- 특정 지점 저장
+        ROLLBACK TO point1;           -- 해당 지점까지 복원
+        SET autocommit = 0;           -- 자동 커밋 해제 (수동 모드)
+
+    주의사항:
+        COMMIT 또는 ROLLBACK을 수행하면 트랜잭션이 종료된다.
+        트랜잭션은 데이터 무결성과 안정성을 보장하기 위한 핵심 기능이다.
+        💡 예시: 은행 계좌 이체처럼 “A 계좌 출금”과 “B 계좌 입금”을 함께 처리해야 하는 경우에 유용하다.
+
+[ VIEW : 가상 테이블 ]
+    정의: 실제 데이터를 저장하지 않고, SELECT 쿼리 결과를 이름으로 저장한 가상 테이블.
+    기본 명령어:
+        CREATE [OR REPLACE] VIEW 뷰명 AS SELECT문;   -- 뷰 생성
+        SELECT * FROM 뷰명;                         -- 뷰 조회
+        ALTER VIEW 뷰명 AS SELECT문;                -- 뷰 수정
+        DROP VIEW IF EXISTS 뷰명;                   -- 뷰 삭제
+        SHOW FULL TABLES WHERE TABLE_TYPE='VIEW';   -- 뷰 목록 확인
+    장점:
+        SQL 문 간결화 및 재사용 가능
+        보안 강화 (민감한 컬럼 숨김 가능)
+        복잡한 쿼리의 결과를 재활용 가능
+    단점:
+        복잡한 뷰(집계, 조인 등)는 성능 저하 가능
+        일부 뷰는 수정 불가능 (읽기 전용)
+    수정 가능한 뷰: 단일 테이블 기반, 집계/함수/조인 없는 경우만 가능
+    읽기 전용 뷰: JOIN, GROUP BY, 집계 함수 포함 시 자동으로 읽기 전용
+    💡 TIP: VIEW는 실무에서 권한 분리 및 공용 쿼리 재사용에 자주 활용된다.

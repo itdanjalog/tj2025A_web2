@@ -1,0 +1,48 @@
+day93 SPRING WEB2 ] 실습6 : 도서 VIEW 생성 및 조회 기능 XML 만들기
+
+[ 조건1 ] 반드시 XML 파일 이용하여 SQL 작성
+
+[ 조건2 ] MyBatis XML 에서 직접 VIEW 생성 기능 3개
+    1. view_book_summary	도서 요약뷰 (도서ID, 제목, 재고, 가격)
+    2. view_rental_detail	대출 상세뷰 (책 + 대출기록 JOIN)
+    3. view_stock_high	    재고 많은 도서뷰 (평균보다 많은 재고)
+
+[ 조건3 ] 생성된 VIEW 조회 기능 3개
+    1. 도서 요약뷰 조회
+    2. 대출 상세뷰 조회
+    3. 평균 재고보다 많은 도서 조회
+
+[ 조건4 ] 실습3/4 과 동일 한 샘플 SQL
+    -- 1. 책 테이블
+    CREATE TABLE books (
+        id INT NOT NULL AUTO_INCREMENT ,    -- 도서번호
+        title VARCHAR(255) NOT NULL,        -- 도서 명
+        stock INT NOT NULL DEFAULT 0,       -- 도서 재고
+        PRIMARY KEY (id)
+    );
+
+    -- 2. 대출 기록 테이블
+    CREATE TABLE rentals (
+        id INT NOT NULL AUTO_INCREMENT ,            -- 대출기록 번호
+        book_id INT NOT NULL,                       -- **참조**하는 도서번호
+        member VARCHAR(100) NOT NULL,               -- 대출 한 사람
+        rent_date DATETIME DEFAULT NOW(),           -- 대출 일
+        return_date DATETIME NULL, -- 반납 일
+        PRIMARY KEY (id),
+        FOREIGN KEY (book_id) REFERENCES books(id)
+    );
+
+    -- 3. 샘플 데이터 (책 목록)
+    INSERT INTO books (id, title, stock) VALUES (1, '자바의 정석', 3);
+    INSERT INTO books (id, title, stock) VALUES (2, '스프링 인 액션', 2);
+    INSERT INTO books (id, title, stock) VALUES (3, '토비의 스프링', 1);
+    INSERT INTO books (id, title, stock) VALUES (4, '리액트 교과서', 5);
+
+    -- 4. 샘플 데이터 (대출 기록)
+    INSERT INTO rentals (id, book_id, member) VALUES (1, 1, '홍길동');
+
+    -- 5. 확인용 조회 쿼리
+    SELECT * FROM books;
+    SELECT * FROM rentals;
+
+[ 제출방법 ] 코드가 작성된 파일이 위치한 GitHub 상세 주소를 제출하시오.
