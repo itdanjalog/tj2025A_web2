@@ -23,3 +23,17 @@ SELECT NAME, DATETIME FROM ANIMAL_INS ORDER BY ANIMAL_ID DESC;
 
 4. [SELECT] 대장균들의 자식의 수 구하기 ( subquery )
 https://school.programmers.co.kr/learn/courses/30/lessons/299305
+-- 대장균 개체의 ID(ID)와 자식의 수(CHILD_COUNT)를 출력하는 SQL 문을 작성해주세요.
+-- 자식이 없다면 자식의 수는 0으로 출력해주세요. 이때 결과는 개체의 ID 에 대해 오름차순 정렬해주세요.
+-- (1) 조회 : 대장균 개체의 ID , 자식의 수
+-- (2) 정렬 : 개체의 ID , ASC
+-- SELECT ID FROM ECOLI_DATA ORDER BY ID ASC;
+-- (3) 자식의 수 : COUNT(*)
+-- SELECT COUNT(*) FROM ECOLI_DATA; -- 전체 레코드수
+-- SELECT COUNT(*) FROM ECOLI_DATA WHERE PARENT_ID == 현재조회중인자식ID
+-- (SUBQUERY)
+SELECT ED.ID , ( SELECT COUNT(*) FROM ECOLI_DATA WHERE PARENT_ID = ED.ID ) AS CHILD_COUNT
+FROM ECOLI_DATA ED
+ORDER BY ED.ID ASC;
+
+
