@@ -1,0 +1,20 @@
+[ ALTER ]
+    - 기존 테이블의 구조 변경
+    - 사용법
+        추가 : ALTER TABLE 테이블명 ADD COLUMN 새로운필드명 타입;
+        타입수정 : ALTER TABLE 테이블명 MODIFY COLUMN 수정할필드명 새로운타입;
+        필드명수정 : ALTER TABLE 테이블명 CHANGE COLUMN 기존필드명 새로운필드명 타입;
+        삭제 : ALTER TABLE 테이블명 DROP COLUMN 삭제할필드명;
+        제약조건추가
+            ALTER TABLE 테이블명 ADD CONSTRAINT 제약조건명 PRIMARY KEY(PK필드명);
+            ALTER TABLE 테이블명 ADD CONSTRAINT 제약조건명 FOREIGN KEY(FK필드명) REFERENCES 참조테이블명(PK필드명);
+            ALTER TABLE 테이블명 ADD CONSTRAINT 제약조건명 제약조건(필드명);
+        제약조건삭제
+            ALTER TABLE 테이블명 DROP PRIMARY KEY
+            ALTER TABLE 테이블명 DROP FOREIGN KEY 삭제할제약조건명;
+            ALTER TABLE 테이블명 DORP CONSTRAINT 삭제할제약조건명;
+        필드 확인 : SHOW COLUMNS FROM 테이블명;
+        제약조건 확인 : SELECT * FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS;
+[ SUBQUERY ]
+    - SELECT 안의 SELECT
+    - 사용법 : SELECT (SELECT) FROM (SELECT) WHERE (SELECT)
