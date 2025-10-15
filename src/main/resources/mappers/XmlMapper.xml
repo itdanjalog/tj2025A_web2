@@ -1,51 +1,89 @@
 <?xml version="1.0" encoding="UTF-8" ?>
+<!-- XML 이란? 마크업 이용한 데이터 저장(설정)/전달(매핑)/교환(API) 마크업언어 -->
+<!-- HTML : 마크업 이용한 웹페이지 마크업언어 -->
+
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- XML 파일내 mybatis 라이브러리 설정 -->
 
-<mapper namespace="example.day13.XmlMapper">
+<!-- xml과 매핑할 인터페이스 설정 , [src->java] 이하 경로 지정  -->
+<!-- <mapper namespace="매핑할 인터페이스 파일경로"> -->
+<mapper namespace="example.day13.XmlMapper">    <!-- mapper 시작 -->
 
     <!-- [1] 등록 -->
+    <!-- <insert id="추상메소드명" parameterType="매개변수타입(클래스) 파일경로" > -->
     <insert id="save" parameterType="example.day13.StudentDto" useGeneratedKeys="true" keyProperty="sno">
         INSERT INTO student(name, kor, math)
-        VALUES (#{name}, #{kor}, #{math})
+        VALUES( #{name} , #{kor}, #{math} );
     </insert>
 
     <!-- [2] 전체조회 -->
+    <!-- <select id="추상메소드명" resultType="반환타입 파일경로"> -->
     <select id="findAll" resultType="example.day13.StudentDto">
-        SELECT * FROM student
+        SELECT * FROM student;
     </select>
 
-    <!-- [5] 특정 점수 이상 조회 -->
-    <select id="findStudentScores" resultType="example.day13.StudentDto">
-        SELECT * FROM student
-        WHERE 1=1
-        <if test="minKor != null">
-            AND kor >= #{minKor}
-        </if>
-        <if test="minMath != null">
-            AND math >= #{minMath}
-        </if>
+    <!-- [3] 개별조회 -->
+    <select id="find" parameterType="int" resultType="example.day13.StudentDto">
+        SELECT * FROM student WHERE sno = #{ sno };
     </select>
 
-    <!-- [6] 여러명 등록 -->
-    <insert id="saveAll" parameterType="list"  useGeneratedKeys="true" keyProperty="sno">
-        INSERT INTO student(name, kor, math)
-        VALUES
-        <foreach collection="list" item="student" separator=",">
-            (#{student.name}, #{student.kor}, #{student.math})
-        </foreach>
+    <!-- [4] 개별삭제 : 반환타입 설정하지않고 int 일경우에는 자동으로 삭제/수정/삽입 된 레코드수 반환 -->
+    <delete id="delete" parameterType="int" >
+        DELETE FROM student WHERE sno = #{ sno };
+    </delete>
+
+    <!-- [5] 개별수정 : -->
+    <update id="update" parameterType="example.day13.StudentDto">
+        UPDATE student SET kor = #{ kor } , math = #{ math } WHERE sno = #{ sno }
+    </update>
+
+    <!-- [6] IF 동적쿼리 1 -->
+    <select id="query2"
+            parameterType="int"
+            resultType="example.day13.StudentDto" >
+        select * from student where 1=1
+            <if test="kor != null">
+                and kor >= #{ kor }
+            </if>
+    </select>
+
+    <!-- [7] IF 동적쿼리2 : parameterType 2개 이상일때 dto묶는다 또는 생략 -->
+    <select id="query3"
+            resultType="example.day13.StudentDto">
+        select * from student
+            <where>
+                <!-- 만약에 name값이 비어있지 않으면 조회 -->
+                <if test="name != null">
+                    and name like concat( '%' , #{name}  ,'%' )
+                </if>
+                <!-- 만약에 math값이 0이 아니면 조회 -->
+                <if test="math != 0 ">
+                    and math >= #{math}
+                </if>
+            </where>
+    </select>
+    <!-- 필드명 like %값% : 필드내 값이 포한된 레코드 조회 -->
+    <!-- concat( 문자열,문자열 ) : 문자열 연결함수 -->
+
+    <!-- [8] foreach 동적쿼리 -->
+    <insert id="saveAll"
+        parameterType="list"
+        useGeneratedKeys="true"  keyProperty="sno">
+        insert into student(name,kor,math) values
+            <foreach collection="list" item="s" separator=",">
+                ( #{ s.name }, #{ s.kor }, #{ s.math } )
+            </foreach>
     </insert>
+    <!-- foreach collection="list" item="반복변수명(아무거나)" separator="반복SQL구분문자" -->
 
-    <!-- [7] 정렬 + 제한 조회 -->
-    <select id="findAllOrderByLimit" resultType="example.day13.StudentDto">
-        SELECT * FROM student
-        <if test="orderBy != null">
-            ORDER BY ${orderBy} DESC
-        </if>
-        <if test="limit != null">
-            LIMIT #{limit}
-        </if>
-    </select>
+</mapper>   <!-- mapper 끝 -->
 
-</mapper>
+
+
+
+
+
+
+

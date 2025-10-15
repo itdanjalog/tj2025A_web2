@@ -1,11 +1,9 @@
 package example.day13;
 
-
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -13,86 +11,88 @@ import java.util.Map;
 @RequestMapping("/xml")
 @RequiredArgsConstructor
 public class XmlController {
-
+    // #
     private final XmlMapper xmlMapper;
 
-    // [1] 등록
-    @PostMapping("") // post , http://localhost:8080/xml  , { "name" : "유재석" , "kor" : "80" , "math" : "100" }
-    public ResponseEntity<?> save(@RequestBody StudentDto map ){
-        System.out.println("StudentController.save");
-        System.out.println("map = " + map);
-
-        xmlMapper.save( map );
-
-        System.out.println("map = " + map);
-
-        return ResponseEntity.ok( map.getSno() );
+    // # 1. 등록 , { "name" : "유재석 " , "kor" : "90" , "math" : "70" }
+    @PostMapping("") // http://localhost:8080/xml
+    public ResponseEntity< ? > save(@RequestBody StudentDto dto ){
+        // < ? > : 제네릭타입에 ? 넣으면 모든 타입을 지칭 한다. 와일드카드
+        System.out.println("dto = " + dto); // soutp , save 실행전 , sno 없다
+        xmlMapper.save( dto );     // ========== SQL 실행 =========
+        System.out.println("dto = " + dto); // soutp , save 실행후 , sno 있다.
+        return ResponseEntity.ok( dto ); // 제네릭 ? 이므로 모든 자료가 대입된다.
     }
 
-    // [2] 전체조회
-    @GetMapping("") // get , http://localhost:8080/xml
-    public ResponseEntity<?> findAll(){
-        System.out.println("StudentController.findAll");
-        List<StudentDto> result = xmlMapper.findAll();
-        return  ResponseEntity.ok( result );
-    }
-
-//    // [3] 수정
-//    @PutMapping("") // put , http://localhost:8080/day05/students ,  {  "sno" : "1" ,  "kor" : "10" , "math" : "20" }
-//    public int update( @RequestBody Map<String, Object> map ){
-//        System.out.println("StudentController.update");
-//        System.out.println("map = " + map);
-//        return queryMapper.update( map );
-//    }
-//    // [4] 삭제
-//    @DeleteMapping("") // delete , http://localhost:8080/day05/students?sno=4 ,
-//    public boolean delete( @RequestParam int sno ){
-//        System.out.println("StudentController.delete");
-//        System.out.println("sno = " + sno);
-//        return queryMapper.delete( sno );
-//    }
-
-    // [5] 특정 점수 이상 학생 조회
-    @GetMapping("/find") // get , http://localhost:8080/xml/find?minKor=80&minMath=80
-    public  ResponseEntity<?>  findStudentScores(
-            @RequestParam int minKor ,
-            @RequestParam int minMath ){
-        System.out.println("StudentController.findStudentScores");
-        System.out.println("minKor = " + minKor + ", minMath = " + minMath);
-        List< StudentDto >  result =  xmlMapper.findStudentScores( minKor , minMath);
+    // # 2. 전체조회
+    @GetMapping("")
+    public ResponseEntity< ? > findAll( ){
+        List< StudentDto > result = xmlMapper.findAll();
         return ResponseEntity.ok( result );
     }
 
-    // [6] 여러명의 학생 등록하기
-    @PostMapping("/save")
-    // post , http://localhost:8080/xml/save
-    // body : [ { "name" : "유재석" , "kor" : "100", "math" : "90" } ,{ "name" : "유재석2" , "kor" : "50", "math" : "40" } ]
-    public  ResponseEntity<?>  saveAll( @RequestBody List< StudentDto > list ){
-        System.out.println("StudentController.saveAll");
-        System.out.println("list = " + list);
-        int result = xmlMapper.saveAll( list );
-        System.out.println("list = " + list);
+    // 3. 개별 학생 조회
+    @GetMapping("/find") // http://localhost:8080/xml/find?sno=1
+    public ResponseEntity<?> find( @RequestParam int sno ){
+        StudentDto result = xmlMapper.find( sno );
         return ResponseEntity.ok( result );
     }
-    /*
-        [ JS(fetch/axios) / TalendApi ] ----------- HTTP -------------------->  [JAVA]
-                ( JSON 알고있음 )                   ( JSON 알고있음 )              ( JSON 몰라 / 타입변환  )
-                body : { }                                                      DTO , MAP
-                body : [ ]                                                      List
-     */
-
-
-
-    // [7] 정렬 + 제한 조회
-    @GetMapping("/findAll") // GET , http://localhost:8080/xml/findAll?orderBy=kor&limit=2
-    public  ResponseEntity<?>  findAllOrderByLimit(
-            @RequestParam(required = false) String orderBy,
-            @RequestParam(required = false, defaultValue = "10") int limit
-    ) {
-        System.out.println("StudentController.findAllOrderByLimit");
-        System.out.println("orderBy = " + orderBy + ", limit = " + limit);
-        List< StudentDto > result = xmlMapper.findAllOrderByLimit(orderBy, limit);
+    // 4. 개별 학생 삭제
+    @DeleteMapping("")  // http://localhost:8080/xml?sno=1
+    public ResponseEntity< ? > delete(  @RequestParam int sno ){
+        int result = xmlMapper.delete( sno );
         return ResponseEntity.ok( result );
     }
+    // 5. 개별 학생 (kor/math) 수정
+    @PutMapping("") // http://localhost:8080/xml
+    // body : { "sno" : "2 " , "kor" : "100" , "math" : "100" }
+    public ResponseEntity<?> update( @RequestBody StudentDto studentDto ){
+        int result = xmlMapper.update( studentDto );
+        return ResponseEntity.ok( result ); // ok == 200
+    }
 
-}
+    // ------------------------------------------------------------
+    // # 6. [query1] 국어 점수 기준으로 조회
+    // 예) GET http://localhost:8080/xml/query1?kor=80
+    @GetMapping("/query1")
+    public ResponseEntity<?> query1(@RequestParam int kor) {
+        List<StudentDto> result = xmlMapper.query1(kor);
+        return ResponseEntity.ok(result);
+    }
+
+    // # 7. [query2] XML로 정의된 동일한 조회
+    // 예) GET http://localhost:8080/xml/query2?kor=90
+    @GetMapping("/query2")
+    public ResponseEntity<?> query2(@RequestParam int kor) {
+        List<StudentDto> result = xmlMapper.query2(kor);
+        return ResponseEntity.ok(result);
+    }
+
+    // # 8. [query3] 이름(포함된) 또는 수학점수 이상 검색
+    // 예) GET http://localhost:8080/xml/query3?name=유&math=80
+    @GetMapping("/query3")
+    public ResponseEntity<?> query3(@RequestParam(required = false) String name,
+                                    @RequestParam(defaultValue = "0") int math) {
+        List<StudentDto> result = xmlMapper.query3(name, math);
+        return ResponseEntity.ok(result);
+    }
+
+    // # 9. [saveAll] 여러 명 등록
+    // 예) POST http://localhost:8080/xml/saveAll
+    // body: [ {"name":"유재석","kor":90,"math":80}, {"name":"강호동","kor":85,"math":75} ]
+    @PostMapping("/saveAll")
+    public ResponseEntity<?> saveAll(@RequestBody List<StudentDto> dtos) {
+        int result = xmlMapper.saveAll(dtos);
+        return ResponseEntity.ok(result);
+    }
+
+
+
+} // class end
+
+
+
+
+
+
+
