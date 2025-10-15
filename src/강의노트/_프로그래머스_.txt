@@ -1,0 +1,39 @@
+1. [SELECT] 모든 레코드 조회하기
+https://school.programmers.co.kr/learn/courses/30/lessons/59034
+-- 동물 보호소에 들어온 모든 동물의 정보를 ANIMAL_ID순으로 조회하는 SQL문을 작성해주세요
+-- (1) 모든 동물의 정보 : *
+-- (2) ANIMAL_ID순으로 : order by asc/desc
+SELECT * from ANIMAL_INS order by ANIMAL_ID asc;
+
+2. [SELECT] 인기있는 아이스크림
+https://school.programmers.co.kr/learn/courses/30/lessons/133024
+-- (1) 조회 : 아이스크림의 맛 FLAVOR
+-- (2) 정렬1 : 총주문량을 기준으로 내림차순 TOTAL_ORDER
+-- (3) 정렬2 : 출하 번호를 기준으로 오름차순 정렬 SHIPMENT_ID
+-- 정렬이 2개 이상일때 ,(쉼표) 구분한다.
+SELECT FLAVOR FROM FIRST_HALF
+    ORDER BY TOTAL_ORDER DESC ,
+    SHIPMENT_ID ASC
+
+3. [SELECT] 역순 정렬하기
+https://school.programmers.co.kr/learn/courses/30/lessons/59035
+-- (1) 조회 : 동물의 이름 , 보호 시작일
+-- (2) 정렬 : ANIMAL_ID 역순
+SELECT NAME, DATETIME FROM ANIMAL_INS ORDER BY ANIMAL_ID DESC;
+
+4. [SELECT] 대장균들의 자식의 수 구하기 ( subquery )
+https://school.programmers.co.kr/learn/courses/30/lessons/299305
+-- 대장균 개체의 ID(ID)와 자식의 수(CHILD_COUNT)를 출력하는 SQL 문을 작성해주세요.
+-- 자식이 없다면 자식의 수는 0으로 출력해주세요. 이때 결과는 개체의 ID 에 대해 오름차순 정렬해주세요.
+-- (1) 조회 : 대장균 개체의 ID , 자식의 수
+-- (2) 정렬 : 개체의 ID , ASC
+-- SELECT ID FROM ECOLI_DATA ORDER BY ID ASC;
+-- (3) 자식의 수 : COUNT(*)
+-- SELECT COUNT(*) FROM ECOLI_DATA; -- 전체 레코드수
+-- SELECT COUNT(*) FROM ECOLI_DATA WHERE PARENT_ID == 현재조회중인자식ID
+-- (SUBQUERY)
+SELECT ED.ID , ( SELECT COUNT(*) FROM ECOLI_DATA WHERE PARENT_ID = ED.ID ) AS CHILD_COUNT
+FROM ECOLI_DATA ED
+ORDER BY ED.ID ASC;
+
+
