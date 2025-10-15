@@ -51,7 +51,7 @@ ALTER TABLE employee ADD CONSTRAINT employee_name UNIQUE( name );
 ALTER TABLE employee DROP PRIMARY KEY;
 # ALTER TABLE 테이블명 DROP FOREIGN KEY 삭제할FK제약조건명;
 
-# ALTER TABLE 테이블명 DROP CONSTRAINT 삭제할제약조건명;
+# ALTER TABLE 테이블명 DROP CONSTRAINT 삭제할제약조건명; 
 ALTER TABLE employee DROP CONSTRAINT employee_name;
 
 # [9] 수정 없이 삭제후 다시 제약조건 추가 
