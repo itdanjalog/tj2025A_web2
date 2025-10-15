@@ -4,18 +4,18 @@
 
 USE springweb2;
 
--- 1️⃣ 기존 테이블 초기화
+-- 1.기존 테이블 초기화
 DROP TABLE IF EXISTS orders;
 DROP TABLE IF EXISTS member;
 
--- 2️⃣ 회원(member) 테이블 생성
+-- 2.회원(member) 테이블 생성
 CREATE TABLE member (
     mno INT AUTO_INCREMENT PRIMARY KEY,   -- 회원번호 (PK)
     name VARCHAR(50),                     -- 이름
     grade VARCHAR(20)                     -- 등급 (VIP, GOLD, SILVER)
 );
 
--- 3️⃣ 주문(orders) 테이블 생성
+-- 3. 주문(orders) 테이블 생성
 CREATE TABLE orders (
     ono INT AUTO_INCREMENT PRIMARY KEY,   -- 주문번호 (PK)
     mno INT,                              -- 회원번호 (FK)
@@ -25,7 +25,7 @@ CREATE TABLE orders (
     FOREIGN KEY (mno) REFERENCES member(mno)
 );
 
--- 4️⃣ 샘플 데이터 삽입
+-- 4. 샘플 데이터 삽입
 INSERT INTO member (name, grade)
 VALUES ('유재석', 'VIP'), ('강호동', 'GOLD'), ('신동엽', 'SILVER');
 
