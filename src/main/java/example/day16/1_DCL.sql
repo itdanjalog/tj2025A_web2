@@ -31,7 +31,50 @@ alter user 'dev2'@'%' identified by '1234';
 
 # [6] 계정의 삭제 
 # drop user '계정명'@'도메인';
-drop user 'dev2'@'%'
+drop user 'dev2'@'%';
+
+# 1. 새로운 계정 생성 
+create user 'dev3'@'localhost' identified by '1234';
+# 2. 새로운 뷰 생성 
+use springweb2;
+create or replace view student_view as select * from student;
+# 3. 새로운 계정에게 뷰 조회 권한 만 부여 
+grant select on springweb2.student_view to 'dev3'@'localhost';
+# 4. (dev) dev3 접속후 테스트
+select * from student_view; -- 가능
+update student_view set name ='유재석'; -- 불가능
+
+# 데이터베이스 내 모든 계정 목록 확인 
+select * from mysql.user;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
