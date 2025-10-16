@@ -22,8 +22,11 @@
         -> DB에서 한번 조회한 결과를 redis 저장(캐싱)하여 다음 조회할때 DB를 조회하지 않고 redis 조회하면 된다. 성능 향상
 
     6. 설치 : 리눅스(운영체제) 기반의 mysql보다 심플한 프로토콜 사용하므로 가볍다.
-        1. 윈도우 : https://github.com/microsoftarchive/redis/releases    [ 강의 날짜 기준 : 3.0.504 ]
-        2. 해당 버전 클릭 : Redis-x64-3.0.504.zip, 5.6 MB,  Jul 1, 2016
+        1. 윈도우 : https://github.com/redis-windows/redis-windows/releases?utm_source=chatgpt.com    [ 강의 날짜 기준 : 3.0.504 ]
+        2. 해당 버전 클릭 : Redis-8.2.2-Windows-x64-msys2.zip
+                      sha256:279cca28f446e603eeaa181361d1494e5ac161ceaa001678d4948820a12aec7a
+                      11.7 MB
+                      2 weeks ago
         3. 압축풀기 -> 압축 푼 폴더내 -> 'redis-server.exe' 실행
 
     7. Spring Data Redis
