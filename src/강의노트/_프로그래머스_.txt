@@ -61,9 +61,17 @@ https://school.programmers.co.kr/learn/courses/30/lessons/59036
 # 9. [SELECT] 어린 동물 찾기
 https://school.programmers.co.kr/learn/courses/30/lessons/59037
 
-# 9. [SELECT] 재구매가 일어난 상품과 회원 리스트 구하기
+# 10. [SELECT] 상위 n개 레코드
+https://school.programmers.co.kr/learn/courses/30/lessons/59405
+
+# 11. [SELECT] Python 개발자 찾기
+https://school.programmers.co.kr/learn/courses/30/lessons/276013
+
+# 9. [SELECT] 재구매가 일어난 상품과 회원 리스트 구하기 ( SUBQUERY )
 https://school.programmers.co.kr/learn/courses/30/lessons/131536
 
+1. [GROUP BY] 즐겨찾기가 가장 많은 식당 정보 출력하기  ( SUBQUERY )
+https://school.programmers.co.kr/learn/courses/30/lessons/131123
 
 
 # 4. [SELECT] 동물의 아이디와 이름
@@ -90,8 +98,6 @@ select ANIMAL_ID , NAME from ANIMAL_INS
 select ANIMAL_ID , NAME from ANIMAL_INS
     where INTAKE_CONDITION != 'Aged'
     order by ANIMAL_ID asc
-
-
 
 
 # 10. [SELECT] 상위 n개 레코드
