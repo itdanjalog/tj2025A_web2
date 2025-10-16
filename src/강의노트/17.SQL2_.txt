@@ -18,3 +18,46 @@
 [ SUBQUERY ]
     - SELECT 안의 SELECT
     - 사용법 : SELECT (SELECT) FROM (SELECT) WHERE (SELECT)
+
+[ Transaction ]
+    - 정의 : 여러 SQL 작업들을 하나의 단위(묶음)로 처리하여 모두 성공 이면 COMMIT , 하나라도 실패시 ROLLBACK 하는 기능
+    - 목적 : 데이터의 무결성 유지 와 안정성을 보장하는 개념
+    - 명령어
+        1) set autocommit = 0;  : 자동 커밋 해제( 워크벤치에서 commit 수동모드 , =1 자동모드 )
+        2) start transaction;   : 트랜잭션 시작
+        3) commit;              : 성공
+        4) rollback;            : 취소
+        5) savepoint 포인트명;   : 임의의 포인트명으로 지점(위치) 저장
+        6) rollback to 포인트명; : 특정한 포인트명으로 이동
+        * 자바 Spring : @Transactional 하고 RuntimeException 으로 롤백 한다.
+[ View ]
+    - 정의 : 실제 데이터를 저장하지 않고 , select 쿼리 결과를 이름으로 저장하는 가상의 테이블
+    - 목적 : SQL문의 (복잡한) 재사용 과 보안 , 일부 뷰 에서는 수정 불가능(읽기모드)
+    - 명령어
+        1) create [ or replace ] view 뷰명 as 쿼리문;         : 뷰 생성
+        2) alter view 뷰명 as 새로운쿼리문;                    : 뷰 수정
+        3) drop view if exists 뷰명;                         : 뷰 삭제
+        4) show full tables where TABLE_TYPE = 'view';      : 뷰 목록 확인
+    - * (사용)권한 분리 와 쿼리의 재사용으로 활용된다. *
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

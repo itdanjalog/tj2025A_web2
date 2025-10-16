@@ -1,3 +1,52 @@
+2025-10-16
+1. [SELECT] 동물의 아이디와 이름
+https://school.programmers.co.kr/learn/courses/30/lessons/59403
+-- 동물 보호소에 들어온 모든 동물의 아이디와 이름을
+-- ANIMAL_ID순으로 조회하는 SQL문을 작성해주세요.
+-- (1) 조회 : 동물의 아이디와 이름
+-- (2) 정렬 : ANIMAL_ID순으로 ( ASC 오름차순 )
+SELECT ANIMAL_ID , NAME FROM ANIMAL_INS ORDER BY ANIMAL_ID ASC;
+
+2. [SELECT] 과일로 만든 아이스크림 고르기
+https://school.programmers.co.kr/learn/courses/30/lessons/133025
+-- FIRST_HALF 테이블
+-- 출하 번호, 아이스크림 맛(PK), 상반기 아이스크림 총주문량
+
+-- ICECREAM_INFO 테이블
+-- 아이스크림 맛(FK), 아이스크림의 성분 타입
+
+-- 상반기 아이스크림 총주문량이 3,000보다 높으면서
+-- 아이스크림의 주 성분이 과일인 아이스크림의 맛을 총주문량이 큰 순서대로 조회
+
+-- (1) SELECT * FROM FIRST_HALF WHERE TOTAL_ORDER >= 3000;
+-- (2) SELECT * FROM FIRST_HALF f inner join ICECREAM_INFO i on f.FLAVOR = i.FLAVOR;
+-- (3 : 1+2 )
+-- SELECT * FROM FIRST_HALF f inner join ICECREAM_INFO i
+--     on f.FLAVOR = i.FLAVOR
+--     where f.TOTAL_ORDER >= 3000;
+-- (4) 주 성분이 과일인 아이스크림의 맛( fruit_based )
+-- SELECT * FROM FIRST_HALF f inner join ICECREAM_INFO i
+--     on f.FLAVOR = i.FLAVOR
+--    where f.TOTAL_ORDER >= 3000 and i.INGREDIENT_TYPE = 'fruit_based';
+-- (5) 정렬 : 총주문량이 큰 순서대로 조회
+SELECT f.FLAVOR FROM FIRST_HALF f inner join ICECREAM_INFO i
+    on f.FLAVOR = i.FLAVOR
+    where f.TOTAL_ORDER >= 3000 and i.INGREDIENT_TYPE = 'fruit_based'
+    order by f.TOTAL_ORDER desc;
+
+3. [SELECT] 강원도에 위치한 생산공장 목록 출력하기
+https://school.programmers.co.kr/learn/courses/30/lessons/131112
+-- FOOD_FACTORY
+-- 공장 ID, 공장 이름, 주소, 전화번호
+-- (1) 공장 ID, 공장 이름, 주소를 조회
+-- (2) 공장 ID를 기준으로 오름차순 정렬
+-- (3) 강원도에 위치한 , = ( 같다 ) , like ( 포함된 % vs _ )
+select FACTORY_ID , FACTORY_NAME , ADDRESS from FOOD_FACTORY
+    where ADDRESS like '강원도%'
+    order by FACTORY_ID asc;
+
+========================================================================================
+2025-10-15
 1. [SELECT] 모든 레코드 조회하기
 https://school.programmers.co.kr/learn/courses/30/lessons/59034
 -- 동물 보호소에 들어온 모든 동물의 정보를 ANIMAL_ID순으로 조회하는 SQL문을 작성해주세요
