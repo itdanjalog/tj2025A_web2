@@ -15,6 +15,7 @@
             ALTER TABLE 테이블명 DORP CONSTRAINT 삭제할제약조건명;
         필드 확인 : SHOW COLUMNS FROM 테이블명;
         제약조건 확인 : SELECT * FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS;
+
 [ SUBQUERY ]
     - SELECT 안의 SELECT
     - 사용법 : SELECT (SELECT) FROM (SELECT) WHERE (SELECT)
@@ -30,6 +31,7 @@
         5) savepoint 포인트명;   : 임의의 포인트명으로 지점(위치) 저장
         6) rollback to 포인트명; : 특정한 포인트명으로 이동
         * 자바 Spring : @Transactional 하고 RuntimeException 으로 롤백 한다.
+
 [ View ]
     - 정의 : 실제 데이터를 저장하지 않고 , select 쿼리 결과를 이름으로 저장하는 가상의 테이블
     - 목적 : SQL문의 (복잡한) 재사용 과 보안 , 일부 뷰 에서는 수정 불가능(읽기모드)
@@ -39,6 +41,35 @@
         3) drop view if exists 뷰명;                         : 뷰 삭제
         4) show full tables where TABLE_TYPE = 'view';      : 뷰 목록 확인
     - * (사용)권한 분리 와 쿼리의 재사용으로 활용된다. *
+
+[ DCL ]
+    - 정의 : 데이터베이스의 사용자 계정 생성, 권한 부여, 권한 회수 등 관리하는 명령어
+    - 주요 명령어
+        1) create user '계정명'@'허용IP' identified dy '비밀번호';          : 새로운 사용자 계정 생성
+            * 허용도메인 : localhost(로컬환경), %(모든IP허용) , 192.168.0.1(특정한IP)
+        2) grant 권한명령어 on 데이터베이스명.테이블/뷰 to '계정명'@'허용IP'    : 특정 사용자에게 명령어 권한 부여
+            * all privileges : 모든 권한 또는 그외
+        3) revoke 권한명령어 on 데이터베이스명.테이블/뷰 to '계정명'@'허용IP'   : 특정 사용자에게 명령어 권한 취소
+        4) alter user '계정명'@'허용IP' identified dy '새로운비밀번호'        : 특정 사용자의 비밀번호 수정
+        5) drop user '계정명'@'허용IP'                                      : 특정 사용자의 계정 삭제
+        6) show grant for '계정명'@'허용IP'                                 : 특정 계정의 권한 목록
+        7) select * from mysql.user                                        : 모든 계정 목록
+    - * 개발자들에게 데이터베이스 접근 권한 관리하므로써 보안, 계정마다의 베이터베이스 분리*
+
+[ INDEX ]
+    - 정의 : 데이터을 특정 필드을 기준으로 검색을 빠르게 하기위한 색인
+    - 목적 : select, join, order by 등 속도 향상 , 대용량 데이터 조회 빠르다. , 갱신 느리다.
+    - 주요 명령어
+        1) show index from 테이블명;                                    : 테이블의 모든 인덱스 목록 확인,
+        * pk필드 기본적으로 인덱스 를 갖는다.
+        2) create index 인덱스명 on 테이블명(필드명);                    : 해당 필드명을 인덱스 생성 (단일)
+        3) create index 인덱스명 on 테이블명(필드명1,필드명);             : 두개이상 필드명으로 인덱스 생성(복합)
+        4) drop index 인덱스명 on 테이블명;                             : 인덱스 삭제
+        5) explain analyze 쿼리문;                                     : 쿼리 실행 계획 분석 결과
+        6) create fulltext index 인덱스명 on 테이블명(필드명);           : 자연어(NLP:사람의언어기술) 인덱스
+           *select * from 테이블명 where MATCH(필드명) AGAINST('검색어')
+
+
 
 
 

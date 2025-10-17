@@ -1,3 +1,31 @@
+2025-10-17
+# 1. [SELECT] 여러 기준으로 정렬하기
+https://school.programmers.co.kr/learn/courses/30/lessons/59404
+-- (1) 테이블명 : ANIMAL_INS , 동물 보호소에 들어온
+-- (2) 필드명 : ANIMAL_ID, NAME, DATETIME  모든 동물의 아이디와 이름, 보호 시작일을
+-- (3) 정렬 : NAME, DATETIME 이름 순으로 조회 단, 이름이 같은 동물 중에서는 보호를 나중에 시작한 동물을 먼저
+-- 날짜 : 최근날짜(큰수) 과거날짜(작은수) 컴퓨터는 하루에 1씩증가 , 내림차순: 최신순
+SELECT ANIMAL_ID, NAME, DATETIME
+    FROM ANIMAL_INS order by NAME ASC , DATETIME DESC;
+
+# 2. [SELECT] 아픈 동물 찾기
+https://school.programmers.co.kr/learn/courses/30/lessons/59036
+-- 동물 보호소에 들어온 동물 중 아픈 동물1의 아이디와 이름을 조회하는 SQL 문을 작성해주세요. 이때 결과는 아이디 순으로 조회해주세요.
+-- (1) 테이블 : ANIMAL_INS ,  동물 보호소에 들어온
+-- (2) 조건 : INTAKE_CONDITION = 'Sick' , where 동물 중 아픈 동물1의
+-- (3) 필드명 : ANIMAL_ID,NAME , 아이디와 이름을 조회
+-- (4) 정렬 : ANIMAL_ID , 아이디 순
+select ANIMAL_ID, NAME from ANIMAL_INS
+    where INTAKE_CONDITION = 'Sick'
+    order by ANIMAL_ID asc
+
+# 3. [SELECT] 어린 동물 찾기
+https://school.programmers.co.kr/learn/courses/30/lessons/59037
+select ANIMAL_ID, NAME from ANIMAL_INS
+    where INTAKE_CONDITION != 'Aged'
+    order by ANIMAL_ID asc
+
+========================================================================================
 2025-10-16
 1. [SELECT] 동물의 아이디와 이름
 https://school.programmers.co.kr/learn/courses/30/lessons/59403
