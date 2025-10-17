@@ -31,7 +31,9 @@
     - 레디스 PORT를 6379 사용한다.
     - 스프링과 레디스 연동 , https://start.spring.io/
         1. Spring Data Redis 의존성 추가 :  implementation 'org.springframework.boot:spring-boot-starter-data-redis'
-
+        2. application.properties 서버 연동
+            spring.data.redis.host=localhost
+            spring.data.redis.port=6379
 
 
 
