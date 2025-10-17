@@ -7,10 +7,8 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-import java.util.Vector;
+import java.time.Duration;
+import java.util.*;
 
 @RestController
 @RequestMapping("/redis")
@@ -84,6 +82,33 @@ public class RedisController {
         studentTemplate.opsForValue().set( key , studentDto );      // 2. 특정한 key를 덮여쓰기/수정
         return ResponseEntity.ok( true ); //
     }
+
+    // * 인증코드 발급 해서 레디스 유효기간 정하기
+    // TTL : 레디스에 저장된 엔트리(key-value) 을 특정한 기간(시간)이 되면 자동 삭제
+    @GetMapping("/auth/send") // http://localhost:8080/redis/auth/send?phone=01039132072
+    public ResponseEntity<?> authSend( @RequestParam String phone ){
+        // 1. key 구상 , "auth:고객전화번호"
+        String key = "auth:"+phone;
+        // 난수 6자리( 인증코드 생성 )
+        String code = String.format( "%06d" , new Random().nextInt(999999) );
+        // 2. 레디스에 인증코드 저장하기 , TTL(유효기간) , Duration.ofXXXX( 수 )
+        redisTemplate.opsForValue().set( key , code , Duration.ofSeconds(10) ); // 10초
+        // API 이용하여 고객전화번호 에게 인증코드 전송
+        return ResponseEntity.ok().body("인증코드 발급 완료 : " + code );
+    }
+    @GetMapping("/auth/confirm") // http://localhost:8080/redis/auth/confirm?phone=01039132072&code=361170
+    public ResponseEntity<?> authConfirm( @RequestParam String phone , @RequestParam String code ){
+        String key = "auth:"+phone; // 1. 조회할 key 구상
+        Object savedCode = redisTemplate.opsForValue().get(key); // 2. 조회할 key 이용한 value 호출
+        if( savedCode == null ){ return ResponseEntity.ok("[인증실패] 인증 만료 또는 코드 불일치 "); }
+        else if( savedCode.equals( code ) ){
+            redisTemplate.delete( key );            // 성공시에는 인증코드 삭제
+            return ResponseEntity.ok("[인증성공]");
+        }
+        else{ return ResponseEntity.ok("[인증실패]"); }
+    }
+
+
 
 
 } // class end
