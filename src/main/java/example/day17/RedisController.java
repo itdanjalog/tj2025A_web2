@@ -64,13 +64,26 @@ public class RedisController {
         for( String key : keys ){ result.add( studentTemplate.opsForValue().get( key ) ); }
         return ResponseEntity.ok().body( result );
     }
-
-    // 3. 개별 조회
-
-    // 4. 개별 삭제
-
-    // 5. 개별 수정
-
+    @GetMapping("/find") // http://localhost:8080/redis/find?sno=1 // 3. 개별 학생 조회
+    public ResponseEntity<?> find( @RequestParam int sno ){
+        String key = "student:"+sno;                            // 1. 조회할 key 구상
+        Object result = studentTemplate.opsForValue().get( key );  // 2. 특정한 key의 value 호출
+        return ResponseEntity.ok( result );
+    }
+    @DeleteMapping("")  // http://localhost:8080/redis?sno=1  // 4. 개별 삭제
+    public ResponseEntity< ? > delete(  @RequestParam int sno ){
+        String key = "student:"+sno; // 1. 삭제할 key 구상
+        // 2. 특정한 key를 이용한 엔트리(key-value한쌍) 삭제 , 템플릿객체명.delete( key );  , 삭제 성공시 true / 실패시 false
+        boolean result = studentTemplate.delete( key );
+        return ResponseEntity.ok( result );
+    }
+    @PutMapping("") // http://localhost:8080/redis        // 5. 개별 수정
+    // { "sno": 2, "name": "강호동 ", "kor": 100, "math": 100 }
+    public ResponseEntity<?> update( @RequestBody StudentDto studentDto ){
+        String key = "student:"+studentDto.getSno();                // 1. 수정할 key 구상
+        studentTemplate.opsForValue().set( key , studentDto );      // 2. 특정한 key를 덮여쓰기/수정
+        return ResponseEntity.ok( true ); //
+    }
 
 
 } // class end
