@@ -13,7 +13,7 @@ import web2.util.JwtUtil;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/users")
+@RequestMapping("/api/user")
 public class UserController {
 
     private final UserService userService;
@@ -57,7 +57,11 @@ public class UserController {
 
             // 토큰 발급
 
-            String token = jwtUtil.createToken( user.getUid() );
+            //String token = jwtUtil.createToken( user.getUid() );
+            //Cookie cookie = new Cookie("sessionUser", token );
+
+
+            String token = jwtUtil.generateToken( user.getUid() , user.getUrole() );
             Cookie cookie = new Cookie("sessionUser", token );
 
             cookie.setHttpOnly(true);   // ✅ 클라이언트 JS 접근 불가
@@ -97,7 +101,7 @@ public class UserController {
                 if ("sessionUser".equals(c.getName())) {
                     String token = c.getValue();
 
-                    uid = jwtUtil.validateToken( token );
+                    uid = jwtUtil.getUid( token );
 
                     break;
                 }
