@@ -48,6 +48,10 @@ dependencies {
 
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 
+    // 5. 비크립트 알고리즘 라이브러리
+    implementation 'org.springframework.security:spring-security-crypto:6.4.4'
+
+
 }
 
 tasks.named('test') {
