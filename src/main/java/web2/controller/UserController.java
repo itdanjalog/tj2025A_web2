@@ -1,12 +1,12 @@
-package web22.controller;
+package web2.controller;
 
 
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import web22.model.dto.UserDto;
-import web22.service.UserService;
+import web2.model.dto.UserDto;
+import web2.service.UserService;
 
 @RestController
 @RequiredArgsConstructor

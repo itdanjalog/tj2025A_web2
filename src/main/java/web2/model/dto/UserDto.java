@@ -1,4 +1,4 @@
-package web22.model.dto;
+package web2.model.dto;
 
 import lombok.Data;
 
