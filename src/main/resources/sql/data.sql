@@ -76,8 +76,8 @@ INSERT INTO rentals (id, book_id, member) VALUES (1, 1, '홍길동');
 INSERT INTO users (uid, upwd, uname, uphone, urole)
 VALUES
 -- test1 / 1234
-('test1', '$2a$10$/xRuQzly4zqJAnM4JPi1nO2zLERzEagGXhHdlNIwM6jT9kFwKc3Nm', '유재석', '010-1111-2222', 'USER'),
--- admin / admin
-('admin', '$2a$10$/xRuQzly4zqJAnM4JPi1nO2zLERzEagGXhHdlNIwM6jT9kFwKc3Nm', '관리자', '010-9999-9999', 'ADMIN'),
--- guest / guest
-('guest', '$2a$10$/xRuQzly4zqJAnM4JPi1nO2zLERzEagGXhHdlNIwM6jT9kFwKc3Nm', '손님', '010-0000-0000', 'USER');
+('test1', '$2a$10$69bMrChodVYxOcvM/cUo7evsho3hw6YBJT9yepHudwBlIvi7KlV0.', '유재석', '010-1111-2222', 'USER'),
+-- admin / 1234
+('admin', '$2a$10$69bMrChodVYxOcvM/cUo7evsho3hw6YBJT9yepHudwBlIvi7KlV0.', '관리자', '010-9999-9999', 'ADMIN'),
+-- guest / 1234
+('guest', '$2a$10$69bMrChodVYxOcvM/cUo7evsho3hw6YBJT9yepHudwBlIvi7KlV0.', '손님', '010-0000-0000', 'USER');
