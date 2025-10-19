@@ -1,14 +1,12 @@
-package web2.controller;
+package web22.controller;
 
 
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import web2.model.dto.UserDto;
-import web2.service.UserService;
-
-import java.util.Map;
+import web22.model.dto.UserDto;
+import web22.service.UserService;
 
 @RestController
 @RequiredArgsConstructor
@@ -19,7 +17,7 @@ public class UserController {
 
     /**
      * [1] 회원가입
-     * POST http://localhost:8080/user/signup
+     * POST http://localhost:8080/users/signup
      * Body(JSON):  {  "uid": "danja", "upwd": "1234", "uname": "아이티단자",  "uphone": "010-2222-3333",  "urole": "USER" }
      */
     @PostMapping("/signup")
@@ -30,7 +28,7 @@ public class UserController {
 
     /**
      * [2] 로그인
-     * POST http://localhost:8080/user/login
+     * POST http://localhost:8080/users/login
      * Body(JSON):  {   "uid": "danja",   "upwd": "1234" }
      * Response: { "success": true, "message": "로그인 성공", "uno": 1, "uname": "아이티단자" }
      */
@@ -48,7 +46,7 @@ public class UserController {
 
     /**
      * [3] 내 정보 조회
-     * GET /user/me
+     * GET /users/me
      * Header: Cookie(JSESSIONID)
      * Response:  { "success": true, "user": {...} }
      */
@@ -62,7 +60,7 @@ public class UserController {
 
     /**
      * [4] 로그아웃
-     * GET /user/logout
+     * GET /users/logout
      */
     @GetMapping("/logout")
     public ResponseEntity<?> logout(HttpSession session) {
