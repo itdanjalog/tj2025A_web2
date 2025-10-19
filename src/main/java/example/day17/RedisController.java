@@ -1,11 +1,9 @@
 package example.day17;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.redis.core.PartialUpdate;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.http.RequestEntity;
+import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,155 +15,114 @@ import java.util.*;
 @RequiredArgsConstructor
 public class RedisController {
 
-    private final RedisTemplate<String, Object> redisTemplate;
+    // [*] 간단한 텍스트를 레디스에 접근하는 객체
+    private final RedisTemplate redisTemplate; // 템플릿이란? 미리 만들어진 틀/형식
 
-    // ✅ 등록 (RequestBody) // { "sno" : 1 , "name" : "유재석" , "kor" : "100", "math" : "90" }
-    @PostMapping
-    public ResponseEntity<?> save(@RequestBody StudentDto dto) throws Exception {
-        String key = "student:" + dto.getSno();
-        redisTemplate.opsForValue().set(key,  dto );
-        return ResponseEntity.ok().body("✅ 저장 완료: " + dto);
-    }
-
-    // ✅ 수정 (RequestBody)
-    @PutMapping // { "sno" : 1 , "name" : "유재석2" , "kor" : "100", "math" : "90" }
-    public  ResponseEntity<?> update(@RequestBody StudentDto dto) throws Exception {
-        String key = "student:" + dto.getSno();
-        if (Boolean.TRUE.equals(redisTemplate.hasKey(key))) {
-            redisTemplate.opsForValue().set(key, dto);
-            return ResponseEntity.ok().body( "🔄 수정 완료: " + dto ) ;
+    // [1] 간단한 텍스트를 레디스 서버에 저장 / 호출 하기
+    @GetMapping("/test")
+    public ResponseEntity<?> test(){
+        System.out.println("RedisController.test");
+        // [저장] 레디스템플릿객체명.opsForValue().set( key , value ); , key 값은 중복이 안되므로 중복이면 덮여쓰기 적용
+        // { "유재석" : "90"  } , { "강호동" : "80" }
+        redisTemplate.opsForValue().set( "유재석" , "90" ); // 임의 데이터1
+        redisTemplate.opsForValue().set( "강호동" , "80" ); // 임의 데이터2
+        redisTemplate.opsForValue().set( "유재석" , "100" ); // key는 중복을 허용하지 않고 , value 중복 허용
+        // [ 모든 키 호출] 레디스템플릿객체명.keys("*")         : 레디스에 저장된 모든 키 반환
+        // [ 특정한 키의 값 호출] 레디스템플릿객체명.opsForValue().get( key );
+        Set< String > keys = redisTemplate.keys("*");
+            //  List vs Map vs Set 컬렉션 프레임워크이란?차이?
+        List< Object > result = new ArrayList<>(); // 임의의 리스트
+        for( String key : keys ){
+            result.add( redisTemplate.opsForValue().get( key ) );
         }
-        return ResponseEntity.ok().body( "❌ 수정 실패: 해당 학생 없음 (sno=" + dto.getSno() + ")" ) ;
+        return ResponseEntity.ok( result );
+    } // method end
+
+    // day13/day06 CRUD 를 데이터베이스 없이 레디스로 실습 변환
+
+    private final RedisTemplate<String,Object> studentTemplate;
+    // 1. 등록
+    @PostMapping("") // { "sno" : 1 , "name" : "유재석 " , "kor" : "90" , "math" : "70" }
+    private  ResponseEntity<?> save(@RequestBody StudentDto studentDto ){
+        // 0. 중복없는 key 구상
+        String key = "student:"+studentDto.getSno(); // sno를 key로 조합하여 , 예] student:1 , student:2
+        // 1. 레디스에 전달받은 값 저장한다.
+        // 예상 : { "student:1" : { sno : 1 , name : "강호동" , math : 80 , kor : 100 } }
+        studentTemplate.opsForValue().set( key , studentDto );
+        return ResponseEntity.ok().body("[저장성공]");
     }
-
-    // ✅ 개별 조회 (RequestParam)
-    @GetMapping
-    public  ResponseEntity<?> getStudent(@RequestParam int sno) {
-        String key = "student:" + sno;
-        Object value = redisTemplate.opsForValue().get(key);
-        return ResponseEntity.ok().body( value != null ? value : "❌ 해당 학생 없음" );
-    }
-
-    // ✅ 전체 조회
-    @GetMapping("/list")
-    public  ResponseEntity<?> getAllStudents() {
-        Set<String> keys = redisTemplate.keys("student:*");
-        // keys("student:*")	"student:" 로 시작하는 key만 검색
-        // keys("*")	Redis의 모든 key 검색 (전체 스캔)
-        if (keys == null || keys.isEmpty())  return ResponseEntity.ok().body( List.of("❌ 등록된 학생 없음") ) ;
-
+    // 2. 전체 조회
+    @GetMapping("")
+    private ResponseEntity<?> findAll(){
+        // 0. 조회할 key를 모두 가져온다.  * : 레디스내 모든 키 / xxxx:* : xxxx:동일한 * 자리는 임의의 문자 대응
+        // studentTemplate.keys( "문자열*"); // 문자열까지는 동일하면 * 위치는 서로다른 문자열 패턴
+        Set<String> keys = studentTemplate.keys("student:*"); // student:1 , student:2 ~~
+        // 1. 반복문 이용한 value 꺼내서 리스트에 담기
         List<Object> result = new ArrayList<>();
-        for (String key : keys) {
-            result.add(redisTemplate.opsForValue().get(key));
-        }
+        for( String key : keys ){ result.add( studentTemplate.opsForValue().get( key ) ); }
         return ResponseEntity.ok().body( result );
     }
-
-    // ✅ 개별 삭제 (RequestParam)
-    @DeleteMapping
-    public  ResponseEntity<?> deleteStudent(@RequestParam int sno) {
-        String key = "student:" + sno;
-        Boolean result = redisTemplate.delete(key);
-        return ResponseEntity.ok().body( Boolean.TRUE.equals(result)
-                ? "🗑️ 삭제 완료: sno=" + sno
-                : "❌ 삭제 실패: sno=" + sno + " 존재하지 않음" );
+    @GetMapping("/find") // http://localhost:8080/redis/find?sno=1 // 3. 개별 학생 조회
+    public ResponseEntity<?> find( @RequestParam int sno ){
+        String key = "student:"+sno;                            // 1. 조회할 key 구상
+        Object result = studentTemplate.opsForValue().get( key );  // 2. 특정한 key의 value 호출
+        return ResponseEntity.ok( result );
+    }
+    @DeleteMapping("")  // http://localhost:8080/redis?sno=1  // 4. 개별 삭제
+    public ResponseEntity< ? > delete(  @RequestParam int sno ){
+        String key = "student:"+sno; // 1. 삭제할 key 구상
+        // 2. 특정한 key를 이용한 엔트리(key-value한쌍) 삭제 , 템플릿객체명.delete( key );  , 삭제 성공시 true / 실패시 false
+        boolean result = studentTemplate.delete( key );
+        return ResponseEntity.ok( result );
+    }
+    @PutMapping("") // http://localhost:8080/redis        // 5. 개별 수정
+    // { "sno": 2, "name": "강호동 ", "kor": 100, "math": 100 }
+    public ResponseEntity<?> update( @RequestBody StudentDto studentDto ){
+        String key = "student:"+studentDto.getSno();                // 1. 수정할 key 구상
+        studentTemplate.opsForValue().set( key , studentDto );      // 2. 특정한 key를 덮여쓰기/수정
+        return ResponseEntity.ok( true ); //
     }
 
-    // ✅ 인증코드 발급 (예: 이메일, 전화번호 기반)
-    // 예: /redis/send?phone=01012345678
-    @GetMapping("/auth/send")
-    public ResponseEntity<?> sendAuthCode(@RequestParam String phone) {
-        String key = "auth:" + phone; // 기존 key가 존재하더라도 덮어쓰기(Overwrite) 합니다.
-
-        // 6자리 인증코드 생성
-        String code = String.format("%06d", new Random().nextInt(999999));
-
-        // Redis에 저장 (유효기간 3분)
-        redisTemplate.opsForValue().set(key, code, Duration.ofSeconds(10));
-
-        return ResponseEntity.ok("📨 인증코드 발급 완료 (1분 유효): " + code);
+    // * 인증코드 발급 해서 레디스 유효기간 정하기
+    // TTL : 레디스에 저장된 엔트리(key-value) 을 특정한 기간(시간)이 되면 자동 삭제
+    @GetMapping("/auth/send") // http://localhost:8080/redis/auth/send?phone=01039132072
+    public ResponseEntity<?> authSend( @RequestParam String phone ){
+        // 1. key 구상 , "auth:고객전화번호"
+        String key = "auth:"+phone;
+        // 난수 6자리( 인증코드 생성 )
+        String code = String.format( "%06d" , new Random().nextInt(999999) );
+        // 2. 레디스에 인증코드 저장하기 , TTL(유효기간) , Duration.ofXXXX( 수 )
+        redisTemplate.opsForValue().set( key , code , Duration.ofSeconds(10) ); // 10초
+        // API 이용하여 고객전화번호 에게 인증코드 전송
+        return ResponseEntity.ok().body("인증코드 발급 완료 : " + code );
     }
-
-    // ✅ 인증코드 확인
-    // 예: /redis/verify?phone=01012345678&code=123456
-    @GetMapping("/auth/verify")
-    public ResponseEntity<?> verifyAuthCode(@RequestParam String phone, @RequestParam String code) {
-        String key = "auth:" + phone;
-        Object savedCode = redisTemplate.opsForValue().get(key);
-
-        if (savedCode == null) {
-            return ResponseEntity.ok("⏰ 인증 실패: 코드 만료 또는 존재하지 않음");
+    @GetMapping("/auth/confirm") // http://localhost:8080/redis/auth/confirm?phone=01039132072&code=361170
+    public ResponseEntity<?> authConfirm( @RequestParam String phone , @RequestParam String code ){
+        String key = "auth:"+phone; // 1. 조회할 key 구상
+        Object savedCode = redisTemplate.opsForValue().get(key); // 2. 조회할 key 이용한 value 호출
+        if( savedCode == null ){ return ResponseEntity.ok("[인증실패] 인증 만료 또는 코드 불일치 "); }
+        else if( savedCode.equals( code ) ){
+            redisTemplate.delete( key );            // 성공시에는 인증코드 삭제
+            return ResponseEntity.ok("[인증성공]");
         }
-
-        if (savedCode.toString().equals(code)) {
-            redisTemplate.delete(key); // 사용 후 삭제
-            return ResponseEntity.ok("✅ 인증 성공!");
-        } else {
-            return ResponseEntity.ok("❌ 인증 실패: 코드 불일치");
-        }
-    }
-
-    // ✅ 현재 Redis에 저장된 모든 인증코드 목록 조회
-    // 예: GET /redis/list
-    @GetMapping("/auth/list")
-    public ResponseEntity<?> getAllAuthCodes() {
-        // "auth:" 로 시작하는 모든 key 검색
-        Set<String> keys = redisTemplate.keys("auth:*");
-
-        // Redis에 인증코드가 하나도 없는 경우
-        if (keys == null || keys.isEmpty()) {
-            return ResponseEntity.ok(List.of("❌ 현재 발급된 인증코드 없음"));
-        }
-
-        // 각 key에 대한 value(인증코드)를 가져와 Map 형태로 구성
-        List< Object > result = new ArrayList<>();
-        for (String key : keys) {
-            Map<String, Object> item = new LinkedHashMap<>();
-
-            Object value = redisTemplate.opsForValue().get(key);
-            Long ttl = redisTemplate.getExpire(key); // 🔹 남은 시간(초 단위)
-
-            item.put("key", key);
-            item.put("code", value);
-            item.put("ttl(sec)", ttl); // 남은 시간 표시
-            result.add(item);
-        }
-
-        // 결과 반환
-        return ResponseEntity.ok(result);
-    }
-
-    @GetMapping("/reserve") // http://localhost:8080/redis/reserve?seatNo=1&user=유재석
-    public ResponseEntity<?> reserveSeat(@RequestParam String seatNo, @RequestParam String user) {
-        String key = "reserve:seat:" + seatNo;
-
-
-        // 이미 예약된 좌석이라면 저장되지 않음 (TTL 2분 동안 Lock 유지)
-        boolean locked = Boolean.TRUE.equals(
-                redisTemplate.opsForValue().setIfAbsent(key, user, Duration.ofMinutes(2))
-        );
-
-
-        if (!locked) {
-            Object currentUser = redisTemplate.opsForValue().get(key);
-            return ResponseEntity.ok("⚠️ 이미 예약된 좌석입니다. 예약자: " + currentUser);
-        }
-
-
-        return ResponseEntity.ok("✅ 좌석 예약 성공! 좌석번호: " + seatNo + ", 예약자: " + user);
-    }
-
-
-    @DeleteMapping("/reserve/cancel")
-    public ResponseEntity<?> cancelReservation(@RequestParam String seatNo) {
-        String key = "reserve:seat:" + seatNo;
-        Boolean deleted = redisTemplate.delete(key);
-        return ResponseEntity.ok(Boolean.TRUE.equals(deleted)
-                ? "🗑️ 예약이 취소되었습니다. (좌석: " + seatNo + ")"
-                : "❌ 이미 만료되었거나 존재하지 않는 예약입니다.");
+        else{ return ResponseEntity.ok("[인증실패]"); }
     }
 
 
 
 
-}
+} // class end
+
+
+
+
+
+
+
+
+
+
+
+
+
+

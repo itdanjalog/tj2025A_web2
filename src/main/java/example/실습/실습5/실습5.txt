@@ -2,6 +2,7 @@ day92 SPRING WEB2 ] 실습5 : 도서 테이블 수정 및 서브쿼리 조회 XM
 [ 조건1 ] 반드시 XML 파일 이용하여 SQL 작성
 
 [ 조건2 ] ALTER 이용한 테이블 수정 기능 2개 controller/service/mapper
+    <update> 마크업
     1. 책books 테이블에 price 가격(int) 필드 추가
     2. 책books 테이블에 title 책이름 필드 (longtext) 타입 수정
 

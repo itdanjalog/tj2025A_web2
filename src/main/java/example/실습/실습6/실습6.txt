@@ -1,18 +1,15 @@
-day93 SPRING WEB2 ] 실습6 : 도서 VIEW 생성 및 조회 기능 XML 만들기
-
+day93 SPRING WEB2 ] 실습6 : 도서 view 생성 및 조회 기능 XML 만들기
 [ 조건1 ] 반드시 XML 파일 이용하여 SQL 작성
 
-[ 조건2 ] MyBatis XML 에서 직접 VIEW 생성 기능 3개
-    1. view_book_summary	도서 요약뷰 (도서ID, 제목, 재고, 가격)
-    2. view_rental_detail	대출 상세뷰 (책 + 대출기록 JOIN)
-    3. view_stock_high	    재고 많은 도서뷰 (평균보다 많은 재고)
+[ 조건2 ] view 생성 기능 2개 controller/service/mapper <UPDATE>
+    1. 대출기록 상세 뷰 생성 ( 책 + 대출기록 JOIN )
+    2. 평균 재고보다 많은 재고를 가진 도서 뷰 생성
 
-[ 조건3 ] 생성된 VIEW 조회 기능 3개
-    1. 도서 요약뷰 조회
-    2. 대출 상세뷰 조회
-    3. 평균 재고보다 많은 도서 조회
+[ 조건3 ] 생성한 view 조회 기능 2개 controller/service/mapper
+    1. 대출기록 상세 뷰(조건2-1) 조회
+    2. 평균 재고보다 많은 재고를 가진 도서 조회(조건2-2) 조회
 
-[ 조건4 ] 실습3/4 과 동일 한 샘플 SQL
+[ 조건4 ] 실습3/4/5 과 동일 한 샘플 SQL
     -- 1. 책 테이블
     CREATE TABLE books (
         id INT NOT NULL AUTO_INCREMENT ,    -- 도서번호
