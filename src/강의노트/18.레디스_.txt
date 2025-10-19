@@ -36,19 +36,52 @@
             spring.data.redis.host=localhost
             spring.data.redis.port=6379
 
+    - 주 사용법
+        0. 레디스템플릿 설정 파일 생성한다.
+        @Configuration
+        public class RedisConfig {
+            @Bean
+            public RedisTemplate<String,Object> redisTemplate(RedisConnectionFactory factory) {
+                RedisTemplate<String,Object> template = new RedisTemplate<>();
+                template.setConnectionFactory(factory);
+                template.setKeySerializer(new StringRedisSerializer());
+                template.setValueSerializer(new GenericJackson2JsonRedisSerializer());
+                return template;
+            }
+        }
 
 
+        1. 레디스템플릿 객체를 생성한다.
+
+            private final StringRedisTemplate stringRedisTemplate;
+
+            @Autowired // 빈 주입
+            private RedisTemplate<String, Object> redisTemplate;
+
+        2. 레디스에 데이터 저장하는 방법
+            redisTemplate.opsForXXX().set()
+            1. stringRedisTemplate.opsForValue( ).set( key , value );
+            -> TTL : Time To Live : 해당하는 데이터가 언제까지 유지할지 유효기간 정의.
+                즉] TTL 이 지나면 해당 자료는 자동으로 삭제.
+            redisTemplate.opsForValue( ).set( key , value , 주기값 , TimeUnit.패턴  );
+
+        3. 레디스에 데이터 호출하는 방법
+            1. redisTemplate.opsForValue( ).get( key );       : 특정한 key의 value 반환
+            2. redisTemplate.keys("*");                       : 모든 key를 반환
 
 
+          // 1. 특정 key의 value 반환
+          Object value = redisTemplate.opsForValue().get("name");
+
+          // 2. 모든 key 조회 (주의: 운영환경에서는 비추천)
+          Set<String> keys = redisTemplate.keys("*");
+
+          // 3. 패턴 검색 (예: student:* 형태)
+          Set<String> studentKeys = redisTemplate.keys("student:*");
 
 
+        3. 레디스에 데이터 삭제하는 방법
+            1. redisTemplate.delete( key );                   : 특정한 key-value 삭제한다.
 
-
-
-
-
-
-
-
-
-
+        5️⃣ 데이터 존재 여부 확인
+        boolean exists = redisTemplate.hasKey("student:1"); // true / false
