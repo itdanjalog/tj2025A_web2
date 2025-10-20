@@ -1,3 +1,40 @@
+2025-10-20
+# 1. [SELECT] 상위 n개 레코드
+https://school.programmers.co.kr/learn/courses/30/lessons/59405
+# 동물 보호소에 가장 먼저 들어온 동물의 이름을 조회
+# (1) 테이블명 : ANIMAL_INS
+# (2) 필드명 : NAME
+# select name from ANIMAL_INS;
+
+# (3-1) 조건 :  ORDER BY DATETIME ASC (보호 시작일이 가장 오래된=DATETIME 오름차순) 가장 먼저 들어온
+# 정렬 : 날짜는 하루가 지날때마다 1씩 증가하는 구조
+#select name from ANIMAL_INS  ORDER BY DATETIME ASC ;
+
+# (3-2) 1개 : limit 수 , 조회된 결과에서 '수' 만큼 레코드를 제한 한다.
+select name from ANIMAL_INS  ORDER BY DATETIME asc limit 1;
+
+
+# 2. [GROUP BY] 즐겨찾기가 가장 많은 식당 정보 출력하기 <subquery>
+https://school.programmers.co.kr/learn/courses/30/lessons/131123
+# REST_INFO 테이블에서 음식종류별로 즐겨찾기수가 가장 많은 식당의 음식 종류, ID, 식당 이름, 즐겨찾기수를 조회하는 SQL문을 작성해주세요. 이때 결과는 음식 종류를 기준으로 내림차순 정렬해주세요.
+
+# (1) 테이블 : REST_INFO
+# (2) 필드 : FOOD_TYPE , REST_ID , REST_NAME , FAVORITES
+# select FOOD_TYPE , REST_ID , REST_NAME , FAVORITES from REST_INFO;
+# (3) 정렬 : ORDER BY FOOD_TYPE DESC , 음식 종류를 기준으로 내림차순 정렬
+# select FOOD_TYPE , REST_ID , REST_NAME , FAVORITES from REST_INFO ORDER BY FOOD_TYPE DESC ;
+
+# (4) 음식종류별(FOOD_TYPE) 로 즐겨찾기수가 가장 많은 식당
+# select max(FAVORITES) from REST_INFO;
+
+# 서브쿼리
+select r1.FOOD_TYPE , r1.REST_ID , r1.REST_NAME , r1.FAVORITES
+    from REST_INFO r1
+    # where r1.FAVORITES = 서브쿼리( 음식종류별로 즐겨찾기수가 가장 많은 식당 )
+    where r1.FAVORITES = ( select max( r2.FAVORITES) from REST_INFO r2 where r2.FOOD_TYPE = r1.FOOD_TYPE )
+    ORDER BY r1.FOOD_TYPE DESC ;
+
+========================================================================================
 2025-10-17
 # 1. [SELECT] 여러 기준으로 정렬하기
 https://school.programmers.co.kr/learn/courses/30/lessons/59404
