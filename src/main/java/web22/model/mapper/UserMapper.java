@@ -1,10 +1,10 @@
-package web2.model.mapper;
+package web22.model.mapper;
 
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Select;
-import web2.model.dto.UserDto;
+import web22.model.dto.UserDto;
 
 @Mapper
 public interface UserMapper {

@@ -41,7 +41,7 @@
         web1 : int method1(){ return 1 }
                 MemberDto method1(){ return memberDto }
 
-        web2 : ResponseEntity<Integer> method2(){  return ResponseEntity.status(상태코드).body(1); }
+        web22 : ResponseEntity<Integer> method2(){  return ResponseEntity.status(상태코드).body(1); }
                 ResponseEntity<MemberDto> method2(){ return ResponseEntity.status(상태코드).body(memberDto); }
 
 

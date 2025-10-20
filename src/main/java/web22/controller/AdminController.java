@@ -1,4 +1,4 @@
-package web2.controller;
+package web22.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

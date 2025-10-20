@@ -22,7 +22,7 @@
             1. HTML 한장으로 구성 , CSR( Client side Rendering )방식 
             2. 클라이언트사이드렌더링이란? 사용자 브라우저에서 화면 전환 
             3. 장점 : 빠르다,서버부담적다 / 단점:최초로딩느리다, 검색엔진( SEO )불리다.
-            예시] REACT( web2 ) , 
+            예시] REACT( web22 ) ,
             단점보완 : 서버사이드렌더링을 고집하게 위해 NEXT.JS 도입 한다.
         - MPA ( Multi page Application )
             1. HTML 여러장으로 구성 , SSR( Server side Rndering )방식 

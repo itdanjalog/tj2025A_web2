@@ -1,4 +1,4 @@
-package web2.config;
+package web22.config;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -11,7 +11,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-import web2.util.JwtUtil;
+import web22.util.JwtUtil;
 
 import java.io.IOException;
 import java.util.List;

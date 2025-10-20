@@ -1,10 +1,10 @@
-package web2.service;
+package web22.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import web2.model.dto.UserDto;
-import web2.model.mapper.UserMapper;
+import web22.model.dto.UserDto;
+import web22.model.mapper.UserMapper;
 
 @Service
 @RequiredArgsConstructor

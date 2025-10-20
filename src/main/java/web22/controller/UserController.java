@@ -1,15 +1,15 @@
-package web2.controller;
+package web22.controller;
 
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import web2.model.dto.UserDto;
-import web2.service.UserService;
+import web22.model.dto.UserDto;
+import web22.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import web2.util.JwtUtil;
+import web22.util.JwtUtil;
 
 @RestController
 @RequiredArgsConstructor
