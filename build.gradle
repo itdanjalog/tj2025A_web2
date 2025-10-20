@@ -47,6 +47,8 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-aop'
     // [10] noSQL REDIS
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+    // [11] 비크립트( 암호화 )
+    implementation 'org.springframework.security:spring-security-crypto:6.4.4'
 }
 
 tasks.named('test') {
