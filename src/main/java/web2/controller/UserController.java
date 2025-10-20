@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import web2.model.dto.UserDto;
 import web2.service.UserService;
+import web2.util.JwtUtil;
 
 @RestController
 @RequestMapping("/api/user") // 공통URL 정의
@@ -34,6 +35,8 @@ public class UserController {
 //        return ResponseEntity.ok( result );
 //    }
 
+    private  final JwtUtil jwtUtil;
+
     // 2-2. 로그인(+쿠키 : 클라이언트 브라우저 의 임시 저장소 , 세션:서버 / 쿠키:클라이언트  )
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody UserDto userDto , HttpServletResponse response ){
@@ -42,7 +45,9 @@ public class UserController {
             // * 로그인정보를 세션에 저장하면 서버이므로 안전하다. 쿠키(클라이언트) 저장하면 위험하다.
             // Cookie cookie = new Cookie( "쿠키명" , 값 ); // 주로 사용자들의 설정값/임시 저장소
             // response.addCookie( 생성한쿠키 );
-            Cookie cookie = new Cookie( "loginUser" , result.getUid() );
+            // Cookie cookie = new Cookie( "loginUser" , result.getUid() );
+            Cookie cookie = new Cookie( "loginUser" , jwtUtil.generateToken( result.getUid() , result.getUrole() )  );
+
             // 클라이언트 에서 해당 쿠키를 노출(탈취) 방지 = 주로 민감한정보는 httpOnly 설정한다.
             cookie.setHttpOnly( true ); // .setHttpOnly( true ) : 무조건 http 에서만 사용. 즉] JS로 접근 불가능
             cookie.setSecure( false ); //  HTTP 암호화 : 단 https(true) 에서만 가능 하므로 테스트 단계에서는 false 한다.
@@ -64,10 +69,15 @@ public class UserController {
         if( cookies != null ){ // 만약에 쿠키들이 존재하면
             for( Cookie c : cookies ){ // 하나씩 쿠키들을 반복하여
                 if( c.getName().equals( "loginUser") ){ // "loginUser" 쿠키명과 같다면
-                    String uid = c.getValue(); // 쿠키의 저장된 값 반환 ex] uid
-                    // 3-3 : 서비스를 호출하여 내정보 조회
-                    UserDto result = userService.myInfo( uid );
-                    return ResponseEntity.ok( result ); // 로그인 상태로 회원정보 조회
+                    //
+                    String token = c.getValue();
+                    boolean result = jwtUtil.validateToken( token );
+                    if( result ){
+                        String uid = jwtUtil.getUid( token );
+                        // 3-3 : 서비스를 호출하여 내정보 조회
+                        UserDto result2 = userService.myInfo( uid );
+                        return ResponseEntity.ok( result2 ); // 로그인 상태로 회원정보 조회
+                    }
                 }
             }
         }

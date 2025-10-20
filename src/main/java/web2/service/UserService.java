@@ -15,6 +15,26 @@ public class UserService {
     // 1-2 : 비크립트 라이브러리 객체 주입
     private final BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();
 
+    public UserDto findOrCreateGoogleUser(String email, String name) {
+        UserDto user = userMapper.login(email);
+
+        if (user == null) {
+            user = new UserDto();
+            user.setUid(email);
+            user.setUpwd( bcrypt.encode("GOOGLE_USER_" + System.currentTimeMillis())); // 임시 비밀번호
+            user.setUname(name);
+            user.setUphone("");
+            user.setUrole("USER"); // 기본 USER
+            signup( user );
+            System.out.println("✅ 신규 Google 유저 등록: " + email);
+
+        } else {
+            System.out.println("✅ 기존 Google 유저 로그인: " + email);
+        }
+
+        return user;
+    }
+
     // 1. 회원가입
     public int signup(UserDto userDto ){
         // 1-3 : 회원가입 하기전에 비크립트 를 이용한 비밀번호 암호화(사람이 이해하기 어려운 데이터로 변경) 하기
@@ -52,6 +72,8 @@ public class UserService {
         UserDto result = userMapper.myInfo( uid );
         return result;
     }
+
+
 
 }
 /*

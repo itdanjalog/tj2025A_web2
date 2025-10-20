@@ -113,5 +113,5 @@ import Task6 from './example/day04/Task6.jsx'
 //create.render( <Component15 /> );
 
 // web22
-import App from './web22/App.jsx'
+import App from './web2/App.jsx'
 create.render( <App /> );

@@ -1,7 +1,11 @@
 import React, { useState } from "react";
-import userApi from "../../api/userApi";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
-export default function Signup({ onSigned }) {
+export default function Signup() {
+  const navigate = useNavigate();
+
+  // ✅ 폼 상태
   const [form, setForm] = useState({
     uid: "",
     upwd: "",
@@ -9,43 +13,77 @@ export default function Signup({ onSigned }) {
     uphone: "",
     urole: "USER"
   });
-  const [msg, setMsg] = useState("");
 
-  const change = (k) => (e) => setForm({ ...form, [k]: e.target.value });
+const [msg, setMsg] = useState('');
 
-  const submit = async () => {
-    try {
-      const res = await userApi.post("/signup", form);
-      // 응답에서 uno 확인
-      const data = res.data;
-      setMsg(JSON.stringify(data));
-      if (data && data.uno) {
-        onSigned && onSigned(data.uno);
+  // ✅ 입력 핸들러 (공통)
+  const handleChange = (key) => (e) =>
+    setForm({ ...form, [key]: e.target.value });
+
+  // ✅ 회원가입 요청
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+      const res =  await axios.post("http://localhost:8080/api/user/signup", form );
+      if( res.data > 0 ){
+
+          alert("회원가입 성공!");
+          navigate("/login");
+      }else{
+      setMsg("❌ 회원가입 실패: ");
       }
-    } catch (err) {
-      setMsg(err.response?.data || err.message);
-    }
+
   };
 
+  // ✅ 렌더링
   return (
-    <div>
+    <div style={{ maxWidth: 400, margin: "0 auto" }}>
       <h2>회원가입</h2>
-      <div>
-        <input placeholder="아이디(uid)" value={form.uid} onChange={change("uid")} />
-      </div>
-      <div>
-        <input placeholder="비밀번호(upwd)" type="password" value={form.upwd} onChange={change("upwd")} />
-      </div>
-      <div>
-        <input placeholder="이름(uname)" value={form.uname} onChange={change("uname")} />
-      </div>
-      <div>
-        <input placeholder="전화번호(uphone)" value={form.uphone} onChange={change("uphone")} />
-      </div>
-      <div style={{ marginTop: 8 }}>
-        <button onClick={submit}>회원가입</button>
-      </div>
-      <div style={{ marginTop: 8, color: "teal" }}>{msg && typeof msg === "string" ? msg : JSON.stringify(msg)}</div>
+
+      <form onSubmit={handleSubmit}>
+        <div>
+          <input
+            placeholder="아이디 (uid)"
+            value={form.uid}
+            onChange={handleChange("uid")}
+            required
+          />
+        </div>
+        <div>
+          <input
+            placeholder="비밀번호 (upwd)"
+            type="password"
+            value={form.upwd}
+            onChange={handleChange("upwd")}
+            required
+          />
+        </div>
+        <div>
+          <input
+            placeholder="이름 (uname)"
+            value={form.uname}
+            onChange={handleChange("uname")}
+            required
+          />
+        </div>
+        <div>
+          <input
+            placeholder="전화번호 (uphone)"
+            value={form.uphone}
+            onChange={handleChange("uphone")}
+          />
+        </div>
+
+        <div style={{ marginTop: 10 }}>
+          <button type="submit">회원가입</button>
+        </div>
+      </form>
+
+      {msg && (
+        <div style={{ marginTop: 12, color: msg.startsWith("✅") ? "teal" : "red" }}>
+          {msg}
+        </div>
+      )}
     </div>
   );
 }
