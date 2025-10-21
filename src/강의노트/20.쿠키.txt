@@ -37,6 +37,7 @@
             @CookieValue()
 
         5. 쿠키 삭제
+            HttpServletResponse response
              Cookie 내가만든쿠키 = new Cookie( "삭제할쿠키명" , null );
              cookie.setHttpOnly( true );
              cookie.setSecure( false );
