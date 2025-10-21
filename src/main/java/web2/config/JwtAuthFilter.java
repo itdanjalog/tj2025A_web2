@@ -11,7 +11,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-import web2.util.JwtUtil;
+import web2.service.JwtService;
 
 import java.io.IOException;
 import java.util.List;
@@ -32,7 +32,7 @@ import java.util.List;
 public class JwtAuthFilter extends OncePerRequestFilter {
 
     // ✅ JwtUtil 주입 : 토큰 검증 및 정보 추출 기능을 담당
-    private final JwtUtil jwtUtil;
+    private final JwtService jwtUtil;
 
     // ====================================================================================================
     // ✅ doFilterInternal() : 스프링 시큐리티 필터 체인에서 매 요청마다 자동 실행되는 메소드

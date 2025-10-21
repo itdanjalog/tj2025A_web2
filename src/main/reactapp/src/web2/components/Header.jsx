@@ -49,28 +49,40 @@ export default function Header() {
           <img src= {logo} />
         </Link>
 
-        {user ? (
-          // 🔐 로그인 중
-          <>
-            <span style={{ marginRight: 10 }}>
-              <strong>{user.uname }</strong> 님
-            </span>
-            <button onClick={handleLogout}>로그아웃</button>{" "}
-            <Link to="/info">
-              <button>내정보</button>
-            </Link>
-          </>
-        ) : (
-          // 🚪 비로그인 상태
-          <>
-            <Link to="/signup">
-              <button>회원가입</button>
-            </Link>
-            <Link to="/login">
-              <button>로그인</button>
-            </Link>
-          </>
-        )}
+            {user ? (
+              // 🔐 로그인 중
+              <>
+                <span style={{ marginRight: 10 }}>
+                  <strong>{user.uname}</strong> 님
+                </span>
+
+                {/* ✅ 관리자 전용 버튼 */}
+                {user.urole === "ADMIN" && (
+                  <Link to="/admin/dashboard">
+                    <button style={{ marginRight: 10 }}>관리자페이지</button>
+                  </Link>
+                )}
+
+                <button onClick={handleLogout} style={{ marginRight: 10 }}>
+                  로그아웃
+                </button>
+
+                <Link to="/user/info">
+                  <button>내정보</button>
+                </Link>
+              </>
+            ) : (
+              // 🚪 비로그인 상태
+              <>
+                <Link to="/signup">
+                  <button>회원가입</button>
+                </Link>
+                <Link to="/login">
+                  <button>로그인</button>
+                </Link>
+              </>
+            )}
+
       </nav>
     </div>
   );

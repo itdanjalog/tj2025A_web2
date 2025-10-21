@@ -26,8 +26,8 @@ export default function Login() {
         console.log( res.data );
         if( res.data != '' ){
               alert("로그인 성공!");
-              // navigate("/info"); // 로그인 후 프로필 페이지로 이동
-             location.href = '/info'
+              //navigate("/user/info"); // 로그인 후 프로필 페이지로 이동
+             location.href = '/user/info'
         }else{
               alert("로그인 실패!");
         }
@@ -62,6 +62,9 @@ export default function Login() {
           <a href="http://localhost:8080/oauth2/authorization/google">
             구글 로그인
           </a>
+                    <a href="http://localhost:8080/oauth2/authorization/kakao">
+                      카카오 로그인
+                    </a>
         </div>
       </form>
 

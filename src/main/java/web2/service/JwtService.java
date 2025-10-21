@@ -180,10 +180,12 @@
 
 
 
-package web2.util;
+package web2.service;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
+import jakarta.annotation.PostConstruct;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.nio.charset.StandardCharsets;
@@ -193,18 +195,29 @@ import java.util.Date;
 // 해당 클래스를 스프링이 자동으로 감지하고 빈(Bean)으로 등록하도록 지정
 // => SecurityConfig 등에서 @Autowired 또는 생성자 주입으로 사용 가능
 @Component
-public class JwtUtil {
+public class JwtService {
 
     // ==========================================================================================================
     // ✅ JWT 서명(Signature)에 사용할 비밀키 정의
     // - JWT의 서명(Signature) 부분을 생성할 때 사용되는 개인키(서버만 알고 있어야 함)
     // - 최소 256bit(=32자 이상) 이상의 문자열이어야 안전함
     // ==========================================================================================================
-    private static final String SECRET = "MySecretKeyForJWT_ChangeThisToLongerString123!@#";
+//    private static final String SECRET = "123456789123456789123456789123456789";
+//
+//    // HMAC-SHA 알고리즘에 사용할 수 있도록 비밀키를 Key 객체로 변환
+//    // Keys.hmacShaKeyFor()는 jjwt 라이브러리 제공 메서드로, HMAC-SHA용 SecretKey를 생성해줌
+//    private final Key secretKey = Keys.hmacShaKeyFor(SECRET.getBytes(StandardCharsets.UTF_8));
 
-    // HMAC-SHA 알고리즘에 사용할 수 있도록 비밀키를 Key 객체로 변환
-    // Keys.hmacShaKeyFor()는 jjwt 라이브러리 제공 메서드로, HMAC-SHA용 SecretKey를 생성해줌
-    private final Key secretKey = Keys.hmacShaKeyFor(SECRET.getBytes(StandardCharsets.UTF_8));
+
+    @Value("${jwt.secret}")
+    private String secret; // ① 문자열로 먼저 주입받음
+
+    private Key secretKey; // ② 변환 후 저장할 필드
+
+    @PostConstruct
+    public void init() { // ③ 빈 초기화 이후 실행
+        this.secretKey = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
+    }
 
     // =====================================================================================
     // ✅ 1. 토큰 생성 메소드 : generateToken(String uid, String urole)
@@ -296,4 +309,62 @@ public class JwtUtil {
         return getClaims(token).get("urole", String.class);
     }
 
+
+    // ====================================================================
+    // ✅ (1) 간단한 토큰 생성 메소드 : 토큰생성(String value)
+    // - 입력받은 문자열(value)을 클레임으로 저장한 토큰 생성
+    // ====================================================================
+    public String 토큰생성(String value) {
+
+        String token = Jwts.builder()
+                .claim("value", value)
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 )) // 1분
+                .signWith(secretKey, SignatureAlgorithm.HS256)
+                .compact();
+
+        return token;
+    }
+
+    // ====================================================================
+    // ✅ (2) 토큰 검증 메소드 : 토큰검증(String token)
+    // - 토큰이 위조 또는 만료되었는지 검사
+    // ====================================================================
+    public boolean 토큰검증(String token) {
+        try {
+            Jwts.parser()
+                    .setSigningKey(secretKey)
+                    .build()
+                    .parseClaimsJws(token);
+            return true;
+        } catch (JwtException e) {
+            return false;
+        }
+    }
+
+    // ====================================================================
+    // ✅ (3) 토큰 값 추출 메소드 : 값추출(String token)
+    // - 토큰 내부 클레임(value) 값 반환
+    // ====================================================================
+    public String 값추출(String token) {
+        try {
+            Claims claims = Jwts.parser()
+                    .setSigningKey(secretKey)
+                    .build()
+                    .parseClaimsJws(token)
+                    .getBody();
+
+            String value = claims.get("value", String.class);
+            return value;
+
+        } catch (JwtException e) {
+            return null;
+        }
+    }
+
+
 }
+
+// 종류	대칭키 (서버가 발급·검증 모두 수행)
+//복호화 가능 여부	❌ Payload는 Base64 인코딩이므로 누구나 볼 수 있으나, 서명(Signature)은 복호화 불가
+//보안 핵심	서버의 secretKey가 외부에 노출되지 않아야 함

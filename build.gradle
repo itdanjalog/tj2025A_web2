@@ -64,3 +64,33 @@ dependencies {
 tasks.named('test') {
     useJUnitPlatform()
 }
+
+
+// ====================================================================
+// ✅ React (프론트엔드) 자동 빌드 연동 (Windows 호환)
+// ====================================================================
+def frontendDir = "${projectDir}/src/main/reactapp"
+
+// React 빌드 전 npm 설치
+task installReact(type: Exec) {
+    workingDir frontendDir
+    commandLine "cmd", "/c", "npm install"
+}
+
+// React 빌드
+task buildReact(type: Exec) {
+    dependsOn installReact
+    workingDir frontendDir
+    commandLine "cmd", "/c", "npm run build"
+}
+
+// 빌드된 React 결과물을 Spring 정적 리소스로 복사
+task copyReactBuild(type: Copy) {
+    dependsOn buildReact
+    from("${frontendDir}/dist")   // ✅ Vite 기준 (CRA는 build)
+    into("${projectDir}/src/main/resources/static")
+}
+
+// Spring Boot 빌드 시 자동으로 React 복사 포함
+processResources.dependsOn(copyReactBuild)
+

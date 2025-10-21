@@ -52,6 +52,7 @@ public class SecurityConfig {
                 // [3] URL별 접근 권한 설정
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/api/user/info").hasAnyRole("ADMIN" , "USER")
                         // 모든 요청 허용 (임시, 실제 운영 시 세분화 필요)
                         .requestMatchers("/**").permitAll()
                         // /api/admin/** 경로는 ADMIN 권한 필요
@@ -65,8 +66,14 @@ public class SecurityConfig {
 
                 // [5] UsernamePasswordAuthenticationFilter 이전에 JWT 필터 추가
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
+//                .oauth2Login(oauth -> oauth
+//                        .successHandler(oAuth2SuccessHandler) // ✅ OAuth2 로그인 성공 시 커스텀 처리
+//                );
+
+                // ✅ OAuth2 로그인 (폼 없이)
                 .oauth2Login(oauth -> oauth
-                        .successHandler(oAuth2SuccessHandler) // ✅ OAuth2 로그인 성공 시 커스텀 처리
+                        .loginPage("/oauth2/authorization/google") // 직접 호출 시 구글 로그인으로 바로 리다이렉트
+                        .successHandler(oAuth2SuccessHandler)
                 );
 
         // [6] 최종 SecurityFilterChain 객체 반환

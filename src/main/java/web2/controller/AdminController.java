@@ -14,6 +14,6 @@ public class AdminController {
 
     @GetMapping("/dashboard")
     public ResponseEntity<?> adminBoard() {
-        return ResponseEntity.ok("ADMIN 전용 페이지 접근 성공");
+        return ResponseEntity.ok("ADMIN 전용 API 접근 성공");
     }
 }

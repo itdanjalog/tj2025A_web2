@@ -3,13 +3,12 @@ package web2.controller;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import web2.model.dto.UserDto;
 import web2.service.UserService;
-import web2.util.JwtUtil;
+import web2.service.JwtService;
 
 @RestController
 @RequestMapping("/api/user") // 공통URL 정의
@@ -17,6 +16,7 @@ import web2.util.JwtUtil;
 public class UserController {
 
     private final UserService userService;
+    private  final JwtService jwtUtil;
 
     // 1. 회원가입
     @PostMapping("/signup")
@@ -35,7 +35,7 @@ public class UserController {
 //        return ResponseEntity.ok( result );
 //    }
 
-    private  final JwtUtil jwtUtil;
+
 
     // 2-2. 로그인(+쿠키 : 클라이언트 브라우저 의 임시 저장소 , 세션:서버 / 쿠키:클라이언트  )
     @PostMapping("/login")
