@@ -32,7 +32,7 @@ public class JwtController {
     }
 
     // [3] 토큰 값 추출
-    @GetMapping("/value")
+    @GetMapping("/value") // http://localhost:8080/api/jwt/value?토큰=xxxxx
     public ResponseEntity<?> 토큰값추출(
             @RequestParam String 토큰 ){
         String value = jwtService.값추출( 토큰 );
