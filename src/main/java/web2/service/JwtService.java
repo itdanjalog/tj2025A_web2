@@ -1,6 +1,7 @@
 package web2.service;
 
 import com.github.dockerjava.api.model.Secret;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
@@ -63,7 +64,7 @@ public class JwtService {
                     .parseClaimsJws( 토큰 )
                     .getBody(); // 검증후 클레임(내용물) 가져오기
             System.out.println("claims = " + claims);
-            String value = claims.get("key");
+            String value = claims.get("key" , String.class );
             return value;
         } catch (Exception e) {
             return null;
