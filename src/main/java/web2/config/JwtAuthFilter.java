@@ -55,11 +55,14 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             System.out.println("t = " + t);
             // 2-3 : 시큐리티가 사용할수 있게 토큰 저장 . SecurityContext( 시큐리티메모리 )
             SecurityContextHolder.getContext().setAuthentication( t );
-        }
-        // 2-3 :다른 필터들이 계속 요청을 처리하도록 전달
-        filterChain.doFilter(request, response);
-    }
-}
+        } // 2 end
+
+        // 3 : 다른 필터에서 해당하는 토큰필터를 호출 할수 있도록
+        filterChain.doFilter( request , response );
+
+    } // methode end
+
+} // class end
 
 
 
