@@ -40,7 +40,10 @@ public class UserController {
     // 2-2. 로그인(+쿠키 : 클라이언트 브라우저 의 임시 저장소 , 세션:서버 / 쿠키:클라이언트  ) + 토큰
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody UserDto userDto , HttpServletResponse response ){
+        System.out.println("UserController.login");
         UserDto result = userService.login( userDto );
+        System.out.println("result = " + result);
+
         if( result != null ){ // 만약에 로그인 성공 했다면 성공한 유저의 아이디를 *쿠키*에 저장
             // * 로그인정보를 세션에 저장하면 서버이므로 안전하다. 쿠키(클라이언트) 저장하면 위험하다.
             // Cookie cookie = new Cookie( "쿠키명" , 값 ); // 주로 사용자들의 설정값/임시 저장소
@@ -65,6 +68,7 @@ public class UserController {
     // 3. 현재 로그인된 정보 호출 ( + 마이페이지 )
     @GetMapping("/info")
     public ResponseEntity<?> myInfo( HttpServletRequest request ){ // 쿠키 활용한 로그인상태를 확인
+        System.out.println("UserController.myInfo");
         // 3-1 : 현재 클라이언트(브라우저) 저장된 모든 쿠키 가져오기
         Cookie[] cookies = request.getCookies();
         // 3-2 : 반복문 이용한 특정한 쿠키명 찾기
