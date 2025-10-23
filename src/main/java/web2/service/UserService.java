@@ -53,6 +53,22 @@ public class UserService {
         return result;
     }
 
+    // 4. [oauth2] 회원가입 구성
+    public UserDto oauth2UserSignup( String uid, String name ){
+        // 4-1 : 기존 회원인지 검사
+        UserDto userDto = userMapper.login( uid );
+        if( userDto == null ){ // 기존 회원정보 없음
+            UserDto oauthUser = new UserDto();
+            oauthUser.setUid( uid );
+            oauthUser.setUpwd( "oauth" ); // 자사(비크립트 관리) 타사(관리X) 이므로 없음 // 패스워드가 없는 회원은 oauth2 로그인
+            oauthUser.setUname( name );
+            oauthUser.setUrole( "USER" ); // 추후에 일반유저와 OAUTH 유저 권한 구분 가능
+            userMapper.signup( oauthUser );
+            return oauthUser;
+        }
+        return null;
+    }
+
 }
 /*
     회원의 비밀번호를 암호화
