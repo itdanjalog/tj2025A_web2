@@ -27,11 +27,11 @@ public class Oauth2SuccessHandler implements AuthenticationSuccessHandler {
         // [3] 로그인 성공한 회원의 타사 발급한 토큰 확인
         // 3-1 : oauth2 관련 라이브러리 설치 : implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
         // 3-2 : 로그인 성공한 토큰 확인 , Oauth2authenticationToken , 타사의 회사명
-        OAuth2AuthenticationToken authToken = (Oauth2authticationToken) authentication;
+        OAuth2AuthenticationToken authToken = (OAuth2AuthenticationToken) authentication;
         System.out.println("authToken = " + authToken);
 
         // 3-3 : 로그인 성공한 회원의 동의항목(정보) , Oauth2User
-        OAuth2User oauth2User = (Oauth2User) authentication.getPrincipal(); // Principal() 주체(로그인성공한정보)
+        OAuth2User oauth2User = (OAuth2User) authentication.getPrincipal(); // Principal() 주체(로그인성공한정보)
         System.out.println("oauth2User = " + oauth2User);
 
         // 1. 어느 타사의 로그인 성공 인지 확인
