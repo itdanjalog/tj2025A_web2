@@ -18,6 +18,8 @@ public class SecurityConfig {
 
     private final JwtAuthFilter jwtAuthFilter; // 내가만든 토큰을 시큐리티 토큰 방식으로 통합한 클래스
 
+    private final Oauth2SuccessHandler oauth2SuccessHandler;
+
     // !! : HTTP 관련 필터들을 커스텀 , HTTP는 요청과 응답 처리하는 웹 아키텍처
     @Bean // 빈 등록
     public SecurityFilterChain filterChain( HttpSecurity http ) throws Exception{
@@ -42,6 +44,13 @@ public class SecurityConfig {
                 // [3-2] UsernamePasswordAuthenticationToken 을 개발자가 만든 토큰 대체
         // http.addFilterBefore( 내가만든토큰객체필터 , UsernamePasswordAuthenticationFilter.class );
         http.addFilterBefore( jwtAuthFilter , UsernamePasswordAuthenticationFilter.class );
+
+                // [4] Oauth2 로그인 필터 사용 설정
+        // http.oauth2Login( 매개변수 -> 매개변수.successHandler( 로그인성공시특정클래스이동 ) );
+        http.oauth2Login( o -> o
+                .loginPage("/oauth2/authorization/google") // 현재 서버의 로그인페이지가 아닌 타사 로그인페이지 사용
+                .successHandler( oauth2SuccessHandler ) // 타사 로그인 페이지에서 로그인 성공시 반환되는 클래스 정의
+        );
 
         // ====================== 완료 ========================== //
         return http.build(); // 커스텀 완료된 객체 반환

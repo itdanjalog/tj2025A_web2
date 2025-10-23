@@ -55,6 +55,8 @@ dependencies {
     runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.12.6'
     // [13] 스프링 시큐리티
     implementation 'org.springframework.boot:spring-boot-starter-security'
+    // [14] oauth2
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 }
 
 tasks.named('test') {
