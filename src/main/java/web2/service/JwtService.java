@@ -202,22 +202,22 @@ public class JwtService {
     // - JWT의 서명(Signature) 부분을 생성할 때 사용되는 개인키(서버만 알고 있어야 함)
     // - 최소 256bit(=32자 이상) 이상의 문자열이어야 안전함
     // ==========================================================================================================
-//    private static final String SECRET = "123456789123456789123456789123456789";
+    private static final String SECRET = "123456789123456789123456789123456789";
+
+    // HMAC-SHA 알고리즘에 사용할 수 있도록 비밀키를 Key 객체로 변환
+    // Keys.hmacShaKeyFor()는 jjwt 라이브러리 제공 메서드로, HMAC-SHA용 SecretKey를 생성해줌
+    private final Key secretKey = Keys.hmacShaKeyFor(SECRET.getBytes(StandardCharsets.UTF_8));
+
+
+//    @Value("${jwt.secret}")
+//    private String secret; // ① 문자열로 먼저 주입받음
 //
-//    // HMAC-SHA 알고리즘에 사용할 수 있도록 비밀키를 Key 객체로 변환
-//    // Keys.hmacShaKeyFor()는 jjwt 라이브러리 제공 메서드로, HMAC-SHA용 SecretKey를 생성해줌
-//    private final Key secretKey = Keys.hmacShaKeyFor(SECRET.getBytes(StandardCharsets.UTF_8));
-
-
-    @Value("${jwt.secret}")
-    private String secret; // ① 문자열로 먼저 주입받음
-
-    private Key secretKey; // ② 변환 후 저장할 필드
-
-    @PostConstruct
-    public void init() { // ③ 빈 초기화 이후 실행
-        this.secretKey = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
-    }
+//    private Key secretKey; // ② 변환 후 저장할 필드
+//
+//    @PostConstruct
+//    public void init() { // ③ 빈 초기화 이후 실행
+//        this.secretKey = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
+//    }
 
     // =====================================================================================
     // ✅ 1. 토큰 생성 메소드 : generateToken(String uid, String urole)

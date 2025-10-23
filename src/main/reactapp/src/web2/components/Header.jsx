@@ -9,7 +9,7 @@ export default function Header() {
   const navigate = useNavigate();
 
   const [user, setUser] = useState(null); // 로그인된 유저정보 저장
-  const [loading, setLoading] = useState(true);
+
 
   // ✅ 1. 컴포넌트 마운트 시 로그인 상태 확인
   useEffect(() => {
@@ -21,8 +21,6 @@ export default function Header() {
         setUser(res.data); // { uid, role } 형태로 반환됨
       } catch (err) {
         setUser(null);
-      } finally {
-        setLoading(false);
       }
     };
     fetchUser();

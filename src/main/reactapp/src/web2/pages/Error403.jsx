@@ -1,0 +1,5 @@
+export default function Error403( props ){
+    return(<>
+        <h2> 접근 권한이 없습니다.</h2>
+    </>)
+}

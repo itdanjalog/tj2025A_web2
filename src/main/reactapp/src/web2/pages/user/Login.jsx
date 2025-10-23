@@ -8,8 +8,6 @@ export default function Login() {
   // ✅ 입력 상태
   const [uid, setUid] = useState("");
   const [upwd, setUpwd] = useState("");
-  const [msg, setMsg] = useState("");
-
   // ✅ 로그인 요청
   const handleSubmit = async (e) => {
     e.preventDefault();

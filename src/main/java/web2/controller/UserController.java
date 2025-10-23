@@ -4,11 +4,15 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import web2.model.dto.UserDto;
 import web2.service.UserService;
 import web2.service.JwtService;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/user") // 공통URL 정의
@@ -100,6 +104,22 @@ public class UserController {
 
         return ResponseEntity.ok( true );
     }
+
+    @GetMapping("/check")
+    public ResponseEntity<?> checkToken(  @CookieValue(value = "loginUser", required = false) String token) {
+        System.out.println("token = " + token);
+        Map<String,Object> map = new HashMap<>();
+        if (token != null && jwtUtil.validateToken(token)) {
+            String role = jwtUtil.getUrole(token);
+            map.put( "isAuthenticated" , true );
+            map.put( "role" , role );
+            return ResponseEntity.ok( map );
+        } else {
+            map.put( "isAuthenticated" , true );
+            return ResponseEntity.status(403) .body(map);
+        }
+    }
+
 }
 
 

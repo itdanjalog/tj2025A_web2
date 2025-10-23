@@ -3,10 +3,11 @@ import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 
 import Header from "./components/Header";
 
-import ProtectedRoute  from "./components/ProtectedRoute";
+import RoleRoute  from "./components/RoleRoute";
 
 
 import Home from "./pages/Home";
+import Error403 from "./pages/Error403";
 
 // 페이지 컴포넌트
 import Signup from "./pages/user/Signup";
@@ -24,22 +25,22 @@ export default function App() {
         <Routes>
 
                    {/* ✅ 로그인은 누구나 접근 가능 */}
-                   <Route path="/" element={<Home />} />
+                  <Route path="/" element={<Home />} />
                   <Route path="/signup" element={<Signup />} />
                   <Route path="/login" element={<Login />} />
 
                    {/* ✅ USER와 ADMIN 모두 접근 가능 */}
-                   <Route element={<ProtectedRoute allowedRoles={["USER", "ADMIN"]} />}>
+                   <Route element={<RoleRoute roleCheck={ ["USER", "ADMIN"] } />}>
                      <Route path="/user/info" element={<Info />} />
                    </Route>
 
                    {/* ✅ ADMIN 전용 페이지 */}
-                   <Route element={<ProtectedRoute allowedRoles={["ADMIN"]} />}>
+                   <Route element={<RoleRoute roleCheck={["ADMIN"]} />}>
                      <Route path="/admin/dashboard" element={<Dashboard />} />
                    </Route>
 
                    {/* ✅ 접근 불가 페이지 */}
-                   <Route path="/forbidden" element={<h2>🚫 접근 권한이 없습니다.</h2>} />
+                   <Route path="/forbidden" element={  <Error403 /> } />
 
         </Routes>
     </Router>

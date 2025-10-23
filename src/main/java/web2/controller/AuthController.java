@@ -23,7 +23,6 @@ public class AuthController {
             @CookieValue(value = "loginUser", required = false) String token) {
         System.out.println("token = " + token);
         if (token != null && jwtService.validateToken(token)) {
-            String uid = jwtService.getUid(token);
             String role = jwtService.getUrole(token);
             return ResponseEntity.ok(Map.of(
                     "isAuthenticated", true,
@@ -34,6 +33,5 @@ public class AuthController {
                     .body(Map.of("isAuthenticated", false));
         }
     }
-
 
 }
