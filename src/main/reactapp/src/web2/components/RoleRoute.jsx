@@ -1,6 +1,7 @@
 // 서버로 부터 권한을 확인하여 해당 권한에 따른 컴포넌트를 제약
 import { useEffect, useState } from "react";
 import { Navigate, Outlet } from "react-router-dom";
+import axios from "axios";
 
 export default function RoleRoute( props ){
     // -props란 ? 상위 컴포넌트에서 해당 컴포넌트로 부터 전달받은 속성*들*
@@ -16,6 +17,7 @@ export default function RoleRoute( props ){
             setAuth( res.data );
             console.log( res.data )
         }catch(error){
+            console.log( error )
             setAuth( { isAuth : false , urole : null } );
         }
     }

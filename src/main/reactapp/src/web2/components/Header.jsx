@@ -32,7 +32,7 @@ export default function Header( props ){
                 { user ? 
                     <>  
                         { /* 로그인 상태 */}
-                        <span to="/login"> 유재석 님 </span>
+                        <span to="/login"> { user.uid } 님 </span>
                         <button onClick={ getLogout } > 로그아웃 </button>
                         <Link to="/user/info"> 마이페이지 </Link>
                         { /* 로그인 상태 이면서 관리자 이면 */}

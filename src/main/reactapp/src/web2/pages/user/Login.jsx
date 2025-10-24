@@ -1,4 +1,5 @@
 import { useState } from "react";
+import axios from "axios";
 
 export default function Login(){
 
@@ -16,7 +17,9 @@ export default function Login(){
                 alert('로그인 성공');
                 location.href = '/'; // location.href 이용한 페이지 전체 렌더링
             }else{ alert('로그인 실패' ); }
-        }catch( err ){}
+        }catch( err ){
+            console.log( err );
+        }
     }
 
     return (<>
