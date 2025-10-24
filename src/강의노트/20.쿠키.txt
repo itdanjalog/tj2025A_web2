@@ -31,10 +31,10 @@
             HttpServletRequest request
             Cookie[] cookies = request.getCookies();
             for( Cookie c : cookies ){
-                if( c.getName().equals( "쿠키명") ){ String value = c.getValue() }
+                if( c.getName().equals( "쿠키명") ){ String token = c.getValue() }
             }
             // vs
-            @CookieValue()
+            @CookieValue( value = "쿠키명" , required = false) String token
 
         5. 쿠키 삭제
             HttpServletResponse response
