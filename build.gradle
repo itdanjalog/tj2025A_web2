@@ -57,6 +57,8 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-security'
     // [14] oauth2
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+    // [15] JPA
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 }
 
 tasks.named('test') {
