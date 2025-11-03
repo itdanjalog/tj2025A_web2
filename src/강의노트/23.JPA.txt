@@ -12,10 +12,11 @@
     2. 목적 : SQL 없이 순수 자바만으로 데이터베이스 처리한다.
     3. 기능 : 1.CRUD 2.타입변환 3.부가기능(검색/정렬/페이징처리) 등등
 
-[ JPA ] J:java , P : persistence , A : api
+[ JPA ] J:java , P : ***persistence** , A : api
     자바 영속성/지속성/고집 API
     1.정의 : 자바에서 ORM 사용할때 표준 API, 자바에서 다양한 라이브러리 제공(+Hibernate)
     2.설치 : implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
 [ Entity ]
     1. 정의 : 데이터베이스 테이블과 매핑된 클래스
     Entity클래스 = DB테이블 , Entity객체 = 레코드

@@ -36,6 +36,7 @@ public class ExamService {
         return updateEntity;
     }
     // 3-2. U 특정한 엔티티 수정 , 주의할점 : 엔티티를 setter 하면 자동으로 DB도 변경된다.
+    @Transactional // 트랜잭션이란? 여러개 sql에서 하나라도 실패이면 모두 실패(rollback)
     public ExamEntity put2( ExamEntity examEntity ){
         // 1. 수정할 엔티티 조회한다. , findAll() , findById( pk번호 )
         Optional< ExamEntity > optional
