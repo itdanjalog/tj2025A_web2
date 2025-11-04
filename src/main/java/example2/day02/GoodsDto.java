@@ -15,6 +15,7 @@ public class GoodsDto {
     private String update_date;
     private String gname;
     private String gdesc;
+
     // ++++++ DTO --> ENTITY +++++
     // ++ Controller -> Service ++ : C(등록) U(수정)
     public GoodsEntity toEntity(){
@@ -23,10 +24,10 @@ public class GoodsDto {
                 .gname( this.gname )
                 .gprice( this.gprice )
                 .gdesc( this.gdesc )
-                // .date // 자동 제외
                 .build();
     }
-}
+
+} // class end
 
 
 
