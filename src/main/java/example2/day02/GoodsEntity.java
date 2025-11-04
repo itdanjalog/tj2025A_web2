@@ -9,7 +9,8 @@ import lombok.NoArgsConstructor;
 @Entity // 해당 클래스를 데이터베이스 테이블 과 매핑
 @Table( name = "goods")  // + 테이블 이름 정의 , 생략시 클래스명으로 테이블명 정의
 @Data@Builder@NoArgsConstructor@AllArgsConstructor // 롬복
-public class GoodsEntity {
+public class GoodsEntity extends BaseTime {
+
     @Id // PK필드 주입 :: JPA는 엔티티 1개당 PK필드는 1개이상 필수이다.
     @GeneratedValue( strategy = GenerationType.IDENTITY ) // auto_increment 주입 :: MYSQL 만 가능
     private int gno;        // 제품번호     , 자바 int -->  DB int
@@ -26,5 +27,31 @@ public class GoodsEntity {
     // columnDefinition = "SQL 구문 직접 작성"
     private String gdesc;   // 제품설명
 
+    // ++++++ Entity --> Dto ++++++++
+    // ++ Service -> Controller ++ : R(출력)
+    public GoodsDto toDto(){
+        // 객체생성방법1 : new 클래스명( 값 , 값 );
+        // 객체생성방법2 : 클래스명.builder().속성명(값).속성명(값).build()
+        return GoodsDto.builder()
+                .gno( this.gno )        // this이란? 현재 메소드를 호출한 인스턴스(객체)
+                .gname( this.gname )
+                .gprice( this.gprice )
+                .gdesc( this.gdesc )
+                .update_date( this.getUpdateDate().toString() )
+                .create_date( this.getCreateDate().toString() )
+                .build();
+    }
 
-}
+} // class end
+
+
+
+
+
+
+
+
+
+
+
+
