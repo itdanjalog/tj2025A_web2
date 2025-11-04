@@ -17,6 +17,6 @@ public class AppStart {
     @Bean // 특정한 경로는 시큐리티 무시.
     public WebSecurityCustomizer webSecurityCustomizer(){
         return (web)-> web.ignoring()
-                .requestMatchers("/api/exam/**");
+                .requestMatchers("/api/goods/**");
     }
 }
