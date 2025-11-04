@@ -1,10 +1,11 @@
 day107 SPRING WEB3 ] JPA 실습2 : 영화 CRUD 관리
 
 [조건 1] 엔티티 설계 : “영화(Movie)” 정보를 저장할 엔티티 클래스를 생성한다.
-    각 필드의 역할과 데이터 타입을 적절히 설정한다.
-    @Entity, @Table, @Id, @GeneratedValue, @Column 등의 JPA 어노테이션을 활용한다.
-    항목을 포함할 것: 영화번호(movieId), 영화제목(title), 감독(director), 개봉일(releaseDate), 평점(rating)
-    공통 상속 엔티티(BaseTime)를 적용하여 createdAt, updatedAt 자동 기록 기능을 포함한다.
+    - 각 필드의 역할과 데이터 타입을 적절히 설정한다.
+    - @Entity, @Table, @Id, @GeneratedValue, @Column 등의 JPA 어노테이션을 활용한다.
+    - 항목을 포함할 것: 영화번호(movieId), 영화제목(title), 감독(director), 개봉일(releaseDate), 평점(rating)
+    - 공통 상속 엔티티(BaseTime)를 적용하여 createdAt, updatedAt 자동 기록 기능을 포함한다.
+    - public MovieDto toDto( ) : Entity → DTO 변환
 
 [조건 2] BaseTime 설계 :  모든 엔티티의 생성일·수정일을 자동으로 기록하기 위한 상속 전용 클래스이다.
     다음과 같은 조건으로 클래스를 작성한다.
@@ -16,8 +17,7 @@ day107 SPRING WEB3 ] JPA 실습2 : 영화 CRUD 관리
 [조건 3] DTO 설계 : 영화 정보를 전송하기 위한 DTO 클래스를 생성한다.
     - DTO는 View와 Controller 간 데이터 전달용 객체이다.
     - 필드는 Entity와 동일하게 구성하되, 아래 메서드를 포함할 것.
-    1. public MovieEntity toEntity() : DTO → Entity 변환
-    2. public static MovieDto toDto(MovieEntity entity) : Entity → DTO 변환
+    - public MovieEntity toEntity() : DTO → Entity 변환
 
 [조건 4] 리포지토리 구현 : 영화 엔티티를 관리하는 리포지토리 인터페이스를 설계한다.
     JpaRepository를 상속받아 기본 CRUD 메서드를 활용할 수 있도록 구성한다.
