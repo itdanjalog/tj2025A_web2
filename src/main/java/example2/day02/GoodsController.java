@@ -25,9 +25,17 @@ public class GoodsController {
     public ResponseEntity<?> goodsGet( @RequestParam int gno ){
         return ResponseEntity.ok( goodsService.goodsGet( gno ) );
     }
-    // 4. 개별삭제
 
+    // 4. 개별삭제
+    @DeleteMapping
+    public ResponseEntity<?> goodsDelete( @RequestParam int gno ){
+        return  ResponseEntity.ok( goodsService.goodsDelete( gno ) );
+    }
     // 5. 개별수정
+    @PutMapping
+    public ResponseEntity<?> goodsUpdate( @RequestBody GoodsDto goodsDto ){
+        return ResponseEntity.ok( goodsService.goodsUpdate( goodsDto ) );
+    }
 
 }
 
