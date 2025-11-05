@@ -15,7 +15,7 @@ public class GoodsEntity extends BaseTime {
     @GeneratedValue( strategy = GenerationType.IDENTITY ) // auto_increment 주입 :: MYSQL 만 가능
     private int gno;        // 제품번호     , 자바 int -->  DB int
 
-    @Column( nullable = false , length = 100) // @Column( 속성명 = 값 , 속성명 = 값 ) ,
+    @Column(  nullable = false , length = 100) // @Column( 속성명 = 값 , 속성명 = 값 ) ,
     // nullable = null  : NULL 제외 ,
     // length = 100 : 최대글자수
     private String gname;   // 제품명      , 자바 String -->  DB varchar(255)
