@@ -8,15 +8,15 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 
 @SpringBootApplication
-@EnableJpaAuditing // ✅ JPA Auditing 기능 활성화 (BaseTime 자동 기록)
-@EnableWebSecurity // 시큐리티 설정 어노테이션
+@EnableWebSecurity // web2 사용했으므로 자동
+@EnableJpaAuditing // 데이터베이스 모니터링 작동
 public class AppStart {
     public static void main(String[] args) {
-        SpringApplication.run(AppStart.class, args);
-        System.out.println("✅ AppStart 실행 완료!");
+        SpringApplication.run( AppStart.class );
     }
-    @Bean // 특정 경로 전체를 Spring Security 검사에서 제외
-    public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) -> web.ignoring().requestMatchers("/api/goods/**");
+    @Bean // 특정한 경로는 시큐리티 무시.
+    public WebSecurityCustomizer webSecurityCustomizer(){
+        return (web)-> web.ignoring()
+                .requestMatchers("/api/goods/**");
     }
 }

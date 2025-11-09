@@ -3,8 +3,9 @@ package example2.day02;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-@Repository
-public interface GoodsRepository extends JpaRepository<GoodsEntity, Integer> {
-    // JPA 기본 CRUD 메서드 제공
-    // findAll(), findById(), save(), deleteById() 등
+@Repository // 빈 등록
+// 지정한 엔티티들을 조작하는 인터페이스
+public interface GoodsRepository
+    extends JpaRepository< GoodsEntity , Integer > {
+    // extends JpaRepository< 조작할엔티티클래스명 , 엔티티PK자료형 >
 }

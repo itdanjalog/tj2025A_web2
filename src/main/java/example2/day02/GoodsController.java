@@ -1,45 +1,52 @@
 package example2.day02;
 
-
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/goods")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "*")
 public class GoodsController {
-
     private final GoodsService goodsService;
-
-    /** ✅ 상품 등록 */
+    // 1. 저장
     @PostMapping // { "gname":"키보드", "gprice":35000, "gdesc":"기계식 청축" }
-    public ResponseEntity<?> create(@RequestBody GoodsDto dto) {
-        return ResponseEntity.ok( goodsService.create(dto) );
+    public ResponseEntity<?> goodsSave( @RequestBody GoodsDto goodsDto  ){
+        return ResponseEntity.ok( goodsService.goodsSave( goodsDto ) );
     }
-
-    /** ✅ 전체 상품 조회 */
+    // 2. 전체조회
     @GetMapping("/list")
-    public ResponseEntity<?> list() {
-        return ResponseEntity.ok( goodsService.findAll()  );
+    public ResponseEntity<?> goodsAll(){
+        return ResponseEntity.ok( goodsService.goodsAll() );
     }
 
-    /** ✅ 상품 상세 조회 */
-    @GetMapping // ?gno=1
-    public ResponseEntity<?> read(@RequestParam int gno) {
-        return ResponseEntity.ok( goodsService.findById(gno)  );
+    // 3. 개별조회
+    @GetMapping // http://localhost:8080/api/goods?gno=1
+    public ResponseEntity<?> goodsGet( @RequestParam int gno ){
+        return ResponseEntity.ok( goodsService.goodsGet( gno ) );
     }
 
-    /** ✅ 상품 수정 */
-    @PutMapping // { "gno" : "1", "gname":"키보드 PRO", "gprice":45000, "gdesc":"광축 모델" }
-    public ResponseEntity<?> update( @RequestBody GoodsDto dto) {
-        return ResponseEntity.ok( goodsService.update( dto)  );
+    // 4. 개별삭제
+    @DeleteMapping
+    public ResponseEntity<?> goodsDelete( @RequestParam int gno ){
+        return  ResponseEntity.ok( goodsService.goodsDelete( gno ) );
+    }
+    // 5. 개별수정
+    @PutMapping
+    public ResponseEntity<?> goodsUpdate( @RequestBody GoodsDto goodsDto ){
+        return ResponseEntity.ok( goodsService.goodsUpdate( goodsDto ) );
     }
 
-    /** ✅ 상품 삭제 */
-    @DeleteMapping // ?gno=1
-    public ResponseEntity<?> delete(@RequestParam int gno) {
-        return ResponseEntity.ok( goodsService.delete(gno)  );
-    }
 }
+
+
+
+
+
+
+
+
+
+
+

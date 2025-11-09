@@ -1,9 +1,8 @@
 package example2.day01;
 
-
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -11,54 +10,66 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class ExamService {
-
-    // 1. 조작할 엔티티리포지토리의 인터페이스
+    // * 매퍼객체 --> 리포지토리객체
     private final ExamRepository examRepository;
-
-    // - 등록
-    public ExamEntity post(ExamEntity examEntity){
-        // 2. 현재 엔티티를 저장하기 .save()
-        ExamEntity resultEntity = examRepository.save(examEntity);
-        // tableEntity : 영속 전 객체
-        // resultEntity : 영속 된 객체 , 매핑
-        return resultEntity;
+    // 1. C , 등록
+    public ExamEntity post( ExamEntity examEntity ){ // 1. 저장할 엔티티를 (매개변수)받는다.
+        // 2. .save() , 리포지토리의 저장 메소드 , 저장성공시 성공된 엔티티 반환
+        ExamEntity saveEntity
+            = examRepository.save( examEntity ); // insert 자동 처리
+        // 엔티티객체( 레코드=행 ) 엔티티(테이블)
+        return saveEntity;
     }
-    // - 전체조회
+    // 2. R , 전체조회
     public List<ExamEntity> get(){
-        // 3. 모든 엔티티를 리스트로 반환 , .findAll()
-        List<ExamEntity> examEntityList = examRepository.findAll();
-        return examEntityList;
-    }
-    // - 수정
-    public ExamEntity put(ExamEntity examEntity){
-        // 4. 현재 엔티티의 ID가 존재하면 UPDATE / 없으면 INSERT , .save()
-        ExamEntity resultEntity = examRepository.save(examEntity);
-        return resultEntity;
-    }
-    // - 수정 : 존재하는 ID만 수정 , .findById( pk값 )
-    @Transactional // 아래 메소드 에서 하나라도 sql 문제발생하면 전체 취소
-    public boolean put2( ExamEntity examEntity){
-        // 1. id 해당하는 엔티티 찾기
-        Optional<ExamEntity> optionalExamEntity = examRepository.findById( examEntity.getCol1() );
-        // 2. 만약에 조회한 엔티티가 있으면 .isPresent()
-        if( optionalExamEntity.isPresent() ){
-            // 3. Optional 객체에서 (영속된)엔티티 꺼내기
-            ExamEntity entity = optionalExamEntity.get();
-            entity.setCol2( examEntity.getCol2() );
-            entity.setCol3( examEntity.getCol3() );
-            return true;
-        }
-        return false;
+        // 1. .findAll() , 리포지토리의 전체조회 메소드 , 모든 엔티티객체를 반환한다.
+        List<ExamEntity> entityList
+            = examRepository.findAll(); // select 자동 처리
+        return entityList;
     }
 
-    // 삭제
+    // 3-1. U 특정한 엔티티 수정 , *비권장*
+    public ExamEntity put( ExamEntity examEntity ){
+        // 1. 수정할 엔티티 매개변수로 받는다. pk포함
+        // 2. save( 수정할엔티티 ): 만약에 지정한엔티티에 pk가 없으면 *생성, 존재하면 *수정
+        ExamEntity updateEntity = examRepository.save( examEntity );
+        return updateEntity;
+    }
+    // 3-2. U 특정한 엔티티 수정 , 주의할점 : 엔티티를 setter 하면 자동으로 DB도 변경된다.
+    @Transactional // 트랜잭션이란? 여러개 sql에서 하나라도 실패이면 모두 실패(rollback)
+    public ExamEntity put2( ExamEntity examEntity ){
+        // 1. 수정할 엔티티 조회한다. , findAll() , findById( pk번호 )
+        Optional< ExamEntity > optional
+        = examRepository.findById( examEntity.getCol1() );
+        // 2. Optional 클래스 이란? 자바에서 자주 발생하는 nullPointer 예외를 감싼/포장 클래스
+        // 즉] null 값에 대한 안전하게 유효성 기능 제공한다.
+        if( optional.isPresent() ) { // .isPresent() : 본문이 존재하는지 검사
+            ExamEntity entity = optional.get(); // .get() : 만약에 결과에 entity 존재하면 entity 꺼내기
+            entity.setCol2( examEntity.getCol2() ); // setter 이용한 엔티티 값 수정
+            entity.setCol3( examEntity.getCol3() ); // setter 이용한 엔티티 값 수정 , update 자동 처리
+            return entity;
+        }
+        return examEntity;
+    }
+    // 4. D , 특정한 엔티티 삭제
     public boolean delete( int col1 ){
+        // 1. 삭제할 pk번호 받는다 // 2. deleteById( pk번호 )
         examRepository.deleteById( col1 );
-        //tableRepository.delete( entity );
-        //tableRepository.deleteAll();
-        System.out.println( examRepository.count() );
-        System.out.println( examRepository.existsById( col1 ));
         return true;
     }
 
-}
+}// class end
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,33 @@
+day106 SPRING WEB3 ] JPA 실습1 : 도서 CRUD 관리
+[조건 1] 엔티티 설계 : “도서” 정보를 저장할 엔티티 클래스를 생성한다.
+    각 필드의 역할과 데이터 타입을 적절히 설정한다., @Entity, @Id 등의 JPA 어노테이션을 활용한다.
+    항목을 포함할 것: 도서ID, 도서명, 저자, 출판사
+
+[조건 2] 리포지토리 구현 : 도서 엔티티를 관리하는 리포지토리 인터페이스를 설계한다.
+    JpaRepository를 상속받아 기본 CRUD 메서드를 활용할 수 있도록 구성한다.
+
+[조건 3] 서비스 구현 : Service 클래스를 작성하여 아래 기능을 구현한다.
+    기능	설명
+    도서 등록	    새로운 도서 정보를 입력받아 DB에 저장
+    도서 전체 조회	모든 도서 목록을 조회
+    특정 도서 수정	도서ID를 기준으로 해당 도서 모든 정보 수정, @Transactional의 역할을 서술한다.
+    특정 도서 삭제	도서ID를 기준으로 해당 도서 삭제
+
+[조건 4] 컨트롤러 설계 : REST API 형식의 컨트롤러 클래스를 작성한다.
+
+[조건 5] Talend API Tester 실습
+
+[*** 시큐리티 제외 코드 예시 ***]
+@SpringBootApplication
+@EnableWebSecurity // 시큐리티 설정 어노테이션
+public class AppStart {
+    public static void main(String[] args) {
+        SpringApplication.run(AppStart.class, args);
+    }
+    @Bean // 특정 경로 전체를 Spring Security 검사에서 제외
+    public WebSecurityCustomizer webSecurityCustomizer() {
+        return (web) -> web.ignoring().requestMatchers("/api/exam/**");
+    }
+}
+
+[ 제출방법 ] 코드가 작성된 파일이 위치한 GitHub 상세 주소를 제출하시오.

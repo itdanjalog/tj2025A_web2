@@ -1,34 +1,35 @@
 package example2.day02;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
+// *엔티티는 서비스에만 사용*
+@Data@AllArgsConstructor@NoArgsConstructor@Builder // 롬복
 public class GoodsDto {
+    // 데이터베이스/엔티티 필드/속성 기반으로 구성
     private int gno;
-    private String gname;
     private int gprice;
+    private String create_date;
+    private String update_date;
+    private String gname;
     private String gdesc;
 
-    // ✅ DTO → Entity 변환
-    public GoodsEntity toEntity() {
+    // ++++++ DTO --> ENTITY +++++
+    // ++ Controller -> Service ++ : C(등록) U(수정)
+    public GoodsEntity toEntity(){
         return GoodsEntity.builder()
-                .gno(gno)
-                .gname(gname)
-                .gprice(gprice)
-                .gdesc(gdesc)
+                .gno( this.gno )
+                .gname( this.gname )
+                .gprice( this.gprice )
+                .gdesc( this.gdesc )
                 .build();
     }
 
-    // ✅ Entity → DTO 변환
-    public static GoodsDto toDto(GoodsEntity entity) {
-        return GoodsDto.builder()
-                .gno(entity.getGno())
-                .gname(entity.getGname())
-                .gprice(entity.getGprice())
-                .gdesc(entity.getGdesc())
-                .build();
-    }
-}
+} // class end
+
+
+
+
+
