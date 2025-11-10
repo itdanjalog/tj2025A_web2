@@ -32,6 +32,15 @@ public class TodoController {
                 todoService.query2( title , content ) );
     }
 
+    // [3] TodoRepository 2-3 , 3-3
+    // http://localhost:8080/api/todo/query3?title=책
+    @GetMapping("/query3")
+    public ResponseEntity<?> query3(
+            @RequestParam String title ){
+        return ResponseEntity.ok(
+                todoService.query3( title ) );
+    }
+
 } // class end
 
 

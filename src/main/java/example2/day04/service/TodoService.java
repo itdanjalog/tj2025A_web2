@@ -35,18 +35,26 @@ public class TodoService {
     // [2]
     public List<TodoDto> query2( String title, String content ){
         // 2-2
-        List<TodoEntity> result1 =
-        todoRepository.findByTitleAndContent( title, content );
+        List<TodoEntity> result1 = todoRepository.findByTitleAndContent( title, content );
         System.out.println("result1 = " + result1);
         // 3-2
-        List<TodoEntity> result2 =
-        todoRepository.query2( title , content );
+        List<TodoEntity> result2 = todoRepository.query2( title , content );
         System.out.println("result2 = " + result2);
         // *
-        return result2.stream()
-                .map( TodoEntity::toDto)
-                .collect( Collectors.toList() );
+        return result2.stream().map( TodoEntity::toDto).collect( Collectors.toList() );
     }
+    // [3]
+    public List<TodoDto> query3( String title ){
+        // 2-3
+        List<TodoEntity> result1 = todoRepository.findByTitleContaining( title );
+        System.out.println("result1 = " + result1);
+        // 3-3
+        List<TodoEntity> result2 = todoRepository.query3( title );
+        System.out.println("result2 = " + result2);
+        // *
+        return result2.stream().map( TodoEntity::toDto).collect( Collectors.toList());
+    }
+
 
 }
 
