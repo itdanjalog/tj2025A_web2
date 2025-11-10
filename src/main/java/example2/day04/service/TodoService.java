@@ -32,7 +32,35 @@ public class TodoService {
                 .collect( Collectors.toList() );
     }
 
+    // [2]
+    public List<TodoDto> query2( String title, String content ){
+        // 2-2
+        List<TodoEntity> result1 =
+        todoRepository.findByTitleAndContent( title, content );
+        System.out.println("result1 = " + result1);
+        // 3-2
+        List<TodoEntity> result2 =
+        todoRepository.query2( title , content );
+        System.out.println("result2 = " + result2);
+        // *
+        return result2.stream()
+                .map( TodoEntity::toDto)
+                .collect( Collectors.toList() );
+    }
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
