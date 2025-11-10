@@ -26,8 +26,7 @@ public class BoardEntity {
     @OneToMany( mappedBy = "boardEntity" )
     @ToString.Exclude
     @Builder.Default
-    private List<ReplyEntity>
-        replyEntityList = new ArrayList<>();
+    private List<ReplyEntity> replyEntityList = new ArrayList<>();
 }
 /*
     [ 영속성 ] 자바 데이터(객체) 와 데이터베이스 데이터(테이블/레코드) 를 매핑(연결)
@@ -48,7 +47,6 @@ public class BoardEntity {
         fetch = FetchType.LAZY : 해당 엔티티를 조회하면 참조 엔티티를 조회 하지 않는다.
             - 특징 : 초기 로딩 빠르다, 사용할 엔티티 정보를 적절하게 사용하면 성능 최적화
             - 해당엔티티.getXXX() 하는 순간 그때 참조 엔티티 조회 ( 지연 로딩 )
-            ㄱ
     * 동일한 SELECT(조회) 된 결과는 MYBATIS 와 JPA 는 자동 1차 캐싱(기록)
 */
 
