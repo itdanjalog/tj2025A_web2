@@ -6,10 +6,12 @@ import example2.day04.model.repository.TodoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -73,8 +75,22 @@ public class TodoService {
         return result.map( TodoEntity::toDto );
     }
 
+    // [5] 2-5
+    public Page< TodoDto > page2( String keyword , int page , int size ){
+        Pageable pageable = PageRequest.of( page-1 , size , Sort.by( Sort.Direction.DESC , "id") ); // 페이징 옵션
+        Page<TodoEntity> result;
+        if( keyword == null || keyword.isBlank() ){ // 5-1 : 만약에 검색이 없으면 전체조회
+            result = todoRepository.findAll( pageable ); // 전체 조회
+        }else{ // 5-2 : 검색이 있으면 검색조회
+            result = todoRepository.findByTitleContaining( keyword , pageable );
+        }
+        // result 내 모든 자료들을 하나씩 toDto 함수를 호출하여 반환값들을 새로운 리스트에 반환한다.
+        return result.map( TodoEntity :: toDto );
+    }
 
 } // class end
+// 다형성이란? 특정 타입이 다양한 타입으로 변환 가능한 성질 : 상속 , 구현
+
 
 
 

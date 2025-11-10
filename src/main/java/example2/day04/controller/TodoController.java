@@ -49,6 +49,13 @@ public class TodoController {
         return ResponseEntity.ok( todoService.page( page,size ) );
     }
 
+    // [5] 2-5  // http://localhost:8080/api/todo/page2?page=1&size=5&keyword=
+    @GetMapping("/page2") // http://localhost:8080/api/todo/page2?page=1&size=5&keyword=공부
+    public ResponseEntity<?> page2( @RequestParam String keyword , @RequestParam int page , @RequestParam int size ){
+        return ResponseEntity.ok( todoService.page2( keyword, page, size ) );
+    }
+
+
 } // class end
 
 

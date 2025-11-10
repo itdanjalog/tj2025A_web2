@@ -1,6 +1,8 @@
 package example2.day04.model.repository;
 
 import example2.day04.model.entity.TodoEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -8,8 +10,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface TodoRepository
-        extends JpaRepository<TodoEntity, Integer> {
+public interface TodoRepository extends JpaRepository<TodoEntity, Integer> {
     // +++++++ JPA Repository
     // 1. save() 2.findById() 3.findAll() 4.deleteById() 등등 미리 만들어진 CRUD 제공한다.
 
@@ -21,6 +22,9 @@ public interface TodoRepository
     List<TodoEntity> findByTitleAndContent( String title , String content );
     // 2-3 : findBy필드명Containing <--> select * from where title like %매개변수%;
     List<TodoEntity> findByTitleContaining( String keyword );
+
+    // 2-5 : Pageable : import org.springframework.data.domain.Pageable;
+    Page<TodoEntity> findByTitleContaining(String keyword , Pageable pageable );
 
     // 3. 네이티브 쿼리 메소드
     // * SQL 문장을 직접 작성하여 실핸한다. , :(콜론)매개변수명 이용하여 매개변수 값 대입한다.
