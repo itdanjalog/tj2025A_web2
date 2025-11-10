@@ -41,6 +41,14 @@ public class TodoController {
                 todoService.query3( title ) );
     }
 
+    // [4] 페이징처리
+    @GetMapping("/page") // http://localhost:8080/api/todo/page?page=2&size=5
+    public ResponseEntity<?> page(
+            @RequestParam(defaultValue = "1") int page , // 조회할 페이지 번호
+            @RequestParam(defaultValue = "3") int size){ // 조회 페이지에 조회할 자료의 총 개수
+        return ResponseEntity.ok( todoService.page( page,size ) );
+    }
+
 } // class end
 
 
