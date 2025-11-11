@@ -1,5 +1,6 @@
 package example2.day04.controller;
 
+import example2.day04.model.dto.TodoDto;
 import example2.day04.service.TodoService;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +22,16 @@ public class TodoController {
     @DeleteMapping
     public ResponseEntity<?> delete( @RequestParam int id ){
         return ResponseEntity.ok( todoService.delete( id ) );
+    }
+    // 개별조회
+    @GetMapping("/detail")
+    public ResponseEntity<?> findById( @RequestParam int id ){
+        return ResponseEntity.ok( todoService.findById( id ));
+    }
+    // 개별수정
+    @PutMapping
+    public ResponseEntity<?> update(@RequestBody TodoDto todoDto ){
+        return ResponseEntity.ok( todoService.update( todoDto) );
     }
 
     //===============================================================
